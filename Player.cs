@@ -7,11 +7,8 @@ namespace DungeonExplorer
     /// <summary>
     /// Class <c>Player</c> controls the logic of the Player character
     /// </summary>
-    public class Player
+    public class Player : Creature
     {
-        public string Name { get; private set; }
-        public int MaxHealth { get; private set; }
-        public int Health { get; set; }
         private List<Weapon> _inventory = new List<Weapon>();
         public int MaxInventorySpace { get; private set; }
         private Weapon _currentEquippedWeapon;
@@ -20,13 +17,10 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="name">Player's name</param>
         /// <param name="health">Player's max health</param>
-        public Player(string name, int health) 
+        public Player(string name, int health) : base(name, health)
         {
             Debug.Assert(name != null && name.Length > 0, "Error: Player name is null or string is empty");
             Testing.TestForPositiveInteger(health);
-            Name = name;
-            MaxHealth = health;
-            Health = health;
             MaxInventorySpace = 4;
             //The player's default starting weapon are their fists
             _currentEquippedWeapon = new Weapon("Fists", 30);
@@ -37,13 +31,10 @@ namespace DungeonExplorer
         /// <param name="name">Player's name</param>
         /// <param name="health">Player's max health</param>
         /// <param name="maxInventorySpace">The maximum inventory space of the player. 0-9</param>
-        public Player(string name, int health, int maxInventorySpace)
+        public Player(string name, int health, int maxInventorySpace): base(name, health)
         {
             Debug.Assert(name != null && name.Length > 0, "Error: Player name is null or string is empty");
             Testing.TestForPositiveInteger(health);
-            Name = name;
-            MaxHealth = health;
-            Health = health;
             // There needs to be a maximum inventory space so that ChangeEquippedWeapon() can work
             if (maxInventorySpace > 9)
             {
