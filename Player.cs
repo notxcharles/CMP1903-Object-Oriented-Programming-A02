@@ -67,7 +67,7 @@ namespace DungeonExplorer
             else
             {
                 _inventory.Add(weapon);
-                Console.WriteLine($"{weapon.Type} has been added to your inventory");
+                Console.WriteLine($"{weapon.Name} has been added to your inventory");
             }
             return;
         }
@@ -84,8 +84,8 @@ namespace DungeonExplorer
             _inventory.Add(_currentEquippedWeapon);
             Weapon previousEquippedWeapon = _currentEquippedWeapon;
             _currentEquippedWeapon = weaponToEquip;
-            Console.WriteLine($"{_currentEquippedWeapon.Type} has been equipped. " +
-                $"{previousEquippedWeapon.Type} has been added to your inventory");
+            Console.WriteLine($"{_currentEquippedWeapon.Name} has been equipped. " +
+                $"{previousEquippedWeapon.Name} has been added to your inventory");
             return;
         }
         /// <summary>
@@ -117,7 +117,7 @@ namespace DungeonExplorer
             Console.WriteLine("(5) View room name and description again");
             if (monsterAlive)
             {
-                Console.WriteLine($"(6) Attack Monster with {_currentEquippedWeapon.Type}");
+                Console.WriteLine($"(6) Attack Monster with {_currentEquippedWeapon.Name}");
             }
             
             Console.WriteLine("(9) Exit game");
