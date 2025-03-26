@@ -12,10 +12,9 @@ namespace DungeonExplorer
     /// </remarks>
     public class Weapon : Item
     {
-        public string Name { get; private set; }
-        public int AverageAttackDamage { get; private set; }
+        public int _averageAttackDamage;
         private static Random _random = new Random();
-        private static string[] _weaponTypes = {
+        private static string[] _weaponNames = {
             "Baseball Bat",
             "Machete",
             "Crowbar",
@@ -38,17 +37,17 @@ namespace DungeonExplorer
             "Fireworks",
             "Tennis Ball Machine"
         };
-        private const int _StdDevPercentage = 5;
+        private const int _stdDevPercentage = 5;
         /// <summary>
         /// Class <c>Weapon</c>'s constructor
         /// </summary>
-        /// <param name="name">The type of the weapon</param>
+        /// <param name="name">The name of the weapon</param>
         /// <param name="weaponAverageDamage">The weapon's average attack damage</param>
         public Weapon(string name, int weaponAverageDamage) : base(name)
         {
             Debug.Assert(name != null, "Error: type is null");
             Testing.TestForPositiveInteger(weaponAverageDamage);
-            AverageAttackDamage = weaponAverageDamage;
+            _averageAttackDamage = weaponAverageDamage;
         }
         /// <summary>
         /// Class <c>Weapon</c>'s constructor
@@ -57,18 +56,17 @@ namespace DungeonExplorer
         public Weapon(int weaponAverageDamage) : base()
         {
             Testing.TestForPositiveInteger(weaponAverageDamage);
-            Name = CreateWeaponType();
-            AverageAttackDamage = weaponAverageDamage;
+            Name = CreateWeaponName();
+            _averageAttackDamage = weaponAverageDamage;
         }
         /// <summary>
-        /// From <c>Weapon._weaponTypes</c>, randomly select a name for the monster
+        /// From <c>Weapon._weaponNames</c>, randomly select a name for the weapon
         /// </summary>
         /// <returns>The selected string from Weapon._weaponTypes</returns>
-        private string CreateWeaponType()
+        private string CreateWeaponName()
         {
-            // Select a random weapon type based on a list of preselected types
-            int index = _random.Next(0, _weaponTypes.Length);
-            return _weaponTypes[index];
+            int index = _random.Next(0, _weaponNames.Length);
+            return _weaponNames[index];
         }
         /// <summary>
         /// Create a random number from a Gaussian distribution
@@ -96,9 +94,7 @@ namespace DungeonExplorer
         /// <returns>the attack damage</returns>
         public int GetAttackDamage()
         {
-            // The damage of the weapon is based of a gaussian distribution so the damage can vary
-            // AverageAttack represents the mean of a normal distribution
-            double attackDamageGaussian = CreateRandomGaussianNumber(AverageAttackDamage, AverageAttackDamage / _StdDevPercentage);
+            double attackDamageGaussian = CreateRandomGaussianNumber(_averageAttackDamage, _averageAttackDamage / _stdDevPercentage);
             int attackDamage = Convert.ToInt32(attackDamageGaussian);
             Testing.TestForPositiveInteger(attackDamage);
             return attackDamage;
@@ -112,7 +108,7 @@ namespace DungeonExplorer
         /// <returns>The summary</returns>
         public string CreateSummary()
         {
-            string summary = ($"{Name}, dealing an average of {AverageAttackDamage} per attack");
+            string summary = ($"{Name}, dealing an average of {_averageAttackDamage} per attack");
             Debug.Assert(summary != null || summary.Length > 0, "Error: Summary is null or empty");
             return summary;
         }
