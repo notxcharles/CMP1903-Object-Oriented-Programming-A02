@@ -10,9 +10,9 @@ namespace DungeonExplorer
     /// Contains the logic for creating a weapon object that the player can use to attack the monster. Class contains the
     /// type of the weapon, the average attack damage of the weapon, and the method to get calculate the attack damage.
     /// </remarks>
-    public class Weapon
+    public class Weapon : Item
     {
-        public string Type { get; private set; }
+        public string Name { get; private set; }
         public int AverageAttackDamage { get; private set; }
         private static Random _random = new Random();
         private static string[] _weaponTypes = {
@@ -42,24 +42,22 @@ namespace DungeonExplorer
         /// <summary>
         /// Class <c>Weapon</c>'s constructor
         /// </summary>
-        /// <param name="type">The type of the weapon</param>
+        /// <param name="name">The type of the weapon</param>
         /// <param name="weaponAverageDamage">The weapon's average attack damage</param>
-        public Weapon(string type, int weaponAverageDamage)
+        public Weapon(string name, int weaponAverageDamage) : base(name)
         {
-            Debug.Assert(type != null, "Error: type is null");
+            Debug.Assert(name != null, "Error: type is null");
             Testing.TestForPositiveInteger(weaponAverageDamage);
-            Type = type;
             AverageAttackDamage = weaponAverageDamage;
         }
         /// <summary>
         /// Class <c>Weapon</c>'s constructor
         /// </summary>
         /// <param name="weaponAverageDamage">The weapon's average attack damage</param>
-        public Weapon(int weaponAverageDamage)
+        public Weapon(int weaponAverageDamage) : base()
         {
-            _random = new Random();
             Testing.TestForPositiveInteger(weaponAverageDamage);
-            Type = CreateWeaponType();
+            Name = CreateWeaponType();
             AverageAttackDamage = weaponAverageDamage;
         }
         /// <summary>
@@ -114,7 +112,7 @@ namespace DungeonExplorer
         /// <returns>The summary</returns>
         public string CreateSummary()
         {
-            string summary = ($"{Type}, dealing an average of {AverageAttackDamage} per attack");
+            string summary = ($"{Name}, dealing an average of {AverageAttackDamage} per attack");
             Debug.Assert(summary != null || summary.Length > 0, "Error: Summary is null or empty");
             return summary;
         }
