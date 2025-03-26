@@ -18,10 +18,16 @@ namespace DungeonExplorer
             _health = health;
             _maxHealth = health;
         }
+        public Creature(int health)
+        {
+            _health = health;
+            _maxHealth = health;
+        }
 
         public string Name
         {
             get { return _name; }
+            protected set { _name = value; }
         }
         public int Health
         {

@@ -9,12 +9,9 @@ namespace DungeonExplorer
     /// <remarks>
     /// The <c>Monster</c> class is used to create a monster object that the player will fight against.
     /// </remarks>
-    public class Monster
+    public class Monster : Creature
     {
-        public string Name { get; private set; }
         public string Breed { get; private set; }
-        public int Health { get; set; }
-        public int MaxHealth { get; set; }
         public int AverageAttackDamage { get; private set; }
         private static Random _random = new Random();
         private static string[] _monsterNames = new string[] {
@@ -73,16 +70,13 @@ namespace DungeonExplorer
         /// <param name="breed">The breed of the monster</param>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(string name, string breed, int health, int averageAttack)
+        public Monster(string name, string breed, int health, int averageAttack) : base(name, health)  
         {
             Debug.Assert(name != null, "Error: name does not exist");
             Debug.Assert(breed != null, "Error: breed does not exist");
             Testing.TestForPositiveInteger(health);
             Testing.TestForZeroOrAbove(averageAttack);
-            Name = name;
             Breed = breed;
-            Health = health;
-            MaxHealth = health;
             AverageAttackDamage = averageAttack;
         }
         /// <summary>
@@ -90,14 +84,12 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(int health, int averageAttack)
+        public Monster(int health, int averageAttack) : base(health)
         {
             Name = CreateMonsterName();
             Breed = CreateMonsterBreed();
             Testing.TestForPositiveInteger(health);
             Testing.TestForZeroOrAbove(averageAttack);
-            Health = health;
-            MaxHealth = health;
             AverageAttackDamage = averageAttack;
             
         }
