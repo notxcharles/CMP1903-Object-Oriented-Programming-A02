@@ -99,24 +99,7 @@ namespace DungeonExplorer
             }
             return;
         }
-        /// <summary>
-        /// Handles the logic for the player to equip a different weapon
-        /// </summary>
-        /// <param name="weaponIndex">The index of the weapon within the player's inventory</param>
-        public void EquipDifferentWeapon(int weaponIndex)
-        {
-            // Swap the selected weapon with the currently equipped weapon
-            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
-            Weapon weaponToEquip = weaponsWithIndex[weaponIndex];
-            Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
-            _inventory.Remove(weaponToEquip);
-            _inventory.Add(_currentEquippedWeapon);
-            Weapon previousEquippedWeapon = _currentEquippedWeapon;
-            _currentEquippedWeapon = weaponToEquip as Weapon;
-            Console.WriteLine($"{_currentEquippedWeapon.Name} has been equipped. " +
-                $"{previousEquippedWeapon.Name} has been added to your inventory");
-            return;
-        }
+        
         /// <summary>
         /// Prints multiple lines to the console displaying information about the Player
         /// </summary>
@@ -252,6 +235,24 @@ namespace DungeonExplorer
                 Console.WriteLine($"You can hold up to {MaxInventorySpace} items in your inventory. You " +
                     $"are currently holding {_inventory.Count} items.");                
             }
+            return;
+        }
+        /// <summary>
+        /// Handles the logic for the player to equip a different weapon
+        /// </summary>
+        /// <param name="weaponIndex">The index of the weapon within the player's inventory (when inventory is sorted by type)</param>
+        public void EquipDifferentWeapon(int weaponIndex)
+        {
+            // Swap the selected weapon with the currently equipped weapon
+            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
+            Weapon weaponToEquip = weaponsWithIndex[weaponIndex];
+            Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
+            _inventory.Remove(weaponToEquip);
+            _inventory.Add(_currentEquippedWeapon);
+            Weapon previousEquippedWeapon = _currentEquippedWeapon;
+            _currentEquippedWeapon = weaponToEquip as Weapon;
+            Console.WriteLine($"{_currentEquippedWeapon.Name} has been equipped. " +
+                $"{previousEquippedWeapon.Name} has been added to your inventory");
             return;
         }
         // TODO: Documentation
