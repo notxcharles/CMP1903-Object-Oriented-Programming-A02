@@ -54,9 +54,8 @@ namespace DungeonExplorer
             while (roomNumber < _numberOfRooms)
             {
                 _currentRoom.WelcomePlayer(roomNumber);
-                bool isMonsterAlive = _currentRoom.IsMonsterAlive();
-                int decision = _player.GetTurnDecisions(isMonsterAlive);
-                Debug.Assert(decision >= 0 && decision <= 7, "Error: Decision must be an integer value from 0 to 6");
+                int decision = _player.GetTurnDecisions(_currentRoom);
+                Debug.Assert(decision >= 0 && decision <= 8, "Error: Decision must be an integer value from 0 to 6");
                 if (decision == 0)
                 {
                     //Player wants to view inventory
@@ -75,15 +74,7 @@ namespace DungeonExplorer
                 else if (decision == 2)
                 {
                     //player has chosen to pickup a weapon
-                    if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
-                    {
-                        Console.WriteLine("Your inventory is full, you may not collect any more weapons");
-                    }
-                    else
-                    {
-                        _player.PickUpWeapon(_currentRoom.WeaponInTheRoom);
-                        _currentRoom.WeaponPickedUp();
-                    }
+                    
                 }
                 else if (decision == 3)
                 {
@@ -107,7 +98,7 @@ namespace DungeonExplorer
                 }
                 else if (decision == 6)
                 {
-                    if (isMonsterAlive)
+                    if (_currentRoom.IsMonsterAlive())
                     {
                         PlayerFightsMonster(_player, _currentRoom.MonsterInTheRoom, _currentRoom);
                     }
@@ -127,6 +118,18 @@ namespace DungeonExplorer
                     {
                         _player.PickUpSpell(_currentRoom.SpellInTheRoom);
                         _currentRoom.SpellPickedUp();
+                    }
+                }
+                else if (decision == 8)
+                {
+                    if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                    {
+                        Console.WriteLine("Your inventory is full, you may not collect any more weapons");
+                    }
+                    else
+                    {
+                        _player.PickUpWeapon(_currentRoom.WeaponInTheRoom);
+                        _currentRoom.WeaponPickedUp();
                     }
                 }
                 PromptNextTurn();

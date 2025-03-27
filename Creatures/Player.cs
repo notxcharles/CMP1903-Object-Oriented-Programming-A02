@@ -132,24 +132,32 @@ namespace DungeonExplorer
         /// <c>ShowTurnDecisions</c> prints all decisions that the Player can make to the console
         /// </summary>
         /// <param name="monsterAlive">true if the Monster's health is greater than 0</param>
-        public void ShowTurnDecisions(bool monsterAlive)
+        public void ShowTurnDecisions(Room currentRoom)
         {
-            Debug.Assert(!(monsterAlive == true && monsterAlive == false), "Error: monsterAlive was both true and false");
+            Debug.Assert(!(currentRoom.IsMonsterAlive() == true && currentRoom.IsMonsterAlive() == false), "Error: monsterAlive was both true and false");
             Console.WriteLine("What do you want to do?");
             Console.WriteLine("(0) View Inventory");
             Console.WriteLine("(1) Change Equipped Item");
-            Console.WriteLine("(2) Pick up weapon");
             Console.WriteLine("(3) Retreat and heal");
             Console.WriteLine("(4) Open the door");
             Console.WriteLine("(5) View room name and description again");
-            if (monsterAlive)
+            if (currentRoom.IsMonsterAlive())
             {
                 Console.WriteLine($"(6) Attack Monster with {_currentEquippedWeapon.Name}");
             }
-            
+            if (currentRoom.SpellInTheRoom != null)
+            {
+                Console.WriteLine($"(7) Pick up spell");
+            }
+            if (currentRoom.WeaponInTheRoom != null)
+            {
+                Console.WriteLine($"(8) Pick up weapon");
+            }
+
             Console.WriteLine("(9) Exit game");
             return;
         }
+        // TODO: update documentation
         /// <summary>
         /// Call <c>ShowTurnDecisions()</c> and then read the user's input as to the action they choose
         /// </summary>
@@ -160,20 +168,19 @@ namespace DungeonExplorer
         /// </remarks>
         /// <param name="monsterAlive">true if the Monster's health is greater than 0</param>
         /// <returns>Int value from 0 to 5 or 9. if monsterAlive = true, 6 may also be returned</returns>
-        public int GetTurnDecisions(bool monsterAlive)
+        public int GetTurnDecisions(Room currentRoom)
         {
-            Debug.Assert(!(monsterAlive == true && monsterAlive == false), "Error: monsterAlive was both true and false");
             ShowCharacterDetails();
             bool recievedValidInput = false;
             while (recievedValidInput == false)
             {
-                ShowTurnDecisions(monsterAlive);
+                ShowTurnDecisions(currentRoom);
                 ConsoleKeyInfo key = Console.ReadKey();
                 Console.WriteLine("");
                 try
                 {
                     int keyAsInt = Convert.ToInt32(key.KeyChar.ToString());
-                    if (keyAsInt >= 0 && keyAsInt <= 7)
+                    if (keyAsInt >= 0 && keyAsInt <= 8)
                     {
                         Console.WriteLine($"Player pressed {keyAsInt}");
                         return keyAsInt;
@@ -185,7 +192,7 @@ namespace DungeonExplorer
                     }
                     else
                     {
-                        if (monsterAlive)
+                        if (currentRoom.IsMonsterAlive())
                         {
                             Console.WriteLine($"{key} was pressed. You must press 0, 1, 2, 3, 4, 5, 6,7 or 9");
                         }
@@ -197,7 +204,7 @@ namespace DungeonExplorer
                 }
                 catch (FormatException e)
                 {
-                    if (monsterAlive)
+                    if (currentRoom.IsMonsterAlive())
                     {
                         Console.WriteLine($"{key} was pressed. You must press 0, 1, 2, 3, 4, 5, 6 or 9");
                     }
