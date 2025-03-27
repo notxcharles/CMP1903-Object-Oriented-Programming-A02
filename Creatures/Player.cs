@@ -111,6 +111,19 @@ namespace DungeonExplorer
         {
             Console.WriteLine($"\nCharacter Details:");
             Console.WriteLine($"Health: {Health}/{MaxHealth}");
+            return;
+        }
+        // TODO : Documentation
+        /// <summary>
+        /// Prints multiple lines to the console displaying information about the Player
+        /// </summary>
+        /// <remarks>
+        /// Shows the Player's health, maximum health and what weapon is currently equipped
+        /// </remarks>
+        public void ShowCharacterDetails(Weapon _currentEquippedWeapon)
+        {
+            Console.WriteLine($"\nCharacter Details:");
+            Console.WriteLine($"Health: {Health}/{MaxHealth}");
             Console.WriteLine($"Equipped Weapon: {_currentEquippedWeapon.CreateSummary()}\n");
             return;
         }
@@ -160,7 +173,7 @@ namespace DungeonExplorer
         /// <returns>Int value from 0 to 5 or 9. if monsterAlive = true, 6 may also be returned</returns>
         public int GetTurnDecisions(Room currentRoom)
         {
-            ShowCharacterDetails();
+            ShowCharacterDetails(_currentEquippedWeapon);
             bool recievedValidInput = false;
             while (recievedValidInput == false)
             {

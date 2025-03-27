@@ -61,6 +61,21 @@ namespace DungeonExplorer
         /// <summary>
         /// Class <c>Monster</c>'s constructor
         /// </summary>
+        /// <param name="name">The name of the monster</param>
+        /// <param name="breed">The breed of the monster</param>
+        /// <param name="health">The maximum health of the monster</param>
+        /// <param name="averageAttack">The average attack value that the monster does</param>
+        public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty) : base(name, health)
+        {
+            Debug.Assert(name != null, "Error: name does not exist");
+            Testing.TestForPositiveInteger(health);
+            _weapon = weapon;
+            _difficulty = CalculateRandomDifficulty(minDifficulty, maxDifficulty);
+        }
+        //TODO: Update documentation
+        /// <summary>
+        /// Class <c>Monster</c>'s constructor
+        /// </summary>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
         public Monster(int health, float difficulty, Weapon weapon) : base(health)
@@ -93,6 +108,13 @@ namespace DungeonExplorer
         {
             float randomValue = _random.Next(60, 140);
             float randomDifficulty = randomValue/100;
+            return randomDifficulty;
+        }
+        // TODO: Documentation
+        private float CalculateRandomDifficulty(int min, int max)
+        {
+            float randomValue = _random.Next(min, max);
+            float randomDifficulty = randomValue / 100;
             return randomDifficulty;
         }
         /// <summary>
