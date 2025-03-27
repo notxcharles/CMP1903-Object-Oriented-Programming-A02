@@ -66,6 +66,7 @@ namespace DungeonExplorer
             Testing.TestForPositiveInteger(health);
             Testing.TestForZeroOrAbove(averageAttack);
             AverageAttackDamage = averageAttack;
+            _weapon = new Weapon("temporary", 10);
         }
 
         // TODO: Documentation
@@ -83,36 +84,13 @@ namespace DungeonExplorer
             return _monsterNames[index];
         }
         /// <summary>
-        /// Create a random number from a Gaussian distribution
+        /// <c>GetCurrentAttackDamage()</c> returns a the damage of the Monster's weapon
         /// </summary>
-        /// <param name="mean">Mean of the Gaussian distribution</param>
-        /// <param name="stdDev">Standard deviation of the distribution</param>
-        /// <returns>The random value from the distribution</returns>
-        private double CreateRandomGaussianNumber(int mean, int stdDev)
-        {
-            double u1 = 1.0 - _random.NextDouble(); //uniform(0,1] random doubles
-            double u2 = 1.0 - _random.NextDouble();
-            double randStdNormal = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2); //random normal(0,1)
-            double randNormal = mean + stdDev * randStdNormal; //random normal(mean,stdDev^2)
-            return randNormal;
-        }
-        /// <summary>
-        /// Get the attack damage of the monster
-        /// </summary>
-        /// <remarks>
-        /// Uses the <c>CreateRandomGaussianNumber()</c> function to get the attack damage that the monster does.
-        /// </remarks>
-        /// <returns>the attack damage</returns>
+        /// <returns><c>Monster._currentEquippedWeapon.GetAttackDamage()</c></returns>
         public int GetAttackDamage()
         {
-            //m_averageAttack represents the mean of a normal distribution
-            //attackDamage will be a random datapoint in the distribution
-            int stdDevPercentage = 5;
-            double attackDamageGaussian = CreateRandomGaussianNumber(AverageAttackDamage, AverageAttackDamage / stdDevPercentage);
-            int attackDamage = Convert.ToInt32(attackDamageGaussian);
-            return attackDamage;
+            return _weapon.GetAttackDamage();
         }
-        
         //TODO: Documentation Strings
         public virtual void DisplayAttack(int damage)
         {
