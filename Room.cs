@@ -242,7 +242,7 @@ namespace DungeonExplorer
             {
                 Console.WriteLine($"There is a spell that you can pick up - {SpellInTheRoom.CreateSummary()}");
             }
-            return;
+            Console.WriteLine();
         }
         /// <summary>
         /// Set Room.WeaponInTheRoom to null

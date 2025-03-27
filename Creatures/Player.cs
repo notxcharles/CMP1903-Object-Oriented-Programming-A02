@@ -158,6 +158,7 @@ namespace DungeonExplorer
             }
 
             Console.WriteLine("(9) Exit game");
+            Console.WriteLine("(m) Display map");
             return;
         }
         // TODO: update documentation
@@ -200,7 +201,14 @@ namespace DungeonExplorer
                 }
                 catch (FormatException e)
                 {
-                    Console.WriteLine($"{key} was pressed. You must press a number from 0 to 9");
+                    if (key.KeyChar.ToString() == "m")
+                    {
+                        return 10;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"error {key} was pressed. You must press a number from 0 to 9");
+                    }
                 }
             }
             return -1;

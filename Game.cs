@@ -14,6 +14,7 @@ namespace DungeonExplorer
         private Player _player;
         private Room _currentRoom;
         private int _numberOfRooms;
+        private GameMap _map;
         private static Random _random = new Random();
 
         private List<Room> _rooms = new List<Room>();
@@ -41,6 +42,7 @@ namespace DungeonExplorer
             _rooms.Add(room3);
             _rooms.Add(room4);
             _rooms.Add(room5);
+            _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
         }
         /// <summary>
@@ -55,7 +57,7 @@ namespace DungeonExplorer
             {
                 _currentRoom.WelcomePlayer(roomNumber);
                 int decision = _player.GetTurnDecisions(_currentRoom);
-                Debug.Assert(decision >= 0 && decision <= 8, "Error: Decision must be an integer value from 0 to 6");
+                Debug.Assert(decision >= 0 && decision <= 10, "Error: Decision must be an integer value from 0 to 8");
                 if (decision == 0)
                 {
                     //Player wants to view inventory
@@ -141,6 +143,11 @@ namespace DungeonExplorer
                         _player.PickUpWeapon(_currentRoom.WeaponInTheRoom);
                         _currentRoom.WeaponPickedUp();
                     }
+                }
+                else if (decision == 10)
+                {
+                    //Show map
+                    _map.CreateMap(roomNumber);
                 }
                 PromptNextTurn();
                 ClearConsole();
