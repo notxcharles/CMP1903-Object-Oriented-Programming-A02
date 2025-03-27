@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Creatures\Creature.cs" />
     <Compile Include="Creatures\Dragon.cs" />
+    <Compile Include="Creatures\ICanDamage.cs" />
     <Compile Include="Creatures\Shulker.cs" />
     <Compile Include="Creatures\Skeleton.cs" />
     <Compile Include="Creatures\Warden.cs" />

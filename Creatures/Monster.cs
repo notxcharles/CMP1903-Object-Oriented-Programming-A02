@@ -40,7 +40,7 @@ namespace DungeonExplorer
             "Count Dooku",
             "Jabba the Hutt",
         };
-
+        private Weapon _weapon;
         /// <summary>
         /// Class <c>Monster</c>'s constructor
         /// </summary>
@@ -66,7 +66,12 @@ namespace DungeonExplorer
             Testing.TestForPositiveInteger(health);
             Testing.TestForZeroOrAbove(averageAttack);
             AverageAttackDamage = averageAttack;
-            
+        }
+
+        // TODO: Documentation
+        public Weapon Weapon
+        {
+            get { return _weapon; }
         }
         /// <summary>
         /// From <c>Monster._monsterNames</c>, randomly select a name for the monster

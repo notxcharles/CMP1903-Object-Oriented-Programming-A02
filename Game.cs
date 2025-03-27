@@ -202,7 +202,7 @@ namespace DungeonExplorer
             Debug.Assert(player != null, "Error: player is null");
             Debug.Assert(monster != null, "Error: monster is null");
             Debug.Assert(room != null, "Error: room is null");
-            int playerAttackDamage = player.GetCurrentAttackDamage();
+            int playerAttackDamage = player.GetAttackDamage();
             monster.Health -= playerAttackDamage;
             int monsterAttackDamage = -1;
             if (monster.Health > 0)

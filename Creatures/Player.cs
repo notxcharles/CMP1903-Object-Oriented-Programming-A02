@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonExplorer.Creatures;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -7,7 +8,7 @@ namespace DungeonExplorer
     /// <summary>
     /// Class <c>Player</c> controls the logic of the Player character
     /// </summary>
-    public class Player : Creature
+    public class Player : Creature, ICanDamage
     {
         private List<Weapon> _inventory = new List<Weapon>();
         public int MaxInventorySpace { get; private set; }
@@ -43,6 +44,11 @@ namespace DungeonExplorer
             this.MaxInventorySpace = maxInventorySpace;
             //The player's default starting weapon are their fists
             _currentEquippedWeapon = new Weapon("Fists", 30);
+        }
+        // TODO: Documentation
+        public Weapon Weapon
+        {
+            get { return _currentEquippedWeapon; }
         }
         /// <summary>
         /// Player can <c>PickUpItem</c>
@@ -266,11 +272,15 @@ namespace DungeonExplorer
         /// <c>GetCurrentAttackDamage()</c> returns a the damage of the Player's equipped weapon
         /// </summary>
         /// <returns><c>Player._currentEquippedWeapon.GetAttackDamage()</c></returns>
-        public int GetCurrentAttackDamage()
+        public int GetAttackDamage()
         {
             int attackDamage = _currentEquippedWeapon.GetAttackDamage();
             Testing.TestForPositiveInteger(attackDamage);
             return attackDamage;
+        }
+        public void DisplayAttack(int damage)
+        {
+            Console.WriteLine($"The player did {damage} damage");
         }
     }
 }
