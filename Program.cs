@@ -7,7 +7,7 @@ namespace DungeonExplorer
         static void Main(string[] args)
         {
             Player player = new Player("charles", 250);
-            Game game = new Game("Room Game", 5, player);
+            Game game = new Game("Room Game", player);
             game.Start();
             Console.ReadKey();
         }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DungeonExplorer.Creatures;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace DungeonExplorer
@@ -14,21 +16,32 @@ namespace DungeonExplorer
         private int _numberOfRooms;
         private static Random _random = new Random();
 
+        private List<Room> _rooms = new List<Room>();
         /// <summary>
         /// Class <c>Game</c>'s constructor
         /// </summary>
         /// <param name="gameName">Name of the game</param>
         /// <param name="amountOfRooms">Number of rooms that the player must progress through</param>
         /// <param name="player">Instance of the game object</param>
-        public Game(string gameName, int amountOfRooms, Player player)
+        public Game(string gameName, Player player)
         {
             Debug.Assert(gameName != null, "Error: gameName is null");
-            Testing.TestForPositiveInteger(amountOfRooms);
             Debug.Assert(player != null, "Error: player is null");
             // Initialize the game with one room and one player
             _gameName = gameName;
-            _numberOfRooms = amountOfRooms;
             _player = player;
+
+            Room room1 = new Room(new Witch("Witch", 100, new Weapon("Spell", 30)), new Weapon(100));
+            Room room2 = new Room(new Dragon("Dragon", 100, new Weapon("Fire Breating", 30)), new Weapon(100));
+            Room room3 = new Room(new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30)), new Weapon(100));
+            Room room4 = new Room(new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30)), new Weapon(100));
+            Room room5 = new Room(new Warden("Warden", 100, new Weapon("Sonic Boom", 30)), new Weapon(100));
+            _rooms.Add(room1);
+            _rooms.Add(room2);
+            _rooms.Add(room3);
+            _rooms.Add(room4);
+            _rooms.Add(room5);
+            _numberOfRooms = _rooms.Count;
         }
         /// <summary>
         /// The primary part of the game's logic
@@ -37,7 +50,7 @@ namespace DungeonExplorer
         {
             int roomNumber = 0;
             GameStartDisplay();
-            _currentRoom = CreateNewRoom();
+            _currentRoom = _rooms[roomNumber];
             while (roomNumber < _numberOfRooms)
             {
                 _currentRoom.WelcomePlayer(roomNumber);
@@ -85,7 +98,7 @@ namespace DungeonExplorer
                     if (NextRoom(_currentRoom))
                     {
                         roomNumber += 1;
-                        _currentRoom = CreateNewRoom();
+                        _currentRoom = _rooms[roomNumber];
                     }
                 }
                 else if (decision == 5)
@@ -137,28 +150,6 @@ namespace DungeonExplorer
             Console.ReadKey();
             ClearConsole();
             return;
-        }
-        /// <summary>
-        /// Creates a new instance of a room
-        /// </summary>
-        /// <remarks>
-        /// <c>CreateNewRoom</c> creates a new instance of a room. First it uses optional parameters to instantiate an instance of 
-        /// a monster. Secondly it uses <c>Random</c> to generate a random value between from 35 to 70, which is used as the weapon's
-        /// average attack damage. Lastly, we use <c>Room</c>'s constructor to create a new Room object
-        /// </remarks>
-        /// <returns>
-        /// Room
-        /// </returns>
-        public Room CreateNewRoom(string roomName = "", string roomDescription = "", int monsterHealth = 100, int monsterDamage = 20)
-        {
-            Monster currentMonster = new Monster(monsterHealth, monsterDamage);
-            int randomDamage = _random.Next(35, 70);
-            Weapon weapon = new Weapon(randomDamage);
-            if (roomName != "" && roomDescription != "")
-            {
-                return new Room(roomName, roomDescription, currentMonster);
-            }
-            return new Room(currentMonster, weapon);
         }
         /// <summary>
         /// Prompts the player to press a key to advance to the next turn

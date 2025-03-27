@@ -79,15 +79,15 @@ namespace DungeonExplorer
         /// The name and the description of the room are picked at random from a list of premade names and descriptions.
         /// </remarks>
         /// <param name="monster">The instance of the monster</param>
-        /// <param name="weapon"></param>
-        public Room(Monster monster, Weapon weapon)
+        /// <param name="weaponInTheRoom"></param>
+        public Room(Monster monster, Weapon weaponInTheRoom)
         {
             RoomName = CreateRoomName();
             RoomDescription = CreateRoomDescription();
             Debug.Assert(monster != null, "Error: the monster is null");
             this.MonsterInTheRoom = monster;
-            Debug.Assert(weapon != null, "Error: the weapon is null");
-            this.WeaponInTheRoom = weapon;
+            Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
+            this.WeaponInTheRoom = weaponInTheRoom;
             DoorIsLocked = true;
         }
         /// <summary>
@@ -171,7 +171,7 @@ namespace DungeonExplorer
             if (MonsterInTheRoom != null)
             {
                 Console.WriteLine($"A {MonsterInTheRoom.GetType().Name} called {MonsterInTheRoom.Name} is present! It has {MonsterInTheRoom.Health} " +
-                    $"health and does an average of {MonsterInTheRoom.AverageAttackDamage} attack damage!");
+                    $"health and does an average of {MonsterInTheRoom.GetAttackDamage()} attack damage!");
             }
             else
             {
