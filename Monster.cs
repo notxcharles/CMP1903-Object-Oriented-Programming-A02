@@ -141,5 +141,11 @@ namespace DungeonExplorer
             int attackDamage = Convert.ToInt32(attackDamageGaussian);
             return attackDamage;
         }
+        
+        //TODO: Documentation Strings
+        public virtual void DisplayAttack(int damage)
+        {
+            Console.WriteLine($"The {this.GetType().Name}, {Name} dealt {damage}");
+        }
     }
 }

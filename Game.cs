@@ -225,6 +225,7 @@ namespace DungeonExplorer
             {
                 Console.WriteLine($"You have hit the monster for {playerAttackDamage} damage. " +
                     $"The monster now has {monster.Health}/{monster.MaxHealth}");
+                monster.DisplayAttack(monsterAttackDamage);
                 Console.WriteLine($"The monster has hit you for {monsterAttackDamage} damage. " +
                     $"You now have {player.Health}/{player.MaxHealth}");
             }
