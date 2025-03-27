@@ -74,7 +74,12 @@ namespace DungeonExplorer
                 else if (decision == 2)
                 {
                     //player has chosen to pickup a weapon
-                    
+                    int spellToUse = _player.SelectSpellInInventory();
+                    if (spellToUse == -1)
+                    {
+                        continue;
+                    }
+                    _player.UseSpell(spellToUse);
                 }
                 else if (decision == 3)
                 {

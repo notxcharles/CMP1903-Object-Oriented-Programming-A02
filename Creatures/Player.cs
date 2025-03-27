@@ -122,7 +122,8 @@ namespace DungeonExplorer
             Debug.Assert(!(currentRoom.IsMonsterAlive() == true && currentRoom.IsMonsterAlive() == false), "Error: monsterAlive was both true and false");
             Console.WriteLine("What do you want to do?");
             Console.WriteLine("(0) View Inventory");
-            Console.WriteLine("(1) Change Equipped Item");
+            Console.WriteLine("(1) Change Equipped Weapon");
+            Console.WriteLine("(2) Use a spell");
             Console.WriteLine("(3) Retreat and heal");
             Console.WriteLine("(4) Open the door");
             Console.WriteLine("(5) View room name and description again");
@@ -237,24 +238,7 @@ namespace DungeonExplorer
             }
             return;
         }
-        /// <summary>
-        /// Handles the logic for the player to equip a different weapon
-        /// </summary>
-        /// <param name="weaponIndex">The index of the weapon within the player's inventory (when inventory is sorted by type)</param>
-        public void EquipDifferentWeapon(int weaponIndex)
-        {
-            // Swap the selected weapon with the currently equipped weapon
-            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
-            Weapon weaponToEquip = weaponsWithIndex[weaponIndex];
-            Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
-            _inventory.Remove(weaponToEquip);
-            _inventory.Add(_currentEquippedWeapon);
-            Weapon previousEquippedWeapon = _currentEquippedWeapon;
-            _currentEquippedWeapon = weaponToEquip as Weapon;
-            Console.WriteLine($"{_currentEquippedWeapon.Name} has been equipped. " +
-                $"{previousEquippedWeapon.Name} has been added to your inventory");
-            return;
-        }
+        
         // TODO: Documentation
         public void ViewWeaponsInInventory()
         {
@@ -311,6 +295,98 @@ namespace DungeonExplorer
                         $"corresponds to a weapon");
                 }
             }
+        }
+        /// <summary>
+        /// Handles the logic for the player to equip a different weapon
+        /// </summary>
+        /// <param name="weaponIndex">The index of the weapon within the player's inventory (when inventory is sorted by type)</param>
+        public void EquipDifferentWeapon(int weaponIndex)
+        {
+            // Swap the selected weapon with the currently equipped weapon
+            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
+            Weapon weaponToEquip = weaponsWithIndex[weaponIndex];
+            Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
+            _inventory.Remove(weaponToEquip);
+            _inventory.Add(_currentEquippedWeapon);
+            Weapon previousEquippedWeapon = _currentEquippedWeapon;
+            _currentEquippedWeapon = weaponToEquip as Weapon;
+            Console.WriteLine($"{_currentEquippedWeapon.Name} has been equipped. " +
+                $"{previousEquippedWeapon.Name} has been added to your inventory");
+            return;
+        }
+        // TODO: Documentation
+        public void ViewSpellsInInventory()
+        {
+            var spellsWithIndex = _inventory.OfType<Spell>().Select((spell, index) => (spell, index));
+            if (spellsWithIndex.Count() == 0)
+            {
+                Console.WriteLine($"You have no spells in your inventory. You can hold up to {MaxInventorySpace - _inventory.Count} spells.");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"Spells in your inventory, press the corresponding key to use the spell:");
+                foreach (var (weapon, index) in spellsWithIndex)
+                {
+                    Console.WriteLine($"-{index}: {weapon.CreateSummary()}");
+                }
+            }
+            return;
+        }
+        // TODO: documentation
+        /// <summary>
+        /// Call <c>SelectWeaponInInventory()</c> and then read the user's input as to the action they choose
+        /// </summary>
+        /// <returns>The integer index of the item in _inventory that the user selects</returns>
+        public int SelectSpellInInventory()
+        {
+            var spellsWithIndex = _inventory.OfType<Spell>().Select((weapon, index) => (weapon, index));
+            ViewSpellsInInventory();
+            // Player can't select an item in their inventory if their inventory is empty
+            if (spellsWithIndex.Count() == 0)
+            {
+                return -1;
+            }
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+                try
+                {
+                    int keyAsInt = Convert.ToInt32(key.KeyChar.ToString());
+                    if (keyAsInt >= 0 && keyAsInt < spellsWithIndex.Count())
+                    {
+                        return keyAsInt;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{key} was pressed. You must press a key that " +
+                            $"corresponds to a spell");
+                    }
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine($"{key} was pressed. You may only press a key that " +
+                        $"corresponds to a spell");
+                }
+            }
+        }
+        // TODO: Documentations
+        public void UseSpell(int spellIndex)
+        {
+            var spellsWithIndex = _inventory.OfType<Spell>().Select(spell => spell).ToList();
+            Spell spellToUse = spellsWithIndex[spellIndex];
+            Debug.Assert(spellToUse != null, "Error: spellToUse is null");
+            _inventory.Remove(spellToUse);
+
+            Health = Health + spellToUse.HealAmount;
+            if (Health > MaxHealth)
+            {
+                Health = MaxHealth;
+            }
+
+            Console.WriteLine($"{spellToUse.Name} has been used! " +
+                $"Your health is restored to {Health}");
+            return;
         }
         /// <summary>
         /// <c>GetTotalItemsInInventory()</c> returns a count of the player's total inventory
