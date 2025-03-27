@@ -51,6 +51,7 @@
     <Compile Include="Creatures\Warden.cs" />
     <Compile Include="Creatures\Witch.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Items\Hint.cs" />
     <Compile Include="Items\IHasSummary.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Creatures\Monster.cs" />

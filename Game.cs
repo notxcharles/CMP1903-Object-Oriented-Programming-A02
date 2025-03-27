@@ -31,7 +31,7 @@ namespace DungeonExplorer
             _gameName = gameName;
             _player = player;
 
-            Room room1 = new Room(new Witch("Witch", 100, new Weapon("Spell", 30)), new Weapon(100), new Spell("Potion of healing", 25));
+            Room room1 = new Room(new Witch("Witch", 100, new Weapon("Spell", 30)), new Weapon(100), new Spell("Potion of healing", 25), new Hint("Hint 1", "You must defeat the monster before you can advance to the next room!"));
             Room room2 = new Room(new Dragon("Dragon", 100, new Weapon("Fire Breating", 30)), new Weapon(100), new Spell("Potion of healing", 50));
             Room room3 = new Room(new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30)), new Weapon(100));
             Room room4 = new Room(new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30)), new Weapon(100), new Spell("Potion of healing", 150));
@@ -83,10 +83,15 @@ namespace DungeonExplorer
                 }
                 else if (decision == 3)
                 {
-                    //Retreat and heal-
-                    int healthRecovered = _player.MaxHealth - _player.Health;
-                    _player.Health = _player.MaxHealth;
-                    Console.WriteLine($"\nYou have stepped back and regained {healthRecovered} health");
+                    // Read hint in the room
+                    if (_currentRoom.ClueInTheRoom != null)
+                    {
+                        Console.WriteLine($"The clue is: {_currentRoom.ClueInTheRoom.Clue}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("There is no hint in this room.");
+                    }
                 }
                 else if (decision == 4)
                 {

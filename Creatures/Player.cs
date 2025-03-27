@@ -125,7 +125,10 @@ namespace DungeonExplorer
             Console.WriteLine("(0) View Inventory");
             Console.WriteLine("(1) Change Equipped Weapon");
             Console.WriteLine("(2) Use a spell");
-            Console.WriteLine("(3) Retreat and heal");
+            if (currentRoom.ClueInTheRoom != null)
+            {
+                Console.WriteLine("(3) Read the clue");
+            }
             Console.WriteLine("(4) Open the door");
             Console.WriteLine("(5) View room name and description again");
             if (currentRoom.IsMonsterAlive())

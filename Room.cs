@@ -14,6 +14,7 @@ namespace DungeonExplorer
         public bool DoorIsLocked { get; set; }
         public Weapon WeaponInTheRoom { get; private set; }
         public Spell SpellInTheRoom { get; private set; }
+        public Hint ClueInTheRoom { get; private set; }
         private static string[] _roomNames = new string[] {
             "The Forgotten Hall",
             "Chamber of Chains",
@@ -81,6 +82,27 @@ namespace DungeonExplorer
                 SpellInTheRoom = spellInTheRoom;
             }
            
+        }
+        // TODO: Update documentation to add spellInTheRoom and hint
+        /// <summary>
+        /// Class <c>Room</c>'s constructor
+        /// </summary>
+        /// <remarks>
+        /// The name and the description of the room are picked at random from a list of premade names and descriptions.
+        /// </remarks>
+        /// <param name="monster">The instance of the monster</param>
+        /// <param name="weaponInTheRoom"></param>
+        public Room(Monster monster, Weapon weaponInTheRoom, Spell spellInTheRoom, Hint hint)
+        {
+            RoomName = CreateRoomName();
+            RoomDescription = CreateRoomDescription();
+            Debug.Assert(monster != null, "Error: the monster is null");
+            this.MonsterInTheRoom = monster;
+            Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
+            this.WeaponInTheRoom = weaponInTheRoom;
+            SpellInTheRoom = spellInTheRoom;
+            ClueInTheRoom = hint;
+            DoorIsLocked = true;
         }
         // TODO: Update documentation to add spellInTheRoom
         /// <summary>
@@ -207,6 +229,10 @@ namespace DungeonExplorer
             else
             {
                 Console.WriteLine($"There is no monster in this room!");
+            }
+            if (ClueInTheRoom != null)
+            {
+                Console.WriteLine($"There is a clue- you should read it!");
             }
             if (WeaponInTheRoom != null)
             {
