@@ -15,7 +15,7 @@ namespace DungeonExplorer
 
         public override void DisplayAttack(int damage)
         {
-            Console.WriteLine($"The Dragon breathes fire! It dealt {damage}!");
+            Console.WriteLine($"The Dragon breathes fire! It dealt {damage} damage!");
         }
     }
 }
