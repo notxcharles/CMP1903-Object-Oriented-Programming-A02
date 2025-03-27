@@ -13,6 +13,7 @@ namespace DungeonExplorer
         public Monster MonsterInTheRoom { get; set; }
         public bool DoorIsLocked { get; set; }
         public Weapon WeaponInTheRoom { get; private set; }
+        private Spell _spellInTheRoom;
         private static string[] _roomNames = new string[] {
             "The Forgotten Hall",
             "Chamber of Chains",
@@ -58,18 +59,47 @@ namespace DungeonExplorer
             "A vast underground lake, the water impossibly still. Jagged rocks rise from the surface like teeth, and something beneath the water disturbs the reflection."
         };
         private static Random _random = new Random();
+        // TODO: Update documentation to add spellInTheRoom
         /// <summary>
         /// Class <c>Room</c>'s constructor
         /// </summary>
         /// <param name="roomName">The name of the room</param>
         /// <param name="description">The description of the room</param>
         /// <param name="monster">The instance of the monster</param>
-        public Room(string roomName, string description, Monster monster)
+        public Room(string roomName, string description, Monster monster, Weapon weaponInTheRoom, Spell spellInTheRoom)
         {
             this.RoomName = roomName;
             this.RoomDescription = description;
             Debug.Assert(monster != null, "Error: the monster is null");
             this.MonsterInTheRoom = monster;
+            Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
+            this.WeaponInTheRoom = weaponInTheRoom;
+            DoorIsLocked = true;
+            //Spell can be null
+            if (spellInTheRoom != null)
+            {
+                _spellInTheRoom = spellInTheRoom;
+            }
+           
+        }
+        // TODO: Update documentation to add spellInTheRoom
+        /// <summary>
+        /// Class <c>Room</c>'s constructor
+        /// </summary>
+        /// <remarks>
+        /// The name and the description of the room are picked at random from a list of premade names and descriptions.
+        /// </remarks>
+        /// <param name="monster">The instance of the monster</param>
+        /// <param name="weaponInTheRoom"></param>
+        public Room(Monster monster, Weapon weaponInTheRoom, Spell spellInTheRoom)
+        {
+            RoomName = CreateRoomName();
+            RoomDescription = CreateRoomDescription();
+            Debug.Assert(monster != null, "Error: the monster is null");
+            this.MonsterInTheRoom = monster;
+            Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
+            this.WeaponInTheRoom = weaponInTheRoom;
+            _spellInTheRoom = spellInTheRoom;
             DoorIsLocked = true;
         }
         /// <summary>
@@ -161,6 +191,7 @@ namespace DungeonExplorer
         /// <remarks>
         /// The method prints out the room name, the room description, the monster's name, breed, health and the average attack damage
         /// that the monster does. If there is a weapon in the room, the method also prints out the weapon's type and average attack damage.
+        /// If there is a spell in the room, the method also prints out the spell's name and the effect.
         /// </remarks>
         /// <param name="roomNumber">The room number of the room, first, second etc</param>
         public void WelcomePlayer(int roomNumber)
@@ -179,7 +210,11 @@ namespace DungeonExplorer
             }
             if (WeaponInTheRoom != null)
             {
-                Console.WriteLine($"There is a weapon inside this room- A {WeaponInTheRoom.CreateSummary()}");
+                Console.WriteLine($"There is a weapon inside this room that you can pick up- A {WeaponInTheRoom.CreateSummary()}");
+            }
+            if (_spellInTheRoom != null)
+            {
+                Console.WriteLine($"There is a spell that you can pick up - {_spellInTheRoom.CreateSummary()}");
             }
             return;
         }

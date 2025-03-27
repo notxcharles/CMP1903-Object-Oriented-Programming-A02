@@ -31,10 +31,10 @@ namespace DungeonExplorer
             _gameName = gameName;
             _player = player;
 
-            Room room1 = new Room(new Witch("Witch", 100, new Weapon("Spell", 30)), new Weapon(100));
-            Room room2 = new Room(new Dragon("Dragon", 100, new Weapon("Fire Breating", 30)), new Weapon(100));
+            Room room1 = new Room(new Witch("Witch", 100, new Weapon("Spell", 30)), new Weapon(100), new Spell("Potion of healing", 25));
+            Room room2 = new Room(new Dragon("Dragon", 100, new Weapon("Fire Breating", 30)), new Weapon(100), new Spell("Potion of healing", 50));
             Room room3 = new Room(new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30)), new Weapon(100));
-            Room room4 = new Room(new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30)), new Weapon(100));
+            Room room4 = new Room(new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30)), new Weapon(100), new Spell("Potion of healing", 150));
             Room room5 = new Room(new Warden("Warden", 100, new Weapon("Sonic Boom", 30)), new Weapon(100));
             _rooms.Add(room1);
             _rooms.Add(room2);
