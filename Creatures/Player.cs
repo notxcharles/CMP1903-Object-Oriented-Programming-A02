@@ -236,14 +236,14 @@ namespace DungeonExplorer
             {
                 Console.WriteLine($"Current equipped weapon: {_currentEquippedWeapon.CreateSummary()}");
                 Console.WriteLine($"Weapons in your inventory:");
-                var weaponsWithIndex = _inventory.OfType<Weapon>().Select((weapon, index) => (weapon, index));
-                foreach (var (weapon, index) in weaponsWithIndex)
+                var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon);
+                foreach (var weapon in weaponsWithIndex)
                 {
                     Console.WriteLine($"- {weapon.CreateSummary()}");
                 }
                 Console.WriteLine($"Spells in your inventory:");
-                var spellsWithIndex = _inventory.OfType<Spell>().Select((spell, index) => (spell, index));
-                foreach (var (spell, index) in spellsWithIndex)
+                var spellsWithIndex = _inventory.OfType<Spell>().Select(spell => spell);
+                foreach (var spell in spellsWithIndex)
                 {
                     Console.WriteLine($"- {spell.CreateSummary()}");
                 }
