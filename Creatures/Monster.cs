@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonExplorer.Creatures;
+using System;
 using System.Diagnostics;
 
 namespace DungeonExplorer
@@ -9,7 +10,7 @@ namespace DungeonExplorer
     /// <remarks>
     /// The <c>Monster</c> class is used to create a monster object that the player will fight against.
     /// </remarks>
-    public class Monster : Creature
+    public class Monster : Creature, ICanDamage
     {
         public int AverageAttackDamage { get; private set; }
         private static Random _random = new Random();

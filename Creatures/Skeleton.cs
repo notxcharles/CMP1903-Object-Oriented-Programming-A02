@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer.Creatures
 {
+    // TODO: Documentationv
     public class Skeleton : Monster
     {
+        // TODO: Documentation
         public Skeleton(string name, int health, int averageAttackDamage) : base(name, health, averageAttackDamage)
         {
 
         }
+        // TODO: Documentation
 
         public override void DisplayAttack(int damage)
         {

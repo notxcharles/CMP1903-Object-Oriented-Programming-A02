@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer.Creatures
 {
+    // TODO: Documentation
     public class Witch : Monster
     {
+        // TODO: Documentation
         public Witch(string name, int health, int averageAttackDamage) : base(name, health, averageAttackDamage)
         {
 
         }
 
+        // TODO: Documentation
         public override void DisplayAttack(int damage)
         {
             Console.WriteLine($"The Witch cast a spell on you! The spell dealt {damage} damage!");
