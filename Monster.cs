@@ -11,7 +11,6 @@ namespace DungeonExplorer
     /// </remarks>
     public class Monster : Creature
     {
-        public string Breed { get; private set; }
         public int AverageAttackDamage { get; private set; }
         private static Random _random = new Random();
         private static string[] _monsterNames = new string[] {
@@ -40,28 +39,6 @@ namespace DungeonExplorer
             "Count Dooku",
             "Jabba the Hutt",
         };
-        private static string[] _monsterBreeds = new string[] {
-            "Goblin",
-            "Troll",
-            "Werewolf",
-            "Vampire",
-            "Zombie",
-            "Dragon",
-            "Skeleton",
-            "Ghoul",
-            "Banshee",
-            "Witch",
-            "Demon",
-            "Phantom",
-            "Hydra",
-            "Orc",
-            "Minotaur",
-            "Kraken",
-            "Giant",
-            "Hellhound",
-            "Ogre",
-            "Cyclopes"
-        };
 
         /// <summary>
         /// Class <c>Monster</c>'s constructor
@@ -70,13 +47,11 @@ namespace DungeonExplorer
         /// <param name="breed">The breed of the monster</param>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(string name, string breed, int health, int averageAttack) : base(name, health)  
+        public Monster(string name, int health, int averageAttack) : base(name, health)  
         {
             Debug.Assert(name != null, "Error: name does not exist");
-            Debug.Assert(breed != null, "Error: breed does not exist");
             Testing.TestForPositiveInteger(health);
             Testing.TestForZeroOrAbove(averageAttack);
-            Breed = breed;
             AverageAttackDamage = averageAttack;
         }
         /// <summary>
@@ -87,7 +62,6 @@ namespace DungeonExplorer
         public Monster(int health, int averageAttack) : base(health)
         {
             Name = CreateMonsterName();
-            Breed = CreateMonsterBreed();
             Testing.TestForPositiveInteger(health);
             Testing.TestForZeroOrAbove(averageAttack);
             AverageAttackDamage = averageAttack;
@@ -101,15 +75,6 @@ namespace DungeonExplorer
         {
             int index = _random.Next(0, _monsterNames.Length);
             return _monsterNames[index];
-        }
-        /// <summary>
-        /// From <c>Monster._monsterBreeds</c>, randomly select a name for the monster
-        /// </summary>
-        /// <returns>The selected string from Monster._monsterBreeds</returns>
-        private string CreateMonsterBreed()
-        {
-            int index = _random.Next(0, _monsterBreeds.Length);
-            return _monsterBreeds[index];
         }
         /// <summary>
         /// Create a random number from a Gaussian distribution
@@ -145,7 +110,7 @@ namespace DungeonExplorer
         //TODO: Documentation Strings
         public virtual void DisplayAttack(int damage)
         {
-            Console.WriteLine($"The {this.GetType().Name}, {Name} dealt {damage}");
+            Console.WriteLine($"The {this.GetType().Name}, {Name} dealt {damage} damage");
         }
     }
 }

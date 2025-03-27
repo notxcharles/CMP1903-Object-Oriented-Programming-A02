@@ -170,7 +170,7 @@ namespace DungeonExplorer
             Console.WriteLine($"{this.RoomDescription}\n");
             if (MonsterInTheRoom != null)
             {
-                Console.WriteLine($"A {MonsterInTheRoom.Breed} called {MonsterInTheRoom.Name} is present! It has {MonsterInTheRoom.Health} " +
+                Console.WriteLine($"A {MonsterInTheRoom.GetType().Name} called {MonsterInTheRoom.Name} is present! It has {MonsterInTheRoom.Health} " +
                     $"health and does an average of {MonsterInTheRoom.AverageAttackDamage} attack damage!");
             }
             else
