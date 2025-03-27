@@ -17,7 +17,7 @@ namespace DungeonExplorer.Creatures
         // TODO: Documentation
         public override void DisplayAttack(int damage)
         {
-            Console.WriteLine($"The Shulker shot a ! The spell dealt {damage} damage!");
+            Console.WriteLine($"The Shulker shot a homing bullet that dealt {damage} damage!");
         }
     }
 }
