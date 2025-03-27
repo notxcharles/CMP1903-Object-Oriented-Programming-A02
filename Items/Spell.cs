@@ -9,13 +9,14 @@ namespace DungeonExplorer
     public class Spell : Item
     {
         private int _healAmount;
-        public Spell(string name) : base(name)
+        public Spell(string name, int healAmount) : base(name)
         {
-
+            _healAmount = healAmount;
         }
         public int HealAmount
         {
             get { return _healAmount; }
+            private set { _healAmount = value; }
         }
     }
 }
