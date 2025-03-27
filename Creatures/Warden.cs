@@ -10,7 +10,7 @@ namespace DungeonExplorer.Creatures
     public class Warden : Monster
     {
         // TODO: Documentationv
-        public Warden(string name, int health, int averageAttackDamage) : base(name, health, averageAttackDamage)
+        public Warden(string name, int health, Weapon weapon) : base(name, health, weapon)
         {
 
         }

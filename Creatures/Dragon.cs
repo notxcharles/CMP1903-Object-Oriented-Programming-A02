@@ -10,7 +10,7 @@ namespace DungeonExplorer
     public class Dragon : Monster
     {
         // TODO: Documentation
-        public Dragon(string name, int health, int averageAttackDamage) : base(name, health, averageAttackDamage)
+        public Dragon(string name, int health, Weapon weapon) : base(name, health, weapon)
         {
 
         }

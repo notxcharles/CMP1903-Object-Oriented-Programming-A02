@@ -10,7 +10,7 @@ namespace DungeonExplorer.Creatures
     public class Skeleton : Monster
     {
         // TODO: Documentation
-        public Skeleton(string name, int health, int averageAttackDamage) : base(name, health, averageAttackDamage)
+        public Skeleton(string name, int health, Weapon weapon) : base(name, health, weapon)
         {
 
         }

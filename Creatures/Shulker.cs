@@ -10,7 +10,7 @@ namespace DungeonExplorer.Creatures
     public class Shulker : Monster
     {
         // TODO: Documentation
-        public Shulker(string name, int health, int averageAttackDamage) : base(name, health, averageAttackDamage)
+        public Shulker(string name, int health, Weapon weapon) : base(name, health, weapon)
         {
 
         }

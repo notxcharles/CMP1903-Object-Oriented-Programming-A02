@@ -48,25 +48,22 @@ namespace DungeonExplorer
         /// <param name="breed">The breed of the monster</param>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(string name, int health, int averageAttack) : base(name, health)  
+        public Monster(string name, int health, Weapon weapon) : base(name, health)  
         {
             Debug.Assert(name != null, "Error: name does not exist");
             Testing.TestForPositiveInteger(health);
-            Testing.TestForZeroOrAbove(averageAttack);
-            AverageAttackDamage = averageAttack;
+            _weapon = weapon;
         }
         /// <summary>
         /// Class <c>Monster</c>'s constructor
         /// </summary>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(int health, int averageAttack) : base(health)
+        public Monster(int health, Weapon weapon) : base(health)
         {
             Name = CreateMonsterName();
             Testing.TestForPositiveInteger(health);
-            Testing.TestForZeroOrAbove(averageAttack);
-            AverageAttackDamage = averageAttack;
-            _weapon = new Weapon("temporary", 10);
+            _weapon = weapon;
         }
 
         // TODO: Documentation
