@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace DungeonExplorer
 {
@@ -224,31 +225,30 @@ namespace DungeonExplorer
         /// If the inventory is empty, a message is printed which communicates this to the player instead
         /// </remarks>
         /// <param name="showIndexOfItem">If true, the list index of the item is included in the print</param>
-        public void ViewItemsInInventory(bool showIndexOfItem = false)
+        public void ViewItemsInInventory()
         {
-            Debug.Assert(!(showIndexOfItem == true && showIndexOfItem == false), "Error: showIndexOfItem was both true and false");
             // If there are no items in the inventory, show an error
             if (_inventory.Count == 0)
             {
-                Console.WriteLine("You have no items in your inventory. You can hold up to 4 weapons.");
+                Console.WriteLine($"You have no items in your inventory. You can hold up to {MaxInventorySpace} items.");
             }
             else
             {
                 Console.WriteLine($"Current equipped weapon: {_currentEquippedWeapon.CreateSummary()}");
-                Console.WriteLine($"Items in your inventory:");
-                for (int i = 0; i < _inventory.Count; i++)
+                Console.WriteLine($"Weapons in your inventory:");
+                var weaponsWithIndex = _inventory.OfType<Weapon>().Select((weapon, index) => (weapon, index));
+                foreach (var (weapon, index) in weaponsWithIndex)
                 {
-                    if (showIndexOfItem)
-                    {
-                        Console.WriteLine($"({i}) {_inventory[i].CreateSummary()}");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"- {_inventory[i].CreateSummary()}");
-                    }     
+                    Console.WriteLine($"- {weapon.CreateSummary()}");
                 }
-                Console.WriteLine($"You can hold up to {MaxInventorySpace} weapons in your inventory. You " +
-                    $"are currently holding {_inventory.Count} weapons.");                
+                Console.WriteLine($"Spells in your inventory:");
+                var spellsWithIndex = _inventory.OfType<Spell>().Select((spell, index) => (spell, index));
+                foreach (var (spell, index) in spellsWithIndex)
+                {
+                    Console.WriteLine($"- {spell.CreateSummary()}");
+                }
+                Console.WriteLine($"You can hold up to {MaxInventorySpace} items in your inventory. You " +
+                    $"are currently holding {_inventory.Count} items.");                
             }
             return;
         }
@@ -258,7 +258,7 @@ namespace DungeonExplorer
         /// <returns>The integer index of the item in _inventory that the user selects</returns>
         public int SelectWeaponInInventory()
         {
-            ViewItemsInInventory(true);
+            ViewItemsInInventory();
             // Player can't select an item in their inventory if their inventory is empty
             if (_inventory.Count == 0)
             {
