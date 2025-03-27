@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 
 namespace DungeonExplorer
 {
@@ -242,7 +243,9 @@ namespace DungeonExplorer
         // TODO: Documentation
         public void ViewWeaponsInInventory()
         {
-            var weaponsWithIndex = _inventory.OfType<Weapon>().Select((weapon, index) => (weapon, index));
+            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
+            var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.AttackDamage descending select weapon;
+            List<Weapon> sortedWeaponList = sortedWeapons.ToList();
             if (weaponsWithIndex.Count() == 0)
             {
                 Console.WriteLine($"You have no weapons in your inventory. You can hold up to {MaxInventorySpace-_inventory.Count} weapons.");
@@ -252,9 +255,9 @@ namespace DungeonExplorer
             {
                 Console.WriteLine($"Current equipped weapon: {_currentEquippedWeapon.CreateSummary()}");
                 Console.WriteLine($"Weapons in your inventory, press the corresponding key to equip the weapon:");
-                foreach (var (weapon, index) in weaponsWithIndex)
+                for (int i = 0; i < sortedWeaponList.Count; i++)
                 {
-                    Console.WriteLine($"-{index}: {weapon.CreateSummary()}");
+                    Console.WriteLine($"-{i}: {sortedWeaponList[i].CreateSummary()}");
                 }
             }
             return;
@@ -266,7 +269,9 @@ namespace DungeonExplorer
         /// <returns>The integer index of the item in _inventory that the user selects</returns>
         public int SelectWeaponInInventory()
         {
-            var weaponsWithIndex = _inventory.OfType<Weapon>().Select((weapon, index) => (weapon, index));
+            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
+            var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.AttackDamage descending select weapon;
+            List<Weapon> sortedWeaponList = sortedWeapons.ToList();
             ViewWeaponsInInventory();
             // Player can't select an item in their inventory if their inventory is empty
             if (weaponsWithIndex.Count() == 0)
@@ -279,7 +284,7 @@ namespace DungeonExplorer
                 try
                 {
                     int keyAsInt = Convert.ToInt32(key.KeyChar.ToString());
-                    if (keyAsInt >= 0 && keyAsInt < weaponsWithIndex.Count())
+                    if (keyAsInt >= 0 && keyAsInt < sortedWeapons.Count())
                     {
                         return keyAsInt;
                     }
@@ -303,8 +308,10 @@ namespace DungeonExplorer
         public void EquipDifferentWeapon(int weaponIndex)
         {
             // Swap the selected weapon with the currently equipped weapon
-            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
-            Weapon weaponToEquip = weaponsWithIndex[weaponIndex];
+            var weapons = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
+            var sortedWeapons = from Weapon weapon in weapons orderby weapon.AttackDamage descending select weapon;
+            List<Weapon> sortedWeaponList = sortedWeapons.ToList();
+            Weapon weaponToEquip = sortedWeaponList[weaponIndex];
             Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
             _inventory.Remove(weaponToEquip);
             _inventory.Add(_currentEquippedWeapon);

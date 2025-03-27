@@ -59,6 +59,10 @@ namespace DungeonExplorer
             Name = CreateWeaponName();
             _averageAttackDamage = weaponAverageDamage;
         }
+        public int AttackDamage
+        { 
+            get { return _averageAttackDamage; }
+        }
         /// <summary>
         /// From <c>Weapon._weaponNames</c>, randomly select a name for the weapon
         /// </summary>
