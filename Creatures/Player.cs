@@ -106,7 +106,8 @@ namespace DungeonExplorer
         public void EquipDifferentWeapon(int weaponIndex)
         {
             // Swap the selected weapon with the currently equipped weapon
-            Item weaponToEquip = _inventory[weaponIndex] as Weapon;
+            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
+            Weapon weaponToEquip = weaponsWithIndex[weaponIndex];
             Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
             _inventory.Remove(weaponToEquip);
             _inventory.Add(_currentEquippedWeapon);
@@ -221,10 +222,11 @@ namespace DungeonExplorer
         /// Prints multiple strings of all items in the player's inventory
         /// </summary>
         /// <remarks>
-        /// For each item in the Player's inventory, a message is written to the console that displays the item's name.
-        /// If the inventory is empty, a message is printed which communicates this to the player instead
+        /// First we check that there are items in the inventory, if there is then the inventory is sorted
+        /// by item type. For each item in the Player's inventory, a message is written to the console that 
+        /// displays the item's name. If the inventory is empty, a message is printed which communicates 
+        /// this to the player instead
         /// </remarks>
-        /// <param name="showIndexOfItem">If true, the list index of the item is included in the print</param>
         public void ViewItemsInInventory()
         {
             // If there are no items in the inventory, show an error
@@ -252,15 +254,37 @@ namespace DungeonExplorer
             }
             return;
         }
+        // TODO: Documentation
+        public void ViewWeaponsInInventory()
+        {
+            var weaponsWithIndex = _inventory.OfType<Weapon>().Select((weapon, index) => (weapon, index));
+            if (weaponsWithIndex.Count() == 0)
+            {
+                Console.WriteLine($"You have no weapons in your inventory. You can hold up to {MaxInventorySpace-_inventory.Count} weapons.");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"Current equipped weapon: {_currentEquippedWeapon.CreateSummary()}");
+                Console.WriteLine($"Weapons in your inventory, press the corresponding key to equip the weapon:");
+                foreach (var (weapon, index) in weaponsWithIndex)
+                {
+                    Console.WriteLine($"-{index}: {weapon.CreateSummary()}");
+                }
+            }
+            return;
+        }
+        // TODO: documentation
         /// <summary>
-        /// Call <c>ViewItemsInInventory(true)</c> and then read the user's input as to the action they choose
+        /// Call <c>SelectWeaponInInventory()</c> and then read the user's input as to the action they choose
         /// </summary>
         /// <returns>The integer index of the item in _inventory that the user selects</returns>
         public int SelectWeaponInInventory()
         {
-            ViewItemsInInventory();
+            var weaponsWithIndex = _inventory.OfType<Weapon>().Select((weapon, index) => (weapon, index));
+            ViewWeaponsInInventory();
             // Player can't select an item in their inventory if their inventory is empty
-            if (_inventory.Count == 0)
+            if (weaponsWithIndex.Count() == 0)
             {
                 return -1;
             }
@@ -270,7 +294,7 @@ namespace DungeonExplorer
                 try
                 {
                     int keyAsInt = Convert.ToInt32(key.KeyChar.ToString());
-                    if (keyAsInt >= 0 && keyAsInt < _inventory.Count)
+                    if (keyAsInt >= 0 && keyAsInt < weaponsWithIndex.Count())
                     {
                         return keyAsInt;
                     }
