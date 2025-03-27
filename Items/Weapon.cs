@@ -106,7 +106,7 @@ namespace DungeonExplorer
         /// The summary contains the type of the weapon and the average attack damage of the weapon.
         /// </remarks>
         /// <returns>The summary</returns>
-        public string CreateSummary()
+        public override string CreateSummary()
         {
             string summary = ($"{Name}, dealing an average of {_averageAttackDamage} per attack");
             Debug.Assert(summary != null || summary.Length > 0, "Error: Summary is null or empty");

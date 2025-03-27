@@ -13,7 +13,7 @@ namespace DungeonExplorer
         public Monster MonsterInTheRoom { get; set; }
         public bool DoorIsLocked { get; set; }
         public Weapon WeaponInTheRoom { get; private set; }
-        private Spell _spellInTheRoom;
+        public Spell SpellInTheRoom { get; private set; }
         private static string[] _roomNames = new string[] {
             "The Forgotten Hall",
             "Chamber of Chains",
@@ -78,7 +78,7 @@ namespace DungeonExplorer
             //Spell can be null
             if (spellInTheRoom != null)
             {
-                _spellInTheRoom = spellInTheRoom;
+                SpellInTheRoom = spellInTheRoom;
             }
            
         }
@@ -99,7 +99,7 @@ namespace DungeonExplorer
             this.MonsterInTheRoom = monster;
             Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
             this.WeaponInTheRoom = weaponInTheRoom;
-            _spellInTheRoom = spellInTheRoom;
+            SpellInTheRoom = spellInTheRoom;
             DoorIsLocked = true;
         }
         /// <summary>
@@ -212,9 +212,9 @@ namespace DungeonExplorer
             {
                 Console.WriteLine($"There is a weapon inside this room that you can pick up- A {WeaponInTheRoom.CreateSummary()}");
             }
-            if (_spellInTheRoom != null)
+            if (SpellInTheRoom != null)
             {
-                Console.WriteLine($"There is a spell that you can pick up - {_spellInTheRoom.CreateSummary()}");
+                Console.WriteLine($"There is a spell that you can pick up - {SpellInTheRoom.CreateSummary()}");
             }
             return;
         }
@@ -224,6 +224,12 @@ namespace DungeonExplorer
         public void WeaponPickedUp()
         {
             WeaponInTheRoom = null;
+            return;
+        }
+        //TODO: Documentation
+        public void SpellPickedUp()
+        {
+            SpellInTheRoom = null; 
             return;
         }
     }

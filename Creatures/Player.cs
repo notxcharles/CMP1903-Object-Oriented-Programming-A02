@@ -10,7 +10,7 @@ namespace DungeonExplorer
     /// </summary>
     public class Player : Creature, ICanDamage
     {
-        private List<Weapon> _inventory = new List<Weapon>();
+        private List<Item> _inventory = new List<Item>();
         public int MaxInventorySpace { get; private set; }
         private Weapon _currentEquippedWeapon;
         /// <summary>
@@ -61,7 +61,7 @@ namespace DungeonExplorer
         /// PickUpItem()
         /// </remarks>
         /// <param name="weapon">The weapon that the player will pick up</param>
-        public void PickUpItem(Weapon weapon)
+        public void PickUpWeapon(Weapon weapon)
         {
             Debug.Assert(MaxInventorySpace <= 9, "Error: MaxInventorySpace should not be greater than 9");
             if (_inventory.Count == MaxInventorySpace)
@@ -79,6 +79,25 @@ namespace DungeonExplorer
             }
             return;
         }
+        // TODO: Documentation
+        public void PickUpSpell(Spell spell)
+        {
+            Debug.Assert(MaxInventorySpace <= 9, "Error: MaxInventorySpace should not be greater than 9");
+            if (_inventory.Count == MaxInventorySpace)
+            {
+                Console.WriteLine("Your inventory is full! You cannot pick up any more items");
+            }
+            else if (spell == null)
+            {
+                Console.WriteLine("Error: Spell does not exist");
+            }
+            else
+            {
+                _inventory.Add(spell);
+                Console.WriteLine($"{spell.Name} has been added to your inventory");
+            }
+            return;
+        }
         /// <summary>
         /// Handles the logic for the player to equip a different weapon
         /// </summary>
@@ -86,12 +105,12 @@ namespace DungeonExplorer
         public void EquipDifferentWeapon(int weaponIndex)
         {
             // Swap the selected weapon with the currently equipped weapon
-            Weapon weaponToEquip = _inventory[weaponIndex];
+            Item weaponToEquip = _inventory[weaponIndex] as Weapon;
             Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
             _inventory.Remove(weaponToEquip);
             _inventory.Add(_currentEquippedWeapon);
             Weapon previousEquippedWeapon = _currentEquippedWeapon;
-            _currentEquippedWeapon = weaponToEquip;
+            _currentEquippedWeapon = weaponToEquip as Weapon;
             Console.WriteLine($"{_currentEquippedWeapon.Name} has been equipped. " +
                 $"{previousEquippedWeapon.Name} has been added to your inventory");
             return;
@@ -154,7 +173,7 @@ namespace DungeonExplorer
                 try
                 {
                     int keyAsInt = Convert.ToInt32(key.KeyChar.ToString());
-                    if (keyAsInt >= 0 && keyAsInt <= 6)
+                    if (keyAsInt >= 0 && keyAsInt <= 7)
                     {
                         Console.WriteLine($"Player pressed {keyAsInt}");
                         return keyAsInt;
@@ -168,7 +187,7 @@ namespace DungeonExplorer
                     {
                         if (monsterAlive)
                         {
-                            Console.WriteLine($"{key} was pressed. You must press 0, 1, 2, 3, 4, 5, 6 or 9");
+                            Console.WriteLine($"{key} was pressed. You must press 0, 1, 2, 3, 4, 5, 6,7 or 9");
                         }
                         else
                         {

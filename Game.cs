@@ -56,7 +56,7 @@ namespace DungeonExplorer
                 _currentRoom.WelcomePlayer(roomNumber);
                 bool isMonsterAlive = _currentRoom.IsMonsterAlive();
                 int decision = _player.GetTurnDecisions(isMonsterAlive);
-                Debug.Assert(decision >= 0 && decision <= 6, "Error: Decision must be an integer value from 0 to 6");
+                Debug.Assert(decision >= 0 && decision <= 7, "Error: Decision must be an integer value from 0 to 6");
                 if (decision == 0)
                 {
                     //Player wants to view inventory
@@ -81,7 +81,7 @@ namespace DungeonExplorer
                     }
                     else
                     {
-                        _player.PickUpItem(_currentRoom.WeaponInTheRoom);
+                        _player.PickUpWeapon(_currentRoom.WeaponInTheRoom);
                         _currentRoom.WeaponPickedUp();
                     }
                 }
@@ -116,6 +116,18 @@ namespace DungeonExplorer
                         Console.WriteLine("Invalid input! You cannot fight a monster as there is no monster in the room!");
                     }
 
+                }
+                else if (decision == 7)
+                {
+                    if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                    {
+                        Console.WriteLine("Your inventory is full, you may not collect any more spells");
+                    }
+                    else
+                    {
+                        _player.PickUpSpell(_currentRoom.SpellInTheRoom);
+                        _currentRoom.SpellPickedUp();
+                    }
                 }
                 PromptNextTurn();
                 ClearConsole();
