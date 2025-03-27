@@ -73,6 +73,7 @@ namespace DungeonExplorer
         public Weapon Weapon
         {
             get { return _weapon; }
+            protected set { _weapon = value; }
         }
         /// <summary>
         /// From <c>Monster._monsterNames</c>, randomly select a name for the monster

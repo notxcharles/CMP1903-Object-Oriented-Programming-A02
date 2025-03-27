@@ -49,6 +49,8 @@ namespace DungeonExplorer
         public Weapon Weapon
         {
             get { return _currentEquippedWeapon; }
+            // added a setter in case this is made into a multiplayer game at a later date
+            protected set { _currentEquippedWeapon = value; }
         }
         /// <summary>
         /// Player can <c>PickUpItem</c>
