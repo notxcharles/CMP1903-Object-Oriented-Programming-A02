@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer
 {
-    public class Spell : Item
+    public class Spell : Item, IHasSummary
     {
         private int _healAmount;
         public Spell(string name, int healAmount) : base(name)
@@ -18,7 +18,7 @@ namespace DungeonExplorer
             get { return _healAmount; }
             private set { _healAmount = value; }
         }
-        public override string CreateSummary()
+        public string CreateSummary()
         {
             string summary = $"A {Name}! This heals the player for {_healAmount} health!";
             return summary;

@@ -10,7 +10,7 @@ namespace DungeonExplorer
     /// Contains the logic for creating a weapon object that the player can use to attack the monster. Class contains the
     /// type of the weapon, the average attack damage of the weapon, and the method to get calculate the attack damage.
     /// </remarks>
-    public class Weapon : Item
+    public class Weapon : Item, IHasSummary
     {
         public int _averageAttackDamage;
         private static Random _random = new Random();
@@ -110,7 +110,7 @@ namespace DungeonExplorer
         /// The summary contains the type of the weapon and the average attack damage of the weapon.
         /// </remarks>
         /// <returns>The summary</returns>
-        public override string CreateSummary()
+        public string CreateSummary()
         {
             string summary = ($"{Name}, dealing an average of {_averageAttackDamage} per attack");
             Debug.Assert(summary != null || summary.Length > 0, "Error: Summary is null or empty");
