@@ -182,26 +182,12 @@ namespace DungeonExplorer
                     }
                     else
                     {
-                        if (currentRoom.IsMonsterAlive())
-                        {
-                            Console.WriteLine($"{key} was pressed. You must press 0, 1, 2, 3, 4, 5, 6,7 or 9");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"{key} was pressed. You must press 0, 1, 2, 3, 4, 5 or 9");
-                        }
+                        Console.WriteLine($"{key} was pressed. You must input a number from 0 to 9");
                     }
                 }
                 catch (FormatException e)
                 {
-                    if (currentRoom.IsMonsterAlive())
-                    {
-                        Console.WriteLine($"{key} was pressed. You must press 0, 1, 2, 3, 4, 5, 6 or 9");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{key} was pressed. You must press 0, 1, 2, 3, 4, 5 or 9");
-                    }
+                    Console.WriteLine($"{key} was pressed. You must press a number from 0 to 9");
                 }
             }
             return -1;
