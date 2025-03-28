@@ -63,6 +63,7 @@
     <Compile Include="Items\Spell.cs" />
     <Compile Include="Testing.cs" />
     <Compile Include="Items\Weapon.cs" />
+    <Compile Include="UserInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
