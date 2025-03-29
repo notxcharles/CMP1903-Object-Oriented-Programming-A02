@@ -93,11 +93,10 @@ namespace DungeonExplorer
                 Environment.Exit(1);
                 return;
             }
-            Console.WriteLine($"You have hit the monster for {playerAttackDamage} damage. " +
-                    $"The monster now has {monster.Health}/{monster.MaxHealth}");
-            monster.DisplayAttack(monsterAttackDamage);
-            Console.WriteLine($"The monster has hit you for {monsterAttackDamage} damage. " +
-                $"You now have {player.Health}/{player.MaxHealth}");
+            string playerAttackMessage = player.GetAttackMessage(playerAttackDamage);
+            Console.WriteLine(playerAttackMessage + $"The monster now has {monster.Health}/{monster.MaxHealth}");
+            string monsterAttackMessage = monster.GetAttackMessage(monsterAttackDamage);
+            Console.WriteLine(monsterAttackMessage + $"You now have {player.Health}/{player.MaxHealth}");
         }
         // TODO: Documentation
         public static void DisplayEnumerable(IEnumerable<object> enumerable, bool showIndex)

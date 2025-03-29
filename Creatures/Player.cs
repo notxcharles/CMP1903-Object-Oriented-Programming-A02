@@ -312,7 +312,6 @@ namespace DungeonExplorer
             }
             return;
         }
-
         // TODO: Documentations
         public void UseSpell(int spellIndex)
         {
@@ -350,9 +349,10 @@ namespace DungeonExplorer
             Testing.TestForPositiveInteger(attackDamage);
             return attackDamage;
         }
-        public void DisplayAttack(int damage)
+        // TODO: Documentation
+        public string GetAttackMessage(int damage)
         {
-            Console.WriteLine($"The player did {damage} damage");
+            return $"The player attacked with their weapon {_currentEquippedWeapon} and did {damage} damage";
         }
     }
 }

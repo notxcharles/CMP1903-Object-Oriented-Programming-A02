@@ -16,9 +16,9 @@ namespace DungeonExplorer.Creatures
         }
 
         // TODO: Documentation
-        public override void DisplayAttack(int damage)
+        public override string GetAttackMessage(int damage)
         {
-            Console.WriteLine($"The Witch cast a spell on you! The spell dealt {damage} damage!");
+            return $"The Witch cast a spell on you! The spell dealt {damage} damage!";
         }
     }
 }

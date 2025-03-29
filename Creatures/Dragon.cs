@@ -15,9 +15,9 @@ namespace DungeonExplorer
 
         }
         // TODO: Documentation
-        public override void DisplayAttack(int damage)
+        public override string GetAttackMessage(int damage)
         {
-            Console.WriteLine($"The Dragon breathes fire! It dealt {damage} damage!");
+            return $"The Dragon breathes fire! It dealt {damage} damage!";
         }
     }
 }
