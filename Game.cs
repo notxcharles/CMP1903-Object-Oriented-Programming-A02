@@ -55,7 +55,7 @@ namespace DungeonExplorer
             _currentRoom = _rooms[roomNumber];
             while (roomNumber < _numberOfRooms)
             {
-                _currentRoom.WelcomePlayer(roomNumber);
+                UserInterface.DisplayRoomInformation(_currentRoom, roomNumber);
                 UserInterface.DisplayPlayerDetails(_player);
                 UserInterface.ShowTurnDecisions(_currentRoom, _player);
                 int decision = UserInterface.GetInput(0, 9, true);

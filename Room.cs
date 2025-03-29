@@ -208,43 +208,6 @@ namespace DungeonExplorer
             return MonsterInTheRoom != null && MonsterInTheRoom.Health > 0;
         }
         /// <summary>
-        /// Welcomes the player to the room through multiple messages to the console
-        /// </summary>
-        /// <remarks>
-        /// The method prints out the room name, the room description, the monster's name, breed, health and the average attack damage
-        /// that the monster does. If there is a weapon in the room, the method also prints out the weapon's type and average attack damage.
-        /// If there is a spell in the room, the method also prints out the spell's name and the effect.
-        /// </remarks>
-        /// <param name="roomNumber">The room number of the room, first, second etc</param>
-        public void WelcomePlayer(int roomNumber)
-        {
-            Testing.TestForZeroOrAbove(roomNumber);
-            Console.WriteLine($"Welcome to Room {this.RoomName} (Room {roomNumber+1})");
-            Console.WriteLine($"{this.RoomDescription}\n");
-            if (MonsterInTheRoom != null)
-            {
-                Console.WriteLine($"A {MonsterInTheRoom.GetType().Name} called {MonsterInTheRoom.Name} is present! It has {MonsterInTheRoom.Health} " +
-                    $"health and does an average of {MonsterInTheRoom.GetAttackDamage()} attack damage!");
-            }
-            else
-            {
-                Console.WriteLine($"There is no monster in this room!");
-            }
-            if (ClueInTheRoom != null)
-            {
-                Console.WriteLine($"There is a clue- you should read it!");
-            }
-            if (WeaponInTheRoom != null)
-            {
-                Console.WriteLine($"There is a weapon inside this room that you can pick up- A {WeaponInTheRoom.CreateSummary()}");
-            }
-            if (SpellInTheRoom != null)
-            {
-                Console.WriteLine($"There is a spell that you can pick up - {SpellInTheRoom.CreateSummary()}");
-            }
-            Console.WriteLine();
-        }
-        /// <summary>
         /// Set Room.WeaponInTheRoom to null
         /// </summary>
         public void WeaponPickedUp()

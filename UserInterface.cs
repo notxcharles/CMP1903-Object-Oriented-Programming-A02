@@ -47,6 +47,44 @@ namespace DungeonExplorer
             EndTurn();
             return;
         }
+        // TODO: Documentation
+        /// <summary>
+        /// Welcomes the player to the room through multiple messages to the console
+        /// </summary>
+        /// <remarks>
+        /// The method prints out the room name, the room description, the monster's name, breed, health and the average attack damage
+        /// that the monster does. If there is a weapon in the room, the method also prints out the weapon's type and average attack damage.
+        /// If there is a spell in the room, the method also prints out the spell's name and the effect.
+        /// </remarks>
+        /// <param name="roomNumber">The room number of the room, first, second etc</param>
+        public static void DisplayRoomInformation(Room room, int roomNumber)
+        {
+            Testing.TestForZeroOrAbove(roomNumber);
+            Console.WriteLine($"Welcome to Room {room.RoomName} (Room {roomNumber + 1})");
+            Console.WriteLine($"{room.RoomDescription}\n");
+            if (room.MonsterInTheRoom != null)
+            {
+                Console.WriteLine($"A {room.MonsterInTheRoom.GetType().Name} called {room.MonsterInTheRoom.Name} is present! It has {room.MonsterInTheRoom.Health} " +
+                    $"health and does an average of {room.MonsterInTheRoom.GetAttackDamage()} attack damage!");
+            }
+            else
+            {
+                Console.WriteLine($"There is no monster in this room!");
+            }
+            if (room.ClueInTheRoom != null)
+            {
+                Console.WriteLine($"There is a clue- you should read it!");
+            }
+            if (room.WeaponInTheRoom != null)
+            {
+                Console.WriteLine($"There is a weapon inside this room that you can pick up- A {room.WeaponInTheRoom.CreateSummary()}");
+            }
+            if (room.SpellInTheRoom != null)
+            {
+                Console.WriteLine($"There is a spell that you can pick up - {room.SpellInTheRoom.CreateSummary()}");
+            }
+            Console.WriteLine();
+        }
         // TODO : Documentation
         /// <summary>
         /// Prints multiple lines to the console displaying information about the Player
