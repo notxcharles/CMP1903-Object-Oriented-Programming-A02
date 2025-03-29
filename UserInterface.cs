@@ -35,7 +35,7 @@ namespace DungeonExplorer
         /// Prints the display for the start of the game
         /// </summary>
         /// <remarks>
-        /// This prints multiple messages to the console, welcoming the user to the game. <c>this._gameName</c> is
+        /// This prints multiple messages to the console, welcoming the user to the game. <c>gameName</c> is
         /// used as the title of the game
         /// </remarks>
         public static void DisplayGameStart(string gameName)
@@ -47,16 +47,12 @@ namespace DungeonExplorer
             EndTurn();
             return;
         }
-        // TODO: Documentation
         /// <summary>
-        /// Welcomes the player to the room through multiple messages to the console
+        /// Displays information about the current room, including its name, description, 
+        /// and any objects or creatures present.
         /// </summary>
-        /// <remarks>
-        /// The method prints out the room name, the room description, the monster's name, breed, health and the average attack damage
-        /// that the monster does. If there is a weapon in the room, the method also prints out the weapon's type and average attack damage.
-        /// If there is a spell in the room, the method also prints out the spell's name and the effect.
-        /// </remarks>
-        /// <param name="roomNumber">The room number of the room, first, second etc</param>
+        /// <param name="room">The room to display information for.</param>
+        /// <param name="roomNumber">The index of the room in the dungeon sequence.</param>
         public static void DisplayRoomInformation(Room room, int roomNumber)
         {
             Testing.TestForZeroOrAbove(roomNumber);
@@ -85,13 +81,10 @@ namespace DungeonExplorer
             }
             Console.WriteLine();
         }
-        // TODO : Documentation
         /// <summary>
-        /// Prints multiple lines to the console displaying information about the Player
+        /// Displays the player's current details, including health and equipped weapon.
         /// </summary>
-        /// <remarks>
-        /// Shows the Player's health, maximum health and what weapon is currently equipped
-        /// </remarks>
+        /// <param name="player">The player whose details are to be displayed.</param>
         public static void DisplayPlayerDetails(Player player)
         {
             Console.WriteLine($"\nCharacter Details:");
@@ -100,9 +93,11 @@ namespace DungeonExplorer
             return;
         }
         /// <summary>
-        /// <c>ShowTurnDecisions</c> prints all decisions that the Player can make to the console
+        /// Presents the player with a list of possible actions they can take during their turn.
+        /// The available options depend on the state of the room and the player's inventory.
         /// </summary>
-        /// <param name="monsterAlive">true if the Monster's health is greater than 0</param>
+        /// <param name="room">The room in which the player is currently located.</param>
+        /// <param name="player">The player making the decision.</param>
         public static void ShowTurnDecisions(Room room, Player player)
         {
             Debug.Assert(!(room.IsMonsterAlive() == true && room.IsMonsterAlive() == false), "Error: monsterAlive was both true and false");
@@ -141,7 +136,14 @@ namespace DungeonExplorer
             Console.WriteLine("Congratulations. You have won! Here is your treasure");
             return;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets a numeric input from the user within a specified range. 
+        /// Optionally allows 'm' as a special input.
+        /// </summary>
+        /// <param name="minInput">The minimum valid input value.</param>
+        /// <param name="maxInput">The maximum valid input value.</param>
+        /// <param name="mAsInput">Indicates whether the 'm' key should be treated as a valid input (returns 10).</param>
+        /// <returns>The validated integer input from the user, or 10 if 'm' is pressed and allowed.</returns>
         public static int GetInput(int minInput, int maxInput, bool mAsInput)
         {
             while (true)
@@ -169,7 +171,14 @@ namespace DungeonExplorer
                 }
             }
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Displays attack results for both the player and the monster. 
+        /// Determines if the monster or player has died and announces the outcome.
+        /// </summary>
+        /// <param name="player">The player involved in the battle.</param>
+        /// <param name="monster">The monster being fought.</param>
+        /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
+        /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
         public static void DisplayAttackInformation(Player player, Monster monster, int playerAttackDamage, int monsterAttackDamage)
         {
             if (monster.Health <= 0)
@@ -188,16 +197,14 @@ namespace DungeonExplorer
             string monsterAttackMessage = monster.GetAttackMessage(monsterAttackDamage);
             Console.WriteLine(monsterAttackMessage + $"You now have {player.Health}/{player.MaxHealth}");
         }
-        //TODO: Documentation
         /// <summary>
-        /// Prints multiple strings of all items in the player's inventory
+        /// Displays attack results for both the player and the monster. 
+        /// Determines if the monster or player has died and announces the outcome.
         /// </summary>
-        /// <remarks>
-        /// First we check that there are items in the inventory, if there is then the inventory is sorted
-        /// by item type. For each item in the Player's inventory, a message is written to the console that 
-        /// displays the item's name. If the inventory is empty, a message is printed which communicates 
-        /// this to the player instead
-        /// </remarks>
+        /// <param name="player">The player involved in the battle.</param>
+        /// <param name="monster">The monster being fought.</param>
+        /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
+        /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
         public static void ViewItemsInInventory(Player player)
         {
             // If there are no items in the inventory, show an error
@@ -225,7 +232,11 @@ namespace DungeonExplorer
             }
             return;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Displays the contents of an enumerable collection, optionally showing an index for each item.
+        /// </summary>
+        /// <param name="enumerable">The enumerable collection to display.</param>
+        /// <param name="showIndex">If true, each item is prefixed with its index in the list.</param>
         public static void DisplayEnumerable(IEnumerable<object> enumerable, bool showIndex)
         {
             if (enumerable.Count() == 0)
@@ -248,7 +259,13 @@ namespace DungeonExplorer
             }
             return;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Displays the player's weapon inventory, including the equipped weapon and other weapons.
+        /// The player can select a weapon to equip.
+        /// </summary>
+        /// <param name="weaponEnumerable">The collection of weapons in the player's inventory.</param>
+        /// <param name="showIndex">If true, each weapon is prefixed with its index in the list.</param>
+        /// <param name="player">The player whose inventory is being displayed.</param>
         public static void DisplayEnumerable(IEnumerable<Weapon> weaponEnumerable, bool showIndex, Player player)
         {
             if (weaponEnumerable.Count() == 0)
@@ -271,7 +288,13 @@ namespace DungeonExplorer
                 }
             }
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Displays the player's spell inventory, listing all available spells.
+        /// The player can select a spell to equip.
+        /// </summary>
+        /// <param name="spellEnumerable">The collection of spells in the player's inventory.</param>
+        /// <param name="showIndex">If true, each spell is prefixed with its index in the list.</param>
+        /// <param name="player">The player whose inventory is being displayed.</param>
         public static void DisplayEnumerable(IEnumerable<Spell> spellEnumerable, bool showIndex, Player player)
         {
             if (spellEnumerable.Count() == 0)
