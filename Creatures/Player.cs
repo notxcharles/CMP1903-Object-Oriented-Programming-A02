@@ -312,43 +312,7 @@ namespace DungeonExplorer
             }
             return;
         }
-        // TODO: documentation
-        /// <summary>
-        /// Call <c>SelectWeaponInInventory()</c> and then read the user's input as to the action they choose
-        /// </summary>
-        /// <returns>The integer index of the item in _inventory that the user selects</returns>
-        public int SelectSpellInInventory()
-        {
-            var spellsWithIndex = _inventory.OfType<Spell>().Select((weapon, index) => (weapon, index));
-            ViewSpellsInInventory();
-            // Player can't select an item in their inventory if their inventory is empty
-            if (spellsWithIndex.Count() == 0)
-            {
-                return -1;
-            }
-            while (true)
-            {
-                ConsoleKeyInfo key = Console.ReadKey();
-                try
-                {
-                    int keyAsInt = Convert.ToInt32(key.KeyChar.ToString());
-                    if (keyAsInt >= 0 && keyAsInt < spellsWithIndex.Count())
-                    {
-                        return keyAsInt;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{key} was pressed. You must press a key that " +
-                            $"corresponds to a spell");
-                    }
-                }
-                catch (FormatException e)
-                {
-                    Console.WriteLine($"{key} was pressed. You may only press a key that " +
-                        $"corresponds to a spell");
-                }
-            }
-        }
+
         // TODO: Documentations
         public void UseSpell(int spellIndex)
         {
