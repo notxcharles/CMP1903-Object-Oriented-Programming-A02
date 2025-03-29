@@ -51,37 +51,55 @@ namespace DungeonExplorer
         public void Start()
         {
             int roomNumber = 0;
-            GameStartDisplay();
+            UserInterface.DisplayGameStart(_gameName);
             _currentRoom = _rooms[roomNumber];
             while (roomNumber < _numberOfRooms)
             {
-                _currentRoom.WelcomePlayer(roomNumber);
-                int decision = _player.GetTurnDecisions(_currentRoom);
+                UserInterface.DisplayRoomInformation(_currentRoom, roomNumber);
+                UserInterface.DisplayPlayerDetails(_player);
+                UserInterface.ShowTurnDecisions(_currentRoom, _player);
+                int decision = UserInterface.GetInput(0, 9, true);
                 Debug.Assert(decision >= 0 && decision <= 10, "Error: Decision must be an integer value from 0 to 8");
                 if (decision == 0)
                 {
                     //Player wants to view inventory
-                    _player.ViewItemsInInventory();
+                    UserInterface.ViewItemsInInventory(_player);
                 }
                 else if (decision == 1)
                 {
                     //player has chosen to change their equipped item
-                    int weaponChosen = _player.SelectWeaponInInventory();
-                    if (weaponChosen == -1)
+                    List<Weapon> weapons = _player.GetWeaponsInInventory();
+                    if (weapons == null)
                     {
+                        UserInterface.EndTurn();
                         continue;
                     }
-                    _player.EquipDifferentWeapon(weaponChosen);
+                    UserInterface.DisplayEnumerable(weapons, true, _player);
+                    int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false);
+                    if (weaponChosenIndex == -1)
+                    {
+                        UserInterface.EndTurn();
+                        continue;
+                    }
+                    _player.EquipDifferentWeapon(weaponChosenIndex);
                 }
                 else if (decision == 2)
                 {
-                    //player has chosen to pickup a weapon
-                    int spellToUse = _player.SelectSpellInInventory();
-                    if (spellToUse == -1)
+                    //player has chosen to use a spell
+                    List<Spell> spells = _player.GetSpellsInInventory();
+                    if (spells == null)
                     {
+                        UserInterface.EndTurn();
                         continue;
                     }
-                    _player.UseSpell(spellToUse);
+                    UserInterface.DisplayEnumerable(spells, true, _player);
+                    int spellChosenIndex = UserInterface.GetInput(0, spells.Count, false);
+                    if (spellChosenIndex == -1)
+                    {
+                        UserInterface.EndTurn();
+                        continue;
+                    }
+                    _player.UseSpell(spellChosenIndex);
                 }
                 else if (decision == 3)
                 {
@@ -144,53 +162,21 @@ namespace DungeonExplorer
                         _currentRoom.WeaponPickedUp();
                     }
                 }
+                else if (decision == 9)
+                {
+                    Environment.Exit(0);
+                }
                 else if (decision == 10)
                 {
                     //Show map
                     _map.CreateMap(roomNumber);
                 }
-                PromptNextTurn();
-                ClearConsole();
+                UserInterface.EndTurn();
             }
-            FinishGame();
+            UserInterface.DisplayFinishGame();
             return;
         }
-        /// <summary>
-        /// Clears the games console
-        /// </summary>
-        public void ClearConsole()
-        {
-            Console.Clear();
-            // Ocasionally, Console.Clear() won't completely clear the console, so the following line solves that error
-            Console.WriteLine("\x1b[3J");
-            return;
-        }
-        /// <summary>
-        /// Prints the display for the start of the game
-        /// </summary>
-        /// <remarks>
-        /// This prints multiple messages to the console, welcoming the user to the game. <c>this._gameName</c> is
-        /// used as the title of the game
-        /// </remarks>
-        public void GameStartDisplay()
-        {
-            ClearConsole();
-            Console.WriteLine($"Welcome to {_gameName}");
-            Console.WriteLine($"You must battle your way through each room. In each room you will have to defeat a " +
-                $"monster who will have the the key to unlock the door!");
-            Console.WriteLine("Press any key to start the game. . .");
-            Console.ReadKey();
-            ClearConsole();
-            return;
-        }
-        /// <summary>
-        /// Prompts the player to press a key to advance to the next turn
-        /// </summary>
-        public void PromptNextTurn()
-        {
-            Console.WriteLine("Press any key to continue");
-            ConsoleKeyInfo key = Console.ReadKey();
-        }
+        
         /// <summary>
         /// Check if the currentRoom's door is locked
         /// </summary>
@@ -229,39 +215,18 @@ namespace DungeonExplorer
             monster.Health -= playerAttackDamage;
             int monsterAttackDamage = -1;
             if (monster.Health > 0)
-            { 
+            {
                 monsterAttackDamage = monster.GetAttackDamage();
                 player.Health -= monsterAttackDamage;
             }
-            if (monster.Health <= 0)
+            else
             {
-                Console.WriteLine($"You have killed the monster! You did {playerAttackDamage} damage. Congratulations!");
                 room.MonsterInTheRoom = null;
                 room.DoorIsLocked = false;
             }
-            else if (player.Health <= 0)
-            {
-                Console.WriteLine($"The monster has killed you! You took {monsterAttackDamage} damage. Game Over");
-                Environment.Exit(1);
-            }
-            else
-            {
-                Console.WriteLine($"You have hit the monster for {playerAttackDamage} damage. " +
-                    $"The monster now has {monster.Health}/{monster.MaxHealth}");
-                monster.DisplayAttack(monsterAttackDamage);
-                Console.WriteLine($"The monster has hit you for {monsterAttackDamage} damage. " +
-                    $"You now have {player.Health}/{player.MaxHealth}");
-            }
-            Console.WriteLine("here");
+            UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage);
             return;
         }
-        /// <summary>
-        /// <c>FinishGame</c> prints a message to the console that lets the user know that they have finished the game
-        /// </summary>
-        public void FinishGame()
-        {
-            Console.WriteLine("Congratulations. You have won! Here is your treasure");
-            return;
-        }
+        
     }
 }

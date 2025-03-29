@@ -9,8 +9,7 @@ namespace DungeonExplorer.Creatures
     public interface ICanDamage
     {
         Weapon Weapon { get; }
-
         int GetAttackDamage();
-        void DisplayAttack(int damage);
+        string GetAttackMessage(int damage);
     }
 }

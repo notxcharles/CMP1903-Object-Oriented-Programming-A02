@@ -135,10 +135,10 @@ namespace DungeonExplorer
             return (int)(_weapon.GetAttackDamage()*_difficulty);
         }
         //TODO: Documentation Strings
-        public virtual void DisplayAttack(int damage)
+        public virtual string GetAttackMessage(int damage)
         {
             Console.WriteLine($"DEBUG: {this.GetType().Name} has {_difficulty} difficulty");
-            Console.WriteLine($"The {this.GetType().Name}, {Name} dealt {damage} damage");
+            return $"The {this.GetType().Name}, {Name} dealt {damage} damage";
         }
     }
 }

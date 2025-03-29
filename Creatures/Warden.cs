@@ -15,9 +15,9 @@ namespace DungeonExplorer.Creatures
 
         }
         // TODO: Documentation
-        public override void DisplayAttack(int damage)
+        public override string GetAttackMessage(int damage)
         {
-            Console.WriteLine($"The Warden released a sonic boom that dealt {damage} damage!");
+            return $"The Warden released a sonic boom that dealt {damage} damage!";
         }
     }
 }
