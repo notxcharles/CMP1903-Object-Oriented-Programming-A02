@@ -38,7 +38,7 @@ namespace DungeonExplorer
         /// This prints multiple messages to the console, welcoming the user to the game. <c>this._gameName</c> is
         /// used as the title of the game
         /// </remarks>
-        public static void GameStartDisplay(string gameName)
+        public static void DisplayGameStart(string gameName)
         {
             ClearConsole();
             Console.WriteLine($"Welcome to {gameName}");
@@ -50,7 +50,7 @@ namespace DungeonExplorer
         /// <summary>
         /// <c>FinishGame</c> prints a message to the console that lets the user know that they have finished the game
         /// </summary>
-        public static void FinishGame()
+        public static void DisplayFinishGame()
         {
             Console.WriteLine("Congratulations. You have won! Here is your treasure");
             return;
@@ -80,7 +80,7 @@ namespace DungeonExplorer
             }
         }
         // TODO: Documentation
-        public static void ShowEnumerable(IEnumerable<object> enumerable, bool showIndex)
+        public static void DisplayEnumerable(IEnumerable<object> enumerable, bool showIndex)
         {
             if (enumerable.Count() == 0)
             {
@@ -103,7 +103,7 @@ namespace DungeonExplorer
             return;
         }
         // TODO: Documentation
-        public static void ShowEnumerable(IEnumerable<Weapon> weaponEnumerable, bool showIndex, Player player)
+        public static void DisplayEnumerable(IEnumerable<Weapon> weaponEnumerable, bool showIndex, Player player)
         {
             if (weaponEnumerable.Count() == 0)
             {

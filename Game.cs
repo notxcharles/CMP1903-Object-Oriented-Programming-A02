@@ -51,7 +51,7 @@ namespace DungeonExplorer
         public void Start()
         {
             int roomNumber = 0;
-            UserInterface.GameStartDisplay(_gameName);
+            UserInterface.DisplayGameStart(_gameName);
             _currentRoom = _rooms[roomNumber];
             while (roomNumber < _numberOfRooms)
             {
@@ -72,7 +72,7 @@ namespace DungeonExplorer
                         UserInterface.EndTurn();
                         continue;
                     }
-                    UserInterface.ShowEnumerable(weapons, true, _player);
+                    UserInterface.DisplayEnumerable(weapons, true, _player);
                     int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count);
                     if (weaponChosenIndex == -1)
                     {
@@ -159,7 +159,7 @@ namespace DungeonExplorer
                 }
                 UserInterface.EndTurn();
             }
-            UserInterface.FinishGame();
+            UserInterface.DisplayFinishGame();
             return;
         }
         
