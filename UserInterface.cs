@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer
 {
-    // TODO: Documentation
+    /// <summary>
+    /// Provides methods for displaying information and interacting with the user via the console.
+    /// This class handles all user interface logic for the game.
+    /// </summary>
     public class UserInterface
     {
         /// <summary>
