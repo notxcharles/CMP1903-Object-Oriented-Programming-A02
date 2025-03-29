@@ -125,5 +125,27 @@ namespace DungeonExplorer
                 }
             }
         }
+        // TODO: Documentation
+        public static void DisplayEnumerable(IEnumerable<Spell> spellEnumerable, bool showIndex, Player player)
+        {
+            if (spellEnumerable.Count() == 0)
+            {
+                Console.WriteLine($"You have no Spells in your inventory. You can hold up to {player.MaxInventorySpace - player.GetTotalItemsInInventory()} spells.");
+                return;
+            }
+            List<Spell> spellList = spellEnumerable.ToList();
+            Console.WriteLine($"Spells in your inventory, press the corresponding key to equip the weapon:");
+            for (int i = 0; i < spellList.Count; i++)
+            {
+                if (showIndex)
+                {
+                    Console.WriteLine($"-{i}: {spellList[i].CreateSummary()}");
+                }
+                else
+                {
+                    Console.WriteLine($"- {spellList[i].CreateSummary()}");
+                }
+            }
+        }
     }
 }

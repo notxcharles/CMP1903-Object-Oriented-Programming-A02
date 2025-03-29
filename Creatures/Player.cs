@@ -257,7 +257,7 @@ namespace DungeonExplorer
             List<Weapon> sortedWeaponList = sortedWeapons.ToList();
             if (sortedWeaponList.Count == 0)
             {
-                Console.WriteLine("You have no weapon in your inventory");
+                Console.WriteLine("You have no weapons in your inventory");
                 return null;
             }
             return sortedWeaponList;
@@ -283,6 +283,17 @@ namespace DungeonExplorer
             return;
         }
         // TODO: Documentation
+        public List<Spell> GetSpellsInInventory()
+        {
+            var spells = _inventory.OfType<Spell>().Select(spell => spell);
+            List<Spell> spellsList = spells.ToList();
+            if (spellsList.Count == 0)
+            {
+                Console.WriteLine("You have no spells in your inventory");
+                return null;
+            }
+            return spellsList;
+        }
         public void ViewSpellsInInventory()
         {
             var spellsWithIndex = _inventory.OfType<Spell>().Select((spell, index) => (spell, index));
