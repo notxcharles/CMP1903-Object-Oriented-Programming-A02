@@ -100,42 +100,7 @@ namespace DungeonExplorer
             }
             return;
         }
-        /// <summary>
-        /// Prints multiple strings of all items in the player's inventory
-        /// </summary>
-        /// <remarks>
-        /// First we check that there are items in the inventory, if there is then the inventory is sorted
-        /// by item type. For each item in the Player's inventory, a message is written to the console that 
-        /// displays the item's name. If the inventory is empty, a message is printed which communicates 
-        /// this to the player instead
-        /// </remarks>
-        public void ViewItemsInInventory()
-        {
-            // If there are no items in the inventory, show an error
-            if (_inventory.Count == 0)
-            {
-                Console.WriteLine($"You have no items in your inventory. You can hold up to {MaxInventorySpace} items.");
-            }
-            else
-            {
-                Console.WriteLine($"Current equipped weapon: {_currentEquippedWeapon.CreateSummary()}");
-                Console.WriteLine($"Weapons in your inventory:");
-                var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon);
-                foreach (var weapon in weaponsWithIndex)
-                {
-                    Console.WriteLine($"- {weapon.CreateSummary()}");
-                }
-                Console.WriteLine($"Spells in your inventory:");
-                var spellsWithIndex = _inventory.OfType<Spell>().Select(spell => spell);
-                foreach (var spell in spellsWithIndex)
-                {
-                    Console.WriteLine($"- {spell.CreateSummary()}");
-                }
-                Console.WriteLine($"You can hold up to {MaxInventorySpace} items in your inventory. You " +
-                    $"are currently holding {_inventory.Count} items.");                
-            }
-            return;
-        }
+        
         // TODO: Documentation
         public List<Weapon> GetWeaponsInInventory()
         {
