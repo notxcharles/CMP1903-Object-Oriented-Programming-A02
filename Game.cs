@@ -66,12 +66,20 @@ namespace DungeonExplorer
                 else if (decision == 1)
                 {
                     //player has chosen to change their equipped item
-                    int weaponChosen = _player.SelectWeaponInInventory();
-                    if (weaponChosen == -1)
+                    List<Weapon> weapons = _player.GetWeaponsInInventory();
+                    if (weapons == null)
                     {
+                        UserInterface.EndTurn();
                         continue;
                     }
-                    _player.EquipDifferentWeapon(weaponChosen);
+                    UserInterface.ShowEnumerable(weapons, true, _player);
+                    int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count);
+                    if (weaponChosenIndex == -1)
+                    {
+                        UserInterface.EndTurn();
+                        continue;
+                    }
+                    _player.EquipDifferentWeapon(weaponChosenIndex);
                 }
                 else if (decision == 2)
                 {
@@ -149,8 +157,7 @@ namespace DungeonExplorer
                     //Show map
                     _map.CreateMap(roomNumber);
                 }
-                UserInterface.PromptNextTurn();
-                UserInterface.ClearConsole();
+                UserInterface.EndTurn();
             }
             UserInterface.FinishGame();
             return;

@@ -249,67 +249,18 @@ namespace DungeonExplorer
             }
             return;
         }
-        
         // TODO: Documentation
-        public void ViewWeaponsInInventory()
+        public List<Weapon> GetWeaponsInInventory()
         {
             var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
             var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.AttackDamage descending select weapon;
             List<Weapon> sortedWeaponList = sortedWeapons.ToList();
-            if (weaponsWithIndex.Count() == 0)
+            if (sortedWeaponList.Count == 0)
             {
-                Console.WriteLine($"You have no weapons in your inventory. You can hold up to {MaxInventorySpace-_inventory.Count} weapons.");
-                return;
+                Console.WriteLine("You have no weapon in your inventory");
+                return null;
             }
-            else
-            {
-                Console.WriteLine($"Current equipped weapon: {_currentEquippedWeapon.CreateSummary()}");
-                Console.WriteLine($"Weapons in your inventory, press the corresponding key to equip the weapon:");
-                for (int i = 0; i < sortedWeaponList.Count; i++)
-                {
-                    Console.WriteLine($"-{i}: {sortedWeaponList[i].CreateSummary()}");
-                }
-            }
-            return;
-        }
-        // TODO: documentation
-        /// <summary>
-        /// Call <c>SelectWeaponInInventory()</c> and then read the user's input as to the action they choose
-        /// </summary>
-        /// <returns>The integer index of the item in _inventory that the user selects</returns>
-        public int SelectWeaponInInventory()
-        {
-            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
-            var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.AttackDamage descending select weapon;
-            List<Weapon> sortedWeaponList = sortedWeapons.ToList();
-            ViewWeaponsInInventory();
-            // Player can't select an item in their inventory if their inventory is empty
-            if (weaponsWithIndex.Count() == 0)
-            {
-                return -1;
-            }
-            while (true)
-            {
-                ConsoleKeyInfo key = Console.ReadKey();
-                try
-                {
-                    int keyAsInt = Convert.ToInt32(key.KeyChar.ToString());
-                    if (keyAsInt >= 0 && keyAsInt < sortedWeapons.Count())
-                    {
-                        return keyAsInt;
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{key} was pressed. You must press a key that " +
-                            $"corresponds to a weapon");
-                    }
-                }
-                catch (FormatException e)
-                {
-                    Console.WriteLine($"{key} was pressed. You may only press a key that " +
-                        $"corresponds to a weapon");
-                }
-            }
+            return sortedWeaponList;
         }
         /// <summary>
         /// Handles the logic for the player to equip a different weapon

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,10 +25,11 @@ namespace DungeonExplorer
         /// <summary>
         /// Prompts the player to press a key to advance to the next turn
         /// </summary>
-        public static void PromptNextTurn()
+        public static void EndTurn()
         {
             Console.WriteLine("Press any key to continue");
             ConsoleKeyInfo key = Console.ReadKey();
+            ClearConsole();
         }
         /// <summary>
         /// Prints the display for the start of the game
@@ -41,8 +44,7 @@ namespace DungeonExplorer
             Console.WriteLine($"Welcome to {gameName}");
             Console.WriteLine($"You must battle your way through each room. In each room you will have to defeat a " +
                 $"monster who will have the the key to unlock the door!");
-            PromptNextTurn();
-            ClearConsole();
+            EndTurn();
             return;
         }
         /// <summary>
@@ -52,6 +54,76 @@ namespace DungeonExplorer
         {
             Console.WriteLine("Congratulations. You have won! Here is your treasure");
             return;
+        }
+        // TODO: Documentation
+        public static int GetInput(int minInput, int maxInput)
+        {
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+                try
+                {
+                    int keyAsInt = Convert.ToInt32(key.KeyChar.ToString());
+                    if (keyAsInt >= minInput && keyAsInt <= maxInput)
+                    {
+                        return keyAsInt;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{key} was pressed. You must press a key from {minInput} to {maxInput}");
+                    }
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine($"{key} was pressed. You may only press a key from {minInput} to {maxInput}");
+                }
+            }
+        }
+        // TODO: Documentation
+        public static void ShowEnumerable(IEnumerable<object> enumerable, bool showIndex)
+        {
+            if (enumerable.Count() == 0)
+            {
+                Debug.Assert(enumerable.Count() <= 0, "The enumerable should not be empty");
+                return;
+            }
+            List<object> list = enumerable.ToList();
+            for (int i = 0; i < list.Count(); i++)
+            {
+                if (showIndex)
+                {
+                    Console.WriteLine($"-{i}: {list[i]}");
+                }
+                else
+                {
+                    Console.WriteLine($"- {list[i]}");
+                }
+                    
+            }
+            return;
+        }
+        // TODO: Documentation
+        public static void ShowEnumerable(IEnumerable<Weapon> weaponEnumerable, bool showIndex, Player player)
+        {
+            if (weaponEnumerable.Count() == 0)
+            {
+                Console.WriteLine($"You have no Weapons in your inventory. You can hold up to {player.MaxInventorySpace - player.GetTotalItemsInInventory()} weapons.");
+                return;
+            }
+            List<Weapon> weaponsList = weaponEnumerable.ToList();
+            Console.WriteLine($"Current equipped weapon: {player.Weapon.CreateSummary()}");
+            Console.WriteLine($"Weapons in your inventory, press the corresponding key to equip the weapon:");
+            for (int i = 0; i < weaponsList.Count; i++)
+            {
+                if (showIndex)
+                {
+                    Console.WriteLine($"-{i}: {weaponsList[i].CreateSummary()}");
+                }
+                else
+                {
+                    Console.WriteLine($"- {weaponsList[i].CreateSummary()}");
+                }
+            }
         }
     }
 }
