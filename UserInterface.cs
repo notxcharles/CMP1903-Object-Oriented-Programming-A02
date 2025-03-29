@@ -188,6 +188,43 @@ namespace DungeonExplorer
             string monsterAttackMessage = monster.GetAttackMessage(monsterAttackDamage);
             Console.WriteLine(monsterAttackMessage + $"You now have {player.Health}/{player.MaxHealth}");
         }
+        //TODO: Documentation
+        /// <summary>
+        /// Prints multiple strings of all items in the player's inventory
+        /// </summary>
+        /// <remarks>
+        /// First we check that there are items in the inventory, if there is then the inventory is sorted
+        /// by item type. For each item in the Player's inventory, a message is written to the console that 
+        /// displays the item's name. If the inventory is empty, a message is printed which communicates 
+        /// this to the player instead
+        /// </remarks>
+        public static void ViewItemsInInventory(Player player)
+        {
+            // If there are no items in the inventory, show an error
+            if (player.GetTotalItemsInInventory() == 0)
+            {
+                Console.WriteLine($"You have no items in your inventory. You can hold up to {player.MaxInventorySpace} items.");
+            }
+            else
+            {
+                Console.WriteLine($"Current equipped weapon: {player.Weapon.CreateSummary()}");
+                Console.WriteLine($"Weapons in your inventory:");
+                List<Weapon> weapons = player.GetWeaponsInInventory();
+                foreach (Weapon weapon in weapons)
+                {
+                    Console.WriteLine($"- {weapon.CreateSummary()}");
+                }
+                Console.WriteLine($"Spells in your inventory:");
+                List<Spell> spells = player.GetSpellsInInventory();
+                foreach (var spell in spells)
+                {
+                    Console.WriteLine($"- {spell.CreateSummary()}");
+                }
+                Console.WriteLine($"You can hold up to {player.MaxInventorySpace} items in your inventory. You " +
+                    $"are currently holding {player.GetTotalItemsInInventory()} items.");
+            }
+            return;
+        }
         // TODO: Documentation
         public static void DisplayEnumerable(IEnumerable<object> enumerable, bool showIndex)
         {

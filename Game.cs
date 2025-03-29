@@ -63,7 +63,7 @@ namespace DungeonExplorer
                 if (decision == 0)
                 {
                     //Player wants to view inventory
-                    _player.ViewItemsInInventory();
+                    UserInterface.ViewItemsInInventory(_player);
                 }
                 else if (decision == 1)
                 {
