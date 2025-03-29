@@ -47,6 +47,54 @@ namespace DungeonExplorer
             EndTurn();
             return;
         }
+        // TODO : Documentation
+        /// <summary>
+        /// Prints multiple lines to the console displaying information about the Player
+        /// </summary>
+        /// <remarks>
+        /// Shows the Player's health, maximum health and what weapon is currently equipped
+        /// </remarks>
+        public static void DisplayPlayerDetails(Player player)
+        {
+            Console.WriteLine($"\nCharacter Details:");
+            Console.WriteLine($"Health: {player.Health}/{player.MaxHealth}");
+            Console.WriteLine($"Equipped Weapon: {player.Weapon.CreateSummary()}\n");
+            return;
+        }
+        /// <summary>
+        /// <c>ShowTurnDecisions</c> prints all decisions that the Player can make to the console
+        /// </summary>
+        /// <param name="monsterAlive">true if the Monster's health is greater than 0</param>
+        public static void ShowTurnDecisions(Room room, Player player)
+        {
+            Debug.Assert(!(room.IsMonsterAlive() == true && room.IsMonsterAlive() == false), "Error: monsterAlive was both true and false");
+            Console.WriteLine("What do you want to do?");
+            Console.WriteLine("(0) View Inventory");
+            Console.WriteLine("(1) Change Equipped Weapon");
+            Console.WriteLine("(2) Use a spell");
+            if (room.ClueInTheRoom != null)
+            {
+                Console.WriteLine("(3) Read the clue");
+            }
+            Console.WriteLine("(4) Open the door");
+            Console.WriteLine("(5) View room name and description again");
+            if (room.IsMonsterAlive())
+            {
+                Console.WriteLine($"(6) Attack Monster with {player.Weapon.Name}");
+            }
+            if (room.SpellInTheRoom != null)
+            {
+                Console.WriteLine($"(7) Pick up spell");
+            }
+            if (room.WeaponInTheRoom != null)
+            {
+                Console.WriteLine($"(8) Pick up weapon");
+            }
+
+            Console.WriteLine("(9) Exit game");
+            Console.WriteLine("(m) Display map");
+            return;
+        }
         /// <summary>
         /// <c>FinishGame</c> prints a message to the console that lets the user know that they have finished the game
         /// </summary>
@@ -56,7 +104,7 @@ namespace DungeonExplorer
             return;
         }
         // TODO: Documentation
-        public static int GetInput(int minInput, int maxInput)
+        public static int GetInput(int minInput, int maxInput, bool mAsInput)
         {
             while (true)
             {
@@ -75,6 +123,10 @@ namespace DungeonExplorer
                 }
                 catch (FormatException e)
                 {
+                    if (mAsInput && key.KeyChar.ToString() == "m")
+                    {
+                        return 10;
+                    }
                     Console.WriteLine($"{key} was pressed. You may only press a key from {minInput} to {maxInput}");
                 }
             }

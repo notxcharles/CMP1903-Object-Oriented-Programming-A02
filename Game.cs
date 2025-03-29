@@ -56,7 +56,9 @@ namespace DungeonExplorer
             while (roomNumber < _numberOfRooms)
             {
                 _currentRoom.WelcomePlayer(roomNumber);
-                int decision = _player.GetTurnDecisions(_currentRoom);
+                UserInterface.DisplayPlayerDetails(_player);
+                UserInterface.ShowTurnDecisions(_currentRoom, _player);
+                int decision = UserInterface.GetInput(0, 9, true);
                 Debug.Assert(decision >= 0 && decision <= 10, "Error: Decision must be an integer value from 0 to 8");
                 if (decision == 0)
                 {
@@ -73,7 +75,7 @@ namespace DungeonExplorer
                         continue;
                     }
                     UserInterface.DisplayEnumerable(weapons, true, _player);
-                    int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count);
+                    int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false);
                     if (weaponChosenIndex == -1)
                     {
                         UserInterface.EndTurn();
@@ -91,7 +93,7 @@ namespace DungeonExplorer
                         continue;
                     }
                     UserInterface.DisplayEnumerable(spells, true, _player);
-                    int spellChosenIndex = UserInterface.GetInput(0, spells.Count);
+                    int spellChosenIndex = UserInterface.GetInput(0, spells.Count, false);
                     if (spellChosenIndex == -1)
                     {
                         UserInterface.EndTurn();
@@ -160,6 +162,10 @@ namespace DungeonExplorer
                         _currentRoom.WeaponPickedUp();
                     }
                 }
+                else if (decision == 9)
+                {
+                    Environment.Exit(0);
+                }
                 else if (decision == 10)
                 {
                     //Show map
@@ -218,7 +224,7 @@ namespace DungeonExplorer
                 room.MonsterInTheRoom = null;
                 room.DoorIsLocked = false;
             }
-            UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage)
+            UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage);
             return;
         }
         
