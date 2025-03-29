@@ -196,9 +196,9 @@ namespace DungeonExplorer
                 return;
             }
             string playerAttackMessage = player.GetAttackMessage(playerAttackDamage);
-            Console.WriteLine(playerAttackMessage + $"The monster now has {monster.Health}/{monster.MaxHealth}");
+            Console.WriteLine(playerAttackMessage + $"! The monster now has {monster.Health}/{monster.MaxHealth} hp.");
             string monsterAttackMessage = monster.GetAttackMessage(monsterAttackDamage);
-            Console.WriteLine(monsterAttackMessage + $"You now have {player.Health}/{player.MaxHealth}");
+            Console.WriteLine(monsterAttackMessage + $"You now have {player.Health}/{player.MaxHealth} hp.");
         }
         /// <summary>
         /// Displays attack results for both the player and the monster. 

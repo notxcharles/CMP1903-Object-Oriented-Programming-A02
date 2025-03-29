@@ -186,7 +186,7 @@ namespace DungeonExplorer
         // TODO: Documentation
         public string GetAttackMessage(int damage)
         {
-            return $"The player attacked with their weapon {_currentEquippedWeapon} and did {damage} damage";
+            return $"The player attacked with their weapon {_currentEquippedWeapon.Name} and did {damage} damage";
         }
     }
 }
