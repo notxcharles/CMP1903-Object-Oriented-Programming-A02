@@ -80,6 +80,26 @@ namespace DungeonExplorer
             }
         }
         // TODO: Documentation
+        public static void DisplayAttackInformation(Player player, Monster monster, int playerAttackDamage, int monsterAttackDamage)
+        {
+            if (monster.Health <= 0)
+            {
+                Console.WriteLine($"You have killed the monster! You did {playerAttackDamage} damage. Congratulations!");
+                return;
+            }
+            else if (player.Health <= 0)
+            {
+                Console.WriteLine($"The monster has killed you! You took {monsterAttackDamage} damage. Game Over");
+                Environment.Exit(1);
+                return;
+            }
+            Console.WriteLine($"You have hit the monster for {playerAttackDamage} damage. " +
+                    $"The monster now has {monster.Health}/{monster.MaxHealth}");
+            monster.DisplayAttack(monsterAttackDamage);
+            Console.WriteLine($"The monster has hit you for {monsterAttackDamage} damage. " +
+                $"You now have {player.Health}/{player.MaxHealth}");
+        }
+        // TODO: Documentation
         public static void DisplayEnumerable(IEnumerable<object> enumerable, bool showIndex)
         {
             if (enumerable.Count() == 0)
