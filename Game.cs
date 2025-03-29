@@ -51,7 +51,7 @@ namespace DungeonExplorer
         public void Start()
         {
             int roomNumber = 0;
-            GameStartDisplay();
+            UserInterface.GameStartDisplay(_gameName);
             _currentRoom = _rooms[roomNumber];
             while (roomNumber < _numberOfRooms)
             {
@@ -149,48 +149,13 @@ namespace DungeonExplorer
                     //Show map
                     _map.CreateMap(roomNumber);
                 }
-                PromptNextTurn();
-                ClearConsole();
+                UserInterface.PromptNextTurn();
+                UserInterface.ClearConsole();
             }
-            FinishGame();
+            UserInterface.FinishGame();
             return;
         }
-        /// <summary>
-        /// Clears the games console
-        /// </summary>
-        public void ClearConsole()
-        {
-            Console.Clear();
-            // Ocasionally, Console.Clear() won't completely clear the console, so the following line solves that error
-            Console.WriteLine("\x1b[3J");
-            return;
-        }
-        /// <summary>
-        /// Prints the display for the start of the game
-        /// </summary>
-        /// <remarks>
-        /// This prints multiple messages to the console, welcoming the user to the game. <c>this._gameName</c> is
-        /// used as the title of the game
-        /// </remarks>
-        public void GameStartDisplay()
-        {
-            ClearConsole();
-            Console.WriteLine($"Welcome to {_gameName}");
-            Console.WriteLine($"You must battle your way through each room. In each room you will have to defeat a " +
-                $"monster who will have the the key to unlock the door!");
-            Console.WriteLine("Press any key to start the game. . .");
-            Console.ReadKey();
-            ClearConsole();
-            return;
-        }
-        /// <summary>
-        /// Prompts the player to press a key to advance to the next turn
-        /// </summary>
-        public void PromptNextTurn()
-        {
-            Console.WriteLine("Press any key to continue");
-            ConsoleKeyInfo key = Console.ReadKey();
-        }
+        
         /// <summary>
         /// Check if the currentRoom's door is locked
         /// </summary>
@@ -255,13 +220,6 @@ namespace DungeonExplorer
             Console.WriteLine("here");
             return;
         }
-        /// <summary>
-        /// <c>FinishGame</c> prints a message to the console that lets the user know that they have finished the game
-        /// </summary>
-        public void FinishGame()
-        {
-            Console.WriteLine("Congratulations. You have won! Here is your treasure");
-            return;
-        }
+        
     }
 }
