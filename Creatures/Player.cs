@@ -100,19 +100,6 @@ namespace DungeonExplorer
             }
             return;
         }
-        
-        /// <summary>
-        /// Prints multiple lines to the console displaying information about the Player
-        /// </summary>
-        /// <remarks>
-        /// Shows the Player's health, maximum health and what weapon is currently equipped
-        /// </remarks>
-        public void ShowCharacterDetails()
-        {
-            Console.WriteLine($"\nCharacter Details:");
-            Console.WriteLine($"Health: {Health}/{MaxHealth}");
-            return;
-        }
         // TODO : Documentation
         /// <summary>
         /// Prints multiple lines to the console displaying information about the Player
@@ -294,25 +281,7 @@ namespace DungeonExplorer
             }
             return spellsList;
         }
-        public void ViewSpellsInInventory()
-        {
-            var spellsWithIndex = _inventory.OfType<Spell>().Select((spell, index) => (spell, index));
-            if (spellsWithIndex.Count() == 0)
-            {
-                Console.WriteLine($"You have no spells in your inventory. You can hold up to {MaxInventorySpace - _inventory.Count} spells.");
-                return;
-            }
-            else
-            {
-                Console.WriteLine($"Spells in your inventory, press the corresponding key to use the spell:");
-                foreach (var (weapon, index) in spellsWithIndex)
-                {
-                    Console.WriteLine($"-{index}: {weapon.CreateSummary()}");
-                }
-            }
-            return;
-        }
-        // TODO: Documentations
+        // TODO: Documentation
         public void UseSpell(int spellIndex)
         {
             var spellsWithIndex = _inventory.OfType<Spell>().Select(spell => spell).ToList();
