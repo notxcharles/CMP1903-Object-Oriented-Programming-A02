@@ -46,7 +46,23 @@ namespace DungeonExplorer
                 }
                 else if (_rooms[i] is PuzzleRoom puzzleRoom)
                 {
-
+                    string roomName = puzzleRoom.RoomName;
+                    if (i == currentRoomIndex)
+                    {
+                        Console.Write("--> Current ");
+                    }
+                    Console.Write($"Room {i + 1}: {roomName} contains a puzzle that involves guessing a number!");
+                    if (puzzleRoom.Weapon != null)
+                    {
+                        string weaponName = puzzleRoom.Weapon.Name;
+                        Console.Write($" Contains a {weaponName}.");
+                    }
+                    if (puzzleRoom.Spell != null)
+                    {
+                        string spellName = puzzleRoom.Spell.Name;
+                        Console.Write($" Contains a {spellName}. ");
+                    }
+                    Console.Write("\n");
                 }
             }
             
