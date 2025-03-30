@@ -18,7 +18,7 @@ namespace DungeonExplorer
             get { return _healAmount; }
             private set { _healAmount = value; }
         }
-        public string CreateSummary()
+        public override string CreateSummary()
         {
             string summary = $"A {Name}! This heals the player for {_healAmount} health!";
             return summary;
