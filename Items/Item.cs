@@ -22,5 +22,9 @@ namespace DungeonExplorer
             get { return _name; }
             protected set { _name = value; }
         }
+        public virtual string CreateSummary()
+        {
+            return $"This item is called {Name}";
+        }
     }
 }
