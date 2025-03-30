@@ -66,7 +66,7 @@ namespace DungeonExplorer
             if (room.Monster != null)
             {
                 Console.WriteLine($"A {room.Monster.GetType().Name} called {room.Monster.Name} is present! It has {room.Monster.Health} " +
-                    $"health and does an average of {room.Monster.GetAttackDamage()} attack damage!");
+                    $"health and does an average of {room.Monster.GetAttackDamage()} attack damage! Monster's difficulty: {room.Monster.DifficultyLevel}");
             }
             else
             {

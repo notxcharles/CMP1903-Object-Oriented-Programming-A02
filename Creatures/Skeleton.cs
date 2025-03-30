@@ -15,7 +15,6 @@ namespace DungeonExplorer.Creatures
 
         }
         // TODO: Documentation
-
         public override string GetAttackMessage(int damage)
         {
             return $"The Skeleton shot you with its bow and arrow! It dealt {damage}!";

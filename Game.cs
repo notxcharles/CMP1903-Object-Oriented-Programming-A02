@@ -34,7 +34,7 @@ namespace DungeonExplorer
             _player = player;
 
             MonsterRoom room1 = new MonsterRoom(
-                new Witch("Witch", 100, new Weapon("Spell", 30)),
+                new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130),
                 new Weapon(100),
                 new Spell("Potion of healing", 25),
                 new Hint("Hint 1", "You must defeat the monster before you can advance to the next room!"));
@@ -43,7 +43,7 @@ namespace DungeonExplorer
                 new Spell("Healing potion", 50), 
                 new Hint("Hint 2", $"The mystery number is 7"));
             MonsterRoom room3 = new MonsterRoom(
-                new Dragon("Dragon", 100, new Weapon("Fire Breating", 30)), 
+                new Dragon("Dragon", 100, new Weapon("Fire Breating", 30), 60, 150), 
                 new Weapon(100), 
                 new Spell("Potion of healing", 50));
             MonsterRoom room4 = new MonsterRoom(
@@ -58,7 +58,7 @@ namespace DungeonExplorer
                 new Weapon(100), 
                 new Spell("Potion of healing", 150));
             MonsterRoom room7 = new MonsterRoom(
-                new Warden("Warden", 100, new Weapon("Sonic Boom", 30)), 
+                new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140), 
                 new Weapon(100));
             _rooms.Add(room1);
             _rooms.Add(room2);

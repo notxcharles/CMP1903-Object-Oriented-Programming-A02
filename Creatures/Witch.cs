@@ -10,7 +10,7 @@ namespace DungeonExplorer.Creatures
     public class Witch : Monster
     {
         // TODO: Documentation
-        public Witch(string name, int health, Weapon weapon) : base(name, health, weapon)
+        public Witch(string name, int health, Weapon weapon, int minimumDifficulty, int maximumDifficulty) : base(name, health, weapon, minimumDifficulty, maximumDifficulty)
         {
 
         }

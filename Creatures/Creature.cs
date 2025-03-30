@@ -9,9 +9,9 @@ namespace DungeonExplorer
     // TODO: Documentationv
     public class Creature
     {
-        private string _name;
-        private int _health;
-        private int _maxHealth;
+        protected string _name;
+        protected int _health;
+        protected int _maxHealth;
         // TODO: Documentation
         public Creature(string name, int health)
         {
@@ -24,6 +24,16 @@ namespace DungeonExplorer
         {
             _health = health;
             _maxHealth = health;
+        }
+        // TODO: Documentation
+        public Creature(string name)
+        {
+            _name = name;
+        }
+        //TODO: Documentation
+        public Creature()
+        {
+
         }
         // TODO: Documentation
         public string Name
