@@ -52,9 +52,11 @@ namespace DungeonExplorer
         {
             int roomNumber = 0;
             UserInterface.DisplayGameStart(_gameName);
-            _currentRoom = _rooms[roomNumber];
+            
             while (roomNumber < _numberOfRooms)
             {
+                Console.WriteLine($"{roomNumber} < {_numberOfRooms}");
+                _currentRoom = _rooms[roomNumber];
                 UserInterface.DisplayRoomInformation(_currentRoom, roomNumber);
                 UserInterface.DisplayPlayerDetails(_player);
                 UserInterface.ShowTurnDecisions(_currentRoom, _player);
@@ -119,7 +121,6 @@ namespace DungeonExplorer
                     if (NextRoom(_currentRoom))
                     {
                         roomNumber += 1;
-                        _currentRoom = _rooms[roomNumber];
                     }
                 }
                 else if (decision == 5)
@@ -173,7 +174,8 @@ namespace DungeonExplorer
                 }
                 UserInterface.EndTurn();
             }
-            UserInterface.DisplayFinishGame();
+            string endGameStatistics = Statistics.GetEndGameStatisticsString();
+            UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
         }
         
@@ -190,6 +192,7 @@ namespace DungeonExplorer
             if (currentRoom.DoorIsLocked == false)
             {
                 Console.WriteLine("The door is unlocked. You proceed to the next room. . .");
+                Statistics.PlayerCompletedARoom();
                 return true;
             }
             Console.WriteLine("The door is locked! Have you defeated the monster?");
@@ -224,6 +227,8 @@ namespace DungeonExplorer
                 room.MonsterInTheRoom = null;
                 room.DoorIsLocked = false;
             }
+            Statistics.PlayerDealtDamage(playerAttackDamage);
+            Statistics.PlayerReceivedDamage(monsterAttackDamage);
             UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage);
             return;
         }
