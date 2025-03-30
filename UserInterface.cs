@@ -51,6 +51,7 @@ namespace DungeonExplorer
             EndTurn();
             return;
         }
+        // TODO: Documentation now that room is MonsterRoom
         /// <summary>
         /// Displays information about the current room, including its name, description, 
         /// and any objects or creatures present.
@@ -85,6 +86,33 @@ namespace DungeonExplorer
             }
             Console.WriteLine();
         }
+        // TODO: Documentation now that room is PuzzleRoom
+        /// <summary>
+        /// Displays information about the current room, including its name, description, 
+        /// and any objects or creatures present.
+        /// </summary>
+        /// <param name="room">The room to display information for.</param>
+        /// <param name="roomNumber">The index of the room in the dungeon sequence.</param>
+        public static void DisplayRoomInformation(PuzzleRoom room, int roomNumber)
+        {
+            Testing.TestForZeroOrAbove(roomNumber);
+            Console.WriteLine($"Welcome to Room {room.RoomName} (Room {roomNumber + 1})");
+            Console.WriteLine($"{room.RoomDescription}\n");
+            Console.WriteLine($"There is no monster in this room, instead there is a puzzle to solve.");
+            if (room.Hint != null)
+            {
+                Console.WriteLine($"There is a clue- you should read it if you need help!");
+            }
+            if (room.Weapon != null)
+            {
+                Console.WriteLine($"There is a weapon inside this room that you can pick up- A {room.Weapon.CreateSummary()}");
+            }
+            if (room.Spell != null)
+            {
+                Console.WriteLine($"There is a spell that you can pick up - {room.Spell.CreateSummary()}");
+            }
+            Console.WriteLine();
+        }
         /// <summary>
         /// Displays the player's current details, including health and equipped weapon.
         /// </summary>
@@ -96,6 +124,7 @@ namespace DungeonExplorer
             Console.WriteLine($"Equipped Weapon: {player.Weapon.CreateSummary()}\n");
             return;
         }
+        // TODO: Documentation now that room is MonsterRoom
         /// <summary>
         /// Presents the player with a list of possible actions they can take during their turn.
         /// The available options depend on the state of the room and the player's inventory.
@@ -118,6 +147,42 @@ namespace DungeonExplorer
             if (room.MonsterIsAlive)
             {
                 Console.WriteLine($"(6) Attack Monster with {player.Weapon.Name}");
+            }
+            if (room.Spell != null)
+            {
+                Console.WriteLine($"(7) Pick up spell");
+            }
+            if (room.Weapon != null)
+            {
+                Console.WriteLine($"(8) Pick up weapon");
+            }
+
+            Console.WriteLine("(9) Exit game");
+            Console.WriteLine("(m) Display map");
+            return;
+        }
+        // TODO: Documentation now that room is PuzzleRoom
+        /// <summary>
+        /// Presents the player with a list of possible actions they can take during their turn.
+        /// The available options depend on the state of the room and the player's inventory.
+        /// </summary>
+        /// <param name="room">The room in which the player is currently located.</param>
+        /// <param name="player">The player making the decision.</param>
+        public static void ShowTurnDecisions(PuzzleRoom room, Player player)
+        {
+            Console.WriteLine("What do you want to do?");
+            Console.WriteLine("(0) View Inventory");
+            Console.WriteLine("(1) Change Equipped Weapon");
+            Console.WriteLine("(2) Use a spell");
+            if (room.Hint != null)
+            {
+                Console.WriteLine("(3) Read the clue");
+            }
+            Console.WriteLine("(4) Open the door");
+            Console.WriteLine("(5) View room name and description again");
+            if (room.PuzzleSolved == false)
+            {
+                Console.WriteLine("(6) Attempt to solve the puzzle");
             }
             if (room.Spell != null)
             {
@@ -185,6 +250,18 @@ namespace DungeonExplorer
                     Console.WriteLine($"{key} was pressed. You may only press a key from {minInput} to {maxInput}");
                 }
             }
+        }
+        //TODO: Documentation
+        public static int GetGuessLessThan()
+        {
+            Console.WriteLine($"You must guess a number. If your guess is less than the mystery number then you may progress. If it is not, your health will be reduced!");
+            return GetInput(0, 9, false);
+        }
+        // TODO: Documentation
+        public static int GetGuessGreaterThan()
+        {
+            Console.WriteLine($"You must guess a number. If your guess is greater than the mystery number then you may progress. If it is not, your health will be reduced!");
+            return GetInput(0, 9, false);
         }
         /// <summary>
         /// Displays attack results for both the player and the monster. 
