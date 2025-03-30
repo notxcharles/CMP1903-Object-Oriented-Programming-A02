@@ -55,7 +55,7 @@ namespace DungeonExplorer
             
             while (roomNumber < _numberOfRooms)
             {
-                Console.WriteLine($"{roomNumber} < {_numberOfRooms}");
+                Console.WriteLine($"room numbre {roomNumber} < max rooms {_numberOfRooms}");
                 _currentRoom = _rooms[roomNumber];
                 UserInterface.DisplayRoomInformation(_currentRoom, roomNumber);
                 UserInterface.DisplayPlayerDetails(_player);
@@ -106,9 +106,9 @@ namespace DungeonExplorer
                 else if (decision == 3)
                 {
                     // Read hint in the room
-                    if (_currentRoom.ClueInTheRoom != null)
+                    if (_currentRoom.IsHint)
                     {
-                        Console.WriteLine($"The clue is: {_currentRoom.ClueInTheRoom.Clue}");
+                        Console.WriteLine($"The clue is: {_currentRoom.Hint.Clue}");
                     }
                     else
                     {
@@ -125,13 +125,13 @@ namespace DungeonExplorer
                 }
                 else if (decision == 5)
                 {
-                    Console.WriteLine($"You are in {_currentRoom.GetRoomName()}. {_currentRoom.GetDescription()}");
+                    Console.WriteLine($"You are in {_currentRoom.RoomName}. {_currentRoom.RoomDescription}");
                 }
                 else if (decision == 6)
                 {
-                    if (_currentRoom.IsMonsterAlive())
+                    if (_currentRoom.MonsterIsAlive)
                     {
-                        PlayerFightsMonster(_player, _currentRoom.MonsterInTheRoom, _currentRoom);
+                        PlayerFightsMonster(_player, _currentRoom.Monster, _currentRoom);
                     }
                     else
                     {
@@ -147,7 +147,7 @@ namespace DungeonExplorer
                     }
                     else
                     {
-                        _player.PickUpSpell(_currentRoom.SpellInTheRoom);
+                        _player.PickUpSpell(_currentRoom.Spell);
                         _currentRoom.SpellPickedUp();
                     }
                 }
@@ -159,7 +159,7 @@ namespace DungeonExplorer
                     }
                     else
                     {
-                        _player.PickUpWeapon(_currentRoom.WeaponInTheRoom);
+                        _player.PickUpWeapon(_currentRoom.Weapon);
                         _currentRoom.WeaponPickedUp();
                     }
                 }
@@ -224,8 +224,8 @@ namespace DungeonExplorer
             }
             else
             {
-                room.MonsterInTheRoom = null;
-                room.DoorIsLocked = false;
+                room.MonsterDefeated();
+                room.UnlockDoor();
             }
             Statistics.PlayerDealtDamage(playerAttackDamage);
             Statistics.PlayerReceivedDamage(monsterAttackDamage);

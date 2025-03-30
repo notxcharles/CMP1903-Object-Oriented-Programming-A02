@@ -61,26 +61,26 @@ namespace DungeonExplorer
             Testing.TestForZeroOrAbove(roomNumber);
             Console.WriteLine($"Welcome to Room {room.RoomName} (Room {roomNumber + 1})");
             Console.WriteLine($"{room.RoomDescription}\n");
-            if (room.MonsterInTheRoom != null)
+            if (room.Monster != null)
             {
-                Console.WriteLine($"A {room.MonsterInTheRoom.GetType().Name} called {room.MonsterInTheRoom.Name} is present! It has {room.MonsterInTheRoom.Health} " +
-                    $"health and does an average of {room.MonsterInTheRoom.GetAttackDamage()} attack damage!");
+                Console.WriteLine($"A {room.Monster.GetType().Name} called {room.Monster.Name} is present! It has {room.Monster.Health} " +
+                    $"health and does an average of {room.Monster.GetAttackDamage()} attack damage!");
             }
             else
             {
                 Console.WriteLine($"There is no monster in this room!");
             }
-            if (room.ClueInTheRoom != null)
+            if (room.Hint != null)
             {
                 Console.WriteLine($"There is a clue- you should read it!");
             }
-            if (room.WeaponInTheRoom != null)
+            if (room.Weapon != null)
             {
-                Console.WriteLine($"There is a weapon inside this room that you can pick up- A {room.WeaponInTheRoom.CreateSummary()}");
+                Console.WriteLine($"There is a weapon inside this room that you can pick up- A {room.Weapon.CreateSummary()}");
             }
-            if (room.SpellInTheRoom != null)
+            if (room.Spell != null)
             {
-                Console.WriteLine($"There is a spell that you can pick up - {room.SpellInTheRoom.CreateSummary()}");
+                Console.WriteLine($"There is a spell that you can pick up - {room.Spell.CreateSummary()}");
             }
             Console.WriteLine();
         }
@@ -103,26 +103,26 @@ namespace DungeonExplorer
         /// <param name="player">The player making the decision.</param>
         public static void ShowTurnDecisions(Room room, Player player)
         {
-            Debug.Assert(!(room.IsMonsterAlive() == true && room.IsMonsterAlive() == false), "Error: monsterAlive was both true and false");
+            Debug.Assert(!(room.MonsterIsAlive == true && room.MonsterIsAlive == false), "Error: monsterAlive was both true and false");
             Console.WriteLine("What do you want to do?");
             Console.WriteLine("(0) View Inventory");
             Console.WriteLine("(1) Change Equipped Weapon");
             Console.WriteLine("(2) Use a spell");
-            if (room.ClueInTheRoom != null)
+            if (room.Hint != null)
             {
                 Console.WriteLine("(3) Read the clue");
             }
             Console.WriteLine("(4) Open the door");
             Console.WriteLine("(5) View room name and description again");
-            if (room.IsMonsterAlive())
+            if (room.MonsterIsAlive)
             {
                 Console.WriteLine($"(6) Attack Monster with {player.Weapon.Name}");
             }
-            if (room.SpellInTheRoom != null)
+            if (room.Spell != null)
             {
                 Console.WriteLine($"(7) Pick up spell");
             }
-            if (room.WeaponInTheRoom != null)
+            if (room.Weapon != null)
             {
                 Console.WriteLine($"(8) Pick up weapon");
             }

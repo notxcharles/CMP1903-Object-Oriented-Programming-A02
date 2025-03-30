@@ -22,21 +22,21 @@ namespace DungeonExplorer
             for (int i = currentRoomIndex; i < _rooms.Count; i++)
             {
                 string roomName = _rooms[i].RoomName;
-                string monsterType = _rooms[i].MonsterInTheRoom.GetType().Name;
-                int monsterAttackDamage = _rooms[i].MonsterInTheRoom.AverageAttackDamage;
+                string monsterType = _rooms[i].Monster.GetType().Name;
+                int monsterAttackDamage = _rooms[i].Monster.AverageAttackDamage;
                 if (i == currentRoomIndex)
                 {
                     Console.Write("--> Current ");
                 }
                 Console.Write($"Room {i + 1}: {roomName} contains a {monsterType} that deals {monsterAttackDamage} damage.");
-                if (_rooms[i].WeaponInTheRoom != null)
+                if (_rooms[i].Weapon != null)
                 {
-                    string weaponName = _rooms[i].WeaponInTheRoom.Name;
+                    string weaponName = _rooms[i].Weapon.Name;
                     Console.Write($" Contains a {weaponName}.");
                 }
-                if (_rooms[i].SpellInTheRoom != null)
+                if (_rooms[i].Spell != null)
                 {
-                    string spellName = _rooms[i].SpellInTheRoom.Name;
+                    string spellName = _rooms[i].Spell.Name;
                     Console.Write($" Contains a {spellName}. ");
                 }
                 Console.Write("\n");
