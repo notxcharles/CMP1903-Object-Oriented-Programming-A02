@@ -15,7 +15,6 @@ namespace DungeonExplorer
         private Room _currentRoom;
         private int _numberOfRooms;
         private GameMap _map;
-        private Statistics _statistics;
         private static Random _random = new Random();
 
         private List<Room> _rooms = new List<Room>();
@@ -45,8 +44,6 @@ namespace DungeonExplorer
             _rooms.Add(room5);
             _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
-
-            _statistics = new Statistics();
         }
         /// <summary>
         /// The primary part of the game's logic
@@ -177,8 +174,8 @@ namespace DungeonExplorer
                 }
                 UserInterface.EndTurn();
             }
-            string endGameStatistics = _statistics.GetEndGameStatisticsString();
-            UserInterface.DisplayFinishGame(endGameStatistics);
+            string endGameStatistics = Statistics.GetEndGameStatisticsString();
+            UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
         }
         
@@ -195,7 +192,7 @@ namespace DungeonExplorer
             if (currentRoom.DoorIsLocked == false)
             {
                 Console.WriteLine("The door is unlocked. You proceed to the next room. . .");
-                _statistics.PlayerCompletedARoom();
+                Statistics.PlayerCompletedARoom();
                 return true;
             }
             Console.WriteLine("The door is locked! Have you defeated the monster?");
@@ -230,8 +227,8 @@ namespace DungeonExplorer
                 room.MonsterInTheRoom = null;
                 room.DoorIsLocked = false;
             }
-            _statistics.PlayerDealtDamage(playerAttackDamage);
-            _statistics.PlayerReceivedDamage(monsterAttackDamage);
+            Statistics.PlayerDealtDamage(playerAttackDamage);
+            Statistics.PlayerReceivedDamage(monsterAttackDamage);
             UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage);
             return;
         }

@@ -135,9 +135,17 @@ namespace DungeonExplorer
         /// Displays the end-game message and presents the player's final game statistics.
         /// </summary>
         /// <param name="endGameStatistics">A string containing various game statistics, such as the number of attacks made and received, and average damage dealt.</param>
-        public static void DisplayFinishGame(string endGameStatistics)
+        public static void DisplayFinishGame(bool win, string endGameStatistics)
         {
-            Console.WriteLine("Congratulations. You have won! Here is your treasure");
+            if (win)
+            {
+                Console.WriteLine("Congratulations. You have won! Here is your treasure");
+            }
+            else
+            {
+                Console.WriteLine("You have lost.");
+            }
+
             Console.WriteLine("Game statistics:");
             Console.WriteLine(endGameStatistics);
             return;
@@ -195,6 +203,8 @@ namespace DungeonExplorer
             else if (player.Health <= 0)
             {
                 Console.WriteLine($"The monster has killed you! You took {monsterAttackDamage} damage. Game Over");
+                string endGameStatistics = Statistics.GetEndGameStatisticsString();
+                DisplayFinishGame(false, endGameStatistics);
                 Environment.Exit(1);
                 return;
             }
