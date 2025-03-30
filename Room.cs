@@ -60,29 +60,6 @@ namespace DungeonExplorer
             "A vast underground lake, the water impossibly still. Jagged rocks rise from the surface like teeth, and something beneath the water disturbs the reflection."
         };
         private static Random _random = new Random();
-        // TODO: Update documentation to add spellInTheRoom
-        /// <summary>
-        /// Class <c>Room</c>'s constructor
-        /// </summary>
-        /// <param name="roomName">The name of the room</param>
-        /// <param name="description">The description of the room</param>
-        /// <param name="monster">The instance of the monster</param>
-        public Room(string roomName, string description, Monster monster, Weapon weaponInTheRoom, Spell spellInTheRoom)
-        {
-            this.RoomName = roomName;
-            this.RoomDescription = description;
-            Debug.Assert(monster != null, "Error: the monster is null");
-            this.MonsterInTheRoom = monster;
-            Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
-            this.WeaponInTheRoom = weaponInTheRoom;
-            DoorIsLocked = true;
-            //Spell can be null
-            if (spellInTheRoom != null)
-            {
-                SpellInTheRoom = spellInTheRoom;
-            }
-           
-        }
         // TODO: Update documentation to add spellInTheRoom and hint
         /// <summary>
         /// Class <c>Room</c>'s constructor
@@ -141,27 +118,6 @@ namespace DungeonExplorer
             Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
             this.WeaponInTheRoom = weaponInTheRoom;
             DoorIsLocked = true;
-        }
-        /// <summary>
-        /// Class <c>Room</c>'s constructor
-        /// </summary>
-        /// <param name="roomName">The name of the room</param>
-        /// <param name="description">The description of the room</param>
-        public Room(string roomName, string description)
-        {
-            roomName = CreateRoomName();
-            description = CreateRoomDescription();
-        }
-        /// <summary>
-        /// Class <c>Room</c>'s constructor
-        /// </summary>
-        /// <remarks>
-        /// The name and the description of the room are picked at random from a list of premade names and descriptions.
-        /// </remarks>
-        public Room()
-        {
-            RoomName = CreateRoomName();
-            RoomDescription = CreateRoomDescription();
         }
         /// <summary>
         /// Create a random room name based on a list of premade room names
