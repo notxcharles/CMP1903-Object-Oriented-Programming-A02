@@ -132,11 +132,14 @@ namespace DungeonExplorer
             return;
         }
         /// <summary>
-        /// <c>FinishGame</c> prints a message to the console that lets the user know that they have finished the game
+        /// Displays the end-game message and presents the player's final game statistics.
         /// </summary>
-        public static void DisplayFinishGame()
+        /// <param name="endGameStatistics">A string containing various game statistics, such as the number of attacks made and received, and average damage dealt.</param>
+        public static void DisplayFinishGame(string endGameStatistics)
         {
             Console.WriteLine("Congratulations. You have won! Here is your treasure");
+            Console.WriteLine("Game statistics:");
+            Console.WriteLine(endGameStatistics);
             return;
         }
         /// <summary>

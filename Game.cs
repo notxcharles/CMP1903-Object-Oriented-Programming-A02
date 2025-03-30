@@ -15,6 +15,7 @@ namespace DungeonExplorer
         private Room _currentRoom;
         private int _numberOfRooms;
         private GameMap _map;
+        private Statistics _statistics;
         private static Random _random = new Random();
 
         private List<Room> _rooms = new List<Room>();
@@ -44,6 +45,8 @@ namespace DungeonExplorer
             _rooms.Add(room5);
             _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
+
+            _statistics = new Statistics();
         }
         /// <summary>
         /// The primary part of the game's logic
@@ -52,9 +55,11 @@ namespace DungeonExplorer
         {
             int roomNumber = 0;
             UserInterface.DisplayGameStart(_gameName);
-            _currentRoom = _rooms[roomNumber];
+            
             while (roomNumber < _numberOfRooms)
             {
+                Console.WriteLine($"{roomNumber} < {_numberOfRooms}");
+                _currentRoom = _rooms[roomNumber];
                 UserInterface.DisplayRoomInformation(_currentRoom, roomNumber);
                 UserInterface.DisplayPlayerDetails(_player);
                 UserInterface.ShowTurnDecisions(_currentRoom, _player);
@@ -119,7 +124,6 @@ namespace DungeonExplorer
                     if (NextRoom(_currentRoom))
                     {
                         roomNumber += 1;
-                        _currentRoom = _rooms[roomNumber];
                     }
                 }
                 else if (decision == 5)
@@ -173,7 +177,8 @@ namespace DungeonExplorer
                 }
                 UserInterface.EndTurn();
             }
-            UserInterface.DisplayFinishGame();
+            string endGameStatistics = _statistics.GetEndGameStatisticsString();
+            UserInterface.DisplayFinishGame(endGameStatistics);
             return;
         }
         
@@ -190,6 +195,7 @@ namespace DungeonExplorer
             if (currentRoom.DoorIsLocked == false)
             {
                 Console.WriteLine("The door is unlocked. You proceed to the next room. . .");
+                _statistics.PlayerCompletedARoom();
                 return true;
             }
             Console.WriteLine("The door is locked! Have you defeated the monster?");
@@ -224,6 +230,8 @@ namespace DungeonExplorer
                 room.MonsterInTheRoom = null;
                 room.DoorIsLocked = false;
             }
+            _statistics.PlayerDealtDamage(playerAttackDamage);
+            _statistics.PlayerReceivedDamage(monsterAttackDamage);
             UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage);
             return;
         }
