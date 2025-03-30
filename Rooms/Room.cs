@@ -10,7 +10,6 @@ namespace DungeonExplorer
     {
         private string _roomName;
         private string _roomDescription;
-        private Monster _monsterInTheRoom;
         private bool _doorIsLocked;
         private Weapon _weaponInTheRoom;
         private Spell _spellInTheRoom;
@@ -69,14 +68,14 @@ namespace DungeonExplorer
         /// </remarks>
         /// <param name="monster">The instance of the monster</param>
         /// <param name="weaponInTheRoom"></param>
-        public Room(Monster monster, Weapon weaponInTheRoom, Spell spellInTheRoom, Hint hint)
+        public Room(Weapon weaponInTheRoom, Spell spellInTheRoom, Hint hint)
         {
             _roomName = CreateRoomName();
             _roomDescription = CreateRoomDescription();
-            Debug.Assert(monster != null, "Error: the monster is null");
-            this._monsterInTheRoom = monster;
             Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
-            this._weaponInTheRoom = weaponInTheRoom;
+            Debug.Assert(spellInTheRoom != null, "Error: the spell is null");
+            Debug.Assert(hint != null, "Error: the hint is null");
+            _weaponInTheRoom = weaponInTheRoom;
             _spellInTheRoom = spellInTheRoom;
             _hintInTheRoom = hint;
             _doorIsLocked = true;
@@ -90,17 +89,17 @@ namespace DungeonExplorer
         /// </remarks>
         /// <param name="monster">The instance of the monster</param>
         /// <param name="weaponInTheRoom"></param>
-        public Room(Monster monster, Weapon weaponInTheRoom, Spell spellInTheRoom)
+        public Room(Weapon weaponInTheRoom, Spell spellInTheRoom)
         {
             _roomName = CreateRoomName();
             _roomDescription = CreateRoomDescription();
-            Debug.Assert(monster != null, "Error: the monster is null");
-            this._monsterInTheRoom = monster;
             Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
-            this._weaponInTheRoom = weaponInTheRoom;
+            Debug.Assert(spellInTheRoom != null, "Error: the spell is null");
+            _weaponInTheRoom = weaponInTheRoom;
             _spellInTheRoom = spellInTheRoom;
             _doorIsLocked = true;
         }
+        // TODO: Update documentation to add spellInTheRoom
         /// <summary>
         /// Class <c>Room</c>'s constructor
         /// </summary>
@@ -109,14 +108,12 @@ namespace DungeonExplorer
         /// </remarks>
         /// <param name="monster">The instance of the monster</param>
         /// <param name="weaponInTheRoom"></param>
-        public Room(Monster monster, Weapon weaponInTheRoom)
+        public Room(Weapon weaponInTheRoom)
         {
             _roomName = CreateRoomName();
             _roomDescription = CreateRoomDescription();
-            Debug.Assert(monster != null, "Error: the monster is null");
-            this._monsterInTheRoom = monster;
             Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
-            this._weaponInTheRoom = weaponInTheRoom;
+            _weaponInTheRoom = weaponInTheRoom;
             _doorIsLocked = true;
         }
         /// <summary>
@@ -147,16 +144,7 @@ namespace DungeonExplorer
         {
             get { return _roomDescription; }
         }
-        // TODO: Documentation
-        public Monster Monster
-        {
-            get { return _monsterInTheRoom; }
-        }
-        // TODO: Documentation
-        public bool MonsterIsAlive
-        {
-            get { return _monsterInTheRoom != null && _monsterInTheRoom.Health > 0; }
-        }
+       
         // TODO: Documentation
         public bool DoorIsLocked
         {
@@ -195,12 +183,7 @@ namespace DungeonExplorer
             _spellInTheRoom = null; 
             return;
         }
-        public void MonsterDefeated()
-        {
-            Debug.Assert(_monsterInTheRoom.Health <= 0, "Monster should have 0 or less health");
-            _monsterInTheRoom = null;
-            return;
-        }
+        
         //TODO: Documentation
         public void UnlockDoor()
         {

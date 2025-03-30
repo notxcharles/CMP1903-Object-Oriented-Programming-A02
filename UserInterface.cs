@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonExplorer.Rooms;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -56,7 +57,7 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="room">The room to display information for.</param>
         /// <param name="roomNumber">The index of the room in the dungeon sequence.</param>
-        public static void DisplayRoomInformation(Room room, int roomNumber)
+        public static void DisplayRoomInformation(MonsterRoom room, int roomNumber)
         {
             Testing.TestForZeroOrAbove(roomNumber);
             Console.WriteLine($"Welcome to Room {room.RoomName} (Room {roomNumber + 1})");
@@ -101,7 +102,7 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="room">The room in which the player is currently located.</param>
         /// <param name="player">The player making the decision.</param>
-        public static void ShowTurnDecisions(Room room, Player player)
+        public static void ShowTurnDecisions(MonsterRoom room, Player player)
         {
             Debug.Assert(!(room.MonsterIsAlive == true && room.MonsterIsAlive == false), "Error: monsterAlive was both true and false");
             Console.WriteLine("What do you want to do?");

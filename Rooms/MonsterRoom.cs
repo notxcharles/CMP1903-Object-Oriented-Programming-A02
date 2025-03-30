@@ -14,6 +14,14 @@ namespace DungeonExplorer.Rooms
         {
             _monsterInTheRoom = monster;
         }
+        public MonsterRoom(Monster monster, Weapon weaponInTheRoom, Spell spellInTheRoom) : base(weaponInTheRoom, spellInTheRoom)
+        {
+            _monsterInTheRoom = monster;
+        }
+        public MonsterRoom(Monster monster, Weapon weaponInTheRoom) : base(weaponInTheRoom)
+        {
+            _monsterInTheRoom = monster;
+        }
         // TODO: Documentation
         public bool MonsterIsAlive
         {
