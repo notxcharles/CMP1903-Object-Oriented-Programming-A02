@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonExplorer.Rooms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,30 +19,37 @@ namespace DungeonExplorer
         // TODO: Documentation
         public void CreateMap(int currentRoomIndex)
         {
-            //TODO: I WILL FIX THIS
-            //Console.WriteLine("Upcoming Rooms:");
-            //for (int i = currentRoomIndex; i < _rooms.Count; i++)
-            //{
-            //    string roomName = _rooms[i].RoomName;
-            //    string monsterType = _rooms[i].Monster.GetType().Name;
-            //    int monsterAttackDamage = _rooms[i].Monster.AverageAttackDamage;
-            //    if (i == currentRoomIndex)
-            //    {
-            //        Console.Write("--> Current ");
-            //    }
-            //    Console.Write($"Room {i + 1}: {roomName} contains a {monsterType} that deals {monsterAttackDamage} damage.");
-            //    if (_rooms[i].Weapon != null)
-            //    {
-            //        string weaponName = _rooms[i].Weapon.Name;
-            //        Console.Write($" Contains a {weaponName}.");
-            //    }
-            //    if (_rooms[i].Spell != null)
-            //    {
-            //        string spellName = _rooms[i].Spell.Name;
-            //        Console.Write($" Contains a {spellName}. ");
-            //    }
-            //    Console.Write("\n);
-            //}
+            Console.WriteLine("Upcoming Rooms:");
+            for (int i = currentRoomIndex; i < _rooms.Count; i++)
+            {
+                if (_rooms[i] is MonsterRoom monsterRoom)
+                {
+                    string roomName = monsterRoom.RoomName;
+                    string monsterType = monsterRoom.Monster.GetType().Name;
+                    int monsterAttackDamage = monsterRoom.Monster.Weapon.AttackDamage;
+                    if (i == currentRoomIndex)
+                    {
+                        Console.Write("--> Current ");
+                    }
+                    Console.Write($"Room {i + 1}: {roomName} contains a {monsterType} that deals {monsterAttackDamage} damage.");
+                    if (monsterRoom.Weapon != null)
+                    {
+                        string weaponName = monsterRoom.Weapon.Name;
+                        Console.Write($" Contains a {weaponName}.");
+                    }
+                    if (monsterRoom.Spell != null)
+                    {
+                        string spellName = monsterRoom.Spell.Name;
+                        Console.Write($" Contains a {spellName}. ");
+                    }
+                    Console.Write("\n");
+                }
+                else if (_rooms[i] is PuzzleRoom puzzleRoom)
+                {
+
+                }
+            }
+            
         }
     }
 }

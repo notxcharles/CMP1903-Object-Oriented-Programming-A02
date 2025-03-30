@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer.Rooms
 {
-    public class PuzzleRoom
+    public class PuzzleRoom : Room
     {
+        public PuzzleRoom(Weapon weapon, Spell spell, Hint hint) : base(weapon, spell, hint)
+        {
+        }
     }
 }
