@@ -217,6 +217,38 @@ namespace DungeonExplorer
             return;
         }
         /// <summary>
+        /// Displays the sorting options for weapons to the user.
+        /// </summary>
+        public static void DisplaySortingOptions()
+        {
+            Console.WriteLine("How would you like to sort the Weapons?");
+            Console.WriteLine($"(1) Sort by ascending damage");
+            Console.WriteLine($"(2) Sort by decending damage");
+            Console.WriteLine($"(3) Sort alphabetically (using Weapon name)");
+            Console.WriteLine($"(4) Cancel");
+        }
+        /// <summary>
+        /// Gets the sorting option selected by the user.
+        /// </summary>
+        /// <returns>The selected sorting option, or <c>null</c> if the user cancels.</returns>
+        public static Player.SortBy? GetSortingOption()
+        {
+            int input = GetInput(1, 4, false);
+            if (input == 1)
+            {
+                return Player.SortBy.Ascending;
+            }
+            else if (input == 2)
+            {
+                return Player.SortBy.Descending;
+            }
+            else if (input == 3)
+            {
+                return Player.SortBy.Alphabetically;
+            }
+            return null;
+        }
+        /// <summary>
         /// Gets a numeric input from the user within a specified range. 
         /// Optionally allows 'm' as a special input.
         /// </summary>
@@ -299,29 +331,36 @@ namespace DungeonExplorer
         /// <param name="monster">The monster being fought.</param>
         /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
         /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
-        public static void ViewItemsInInventory(Player player)
+        public static void ViewItemsInInventory(Player player, Player.SortBy sortBy = Player.SortBy.Ascending)
         {
             // If there are no items in the inventory, show an error
             if (player.GetTotalItemsInInventory() == 0)
             {
-                Console.WriteLine($"You have no items in your inventory. You can hold up to {player.MaxInventorySpace} items.");
+                Console.WriteLine($"You have no items in your inventory. You can hold up to {player.MaxInventoryLength} items.");
             }
             else
             {
                 Console.WriteLine($"Current equipped weapon: {player.Weapon.CreateSummary()}");
-                Console.WriteLine($"Weapons in your inventory:");
-                List<Weapon> weapons = player.GetWeaponsInInventory();
-                foreach (Weapon weapon in weapons)
+                List<Weapon> weapons = player.GetWeaponsInInventory(sortBy);
+                if (weapons != null)
                 {
-                    Console.WriteLine($"- {weapon.CreateSummary()}");
+                    Console.WriteLine($"Weapons in your inventory:");
+                    foreach (Weapon weapon in weapons)
+                    {
+                        Console.WriteLine($"- {weapon.CreateSummary()}");
+                    }
                 }
-                Console.WriteLine($"Spells in your inventory:");
                 List<Spell> spells = player.GetSpellsInInventory();
-                foreach (var spell in spells)
+                if (spells  != null)
                 {
-                    Console.WriteLine($"- {spell.CreateSummary()}");
+                    Console.WriteLine($"Spells in your inventory:");
+
+                    foreach (var spell in spells)
+                    {
+                        Console.WriteLine($"- {spell.CreateSummary()}");
+                    }
                 }
-                Console.WriteLine($"You can hold up to {player.MaxInventorySpace} items in your inventory. You " +
+                Console.WriteLine($"You can hold up to {player.MaxInventoryLength} items in your inventory. You " +
                     $"are currently holding {player.GetTotalItemsInInventory()} items.");
             }
             return;
@@ -364,7 +403,7 @@ namespace DungeonExplorer
         {
             if (weaponEnumerable.Count() == 0)
             {
-                Console.WriteLine($"You have no Weapons in your inventory. You can hold up to {player.MaxInventorySpace - player.GetTotalItemsInInventory()} weapons.");
+                Console.WriteLine($"You have no Weapons in your inventory. You can hold up to {player.MaxInventoryLength - player.GetTotalItemsInInventory()} weapons.");
                 return;
             }
             List<Weapon> weaponsList = weaponEnumerable.ToList();
@@ -393,7 +432,7 @@ namespace DungeonExplorer
         {
             if (spellEnumerable.Count() == 0)
             {
-                Console.WriteLine($"You have no Spells in your inventory. You can hold up to {player.MaxInventorySpace - player.GetTotalItemsInInventory()} spells.");
+                Console.WriteLine($"You have no Spells in your inventory. You can hold up to {player.MaxInventoryLength - player.GetTotalItemsInInventory()} spells.");
                 return;
             }
             List<Spell> spellList = spellEnumerable.ToList();

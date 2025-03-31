@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using static DungeonExplorer.Player;
 
 namespace DungeonExplorer
 {
@@ -12,47 +13,43 @@ namespace DungeonExplorer
     /// </summary>
     public class Player : Creature, ICanDamage
     {
-        private List<Item> _inventory = new List<Item>();
-        public int MaxInventorySpace { get; private set; }
+        private Inventory _inventory;
+        private int _maxInventoryLength;
         private Weapon _currentEquippedWeapon;
-        /// <summary>
-        /// Class <c>Player</c>'s constructor
-        /// </summary>
-        /// <param name="name">Player's name</param>
-        /// <param name="health">Player's max health</param>
-        public Player(string name, int health) : base(name, health)
+        public enum SortBy
         {
-            Debug.Assert(name != null && name.Length > 0, "Error: Player name is null or string is empty");
-            Testing.TestForPositiveInteger(health);
-            MaxInventorySpace = 4;
-            //The player's default starting weapon are their fists
-            _currentEquippedWeapon = new Weapon("Fists", 30);
+            Ascending,
+            Descending,
+            Alphabetically
         }
         /// <summary>
         /// Class <c>Player</c>'s constructor
         /// </summary>
         /// <param name="name">Player's name</param>
         /// <param name="health">Player's max health</param>
-        /// <param name="maxInventorySpace">The maximum inventory space of the player. 0-9</param>
-        public Player(string name, int health, int maxInventorySpace): base(name, health)
+        /// <param name="maxInventoryLength">Player's maximum inventory length</param>
+        public Player(string name, int health, int maxInventoryLength) : base(name, health)
         {
             Debug.Assert(name != null && name.Length > 0, "Error: Player name is null or string is empty");
             Testing.TestForPositiveInteger(health);
-            // There needs to be a maximum inventory space so that ChangeEquippedWeapon() can work
-            if (maxInventorySpace > 9)
-            {
-                maxInventorySpace = 9;
-            }
-            this.MaxInventorySpace = maxInventorySpace;
+            _maxInventoryLength = maxInventoryLength;
+            _inventory = new Inventory(_maxInventoryLength);
             //The player's default starting weapon are their fists
             _currentEquippedWeapon = new Weapon("Fists", 30);
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the player's currently equipped weapon.
+        /// </summary>
         public Weapon Weapon
         {
             get { return _currentEquippedWeapon; }
-            // added a setter in case this is made into a multiplayer game at a later date
-            protected set { _currentEquippedWeapon = value; }
+        }
+        /// <summary>
+        /// Gets the player's maximum inventory length
+        /// </summary>
+        public int MaxInventoryLength
+        {
+            get { return _maxInventoryLength; }
         }
         /// <summary>
         /// Player can <c>PickUpItem</c>
@@ -65,8 +62,8 @@ namespace DungeonExplorer
         /// <param name="weapon">The weapon that the player will pick up</param>
         public void PickUpWeapon(Weapon weapon)
         {
-            Debug.Assert(MaxInventorySpace <= 9, "Error: MaxInventorySpace should not be greater than 9");
-            if (_inventory.Count == MaxInventorySpace)
+            Debug.Assert(_maxInventoryLength <= 9, "Error: MaxInventorySpace should not be greater than 9");
+            if (_inventory.Count == _maxInventoryLength)
             {
                 Console.WriteLine("Your inventory is full! You cannot pick up any more weapons");
             }
@@ -81,11 +78,14 @@ namespace DungeonExplorer
             }
             return;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Adds a spell to the player's inventory if there is space available.
+        /// </summary>
+        /// <param name="spell">The spell to add to the inventory.</param>
         public void PickUpSpell(Spell spell)
         {
-            Debug.Assert(MaxInventorySpace <= 9, "Error: MaxInventorySpace should not be greater than 9");
-            if (_inventory.Count == MaxInventorySpace)
+            Debug.Assert(_maxInventoryLength <= 9, "Error: MaxInventorySpace should not be greater than 9");
+            if (_inventory.Count == _maxInventoryLength)
             {
                 Console.WriteLine("Your inventory is full! You cannot pick up any more items");
             }
@@ -101,29 +101,14 @@ namespace DungeonExplorer
             return;
         }
         
-        // TODO: Documentation
-        public List<Weapon> GetWeaponsInInventory()
-        {
-            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
-            var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.AttackDamage descending select weapon;
-            List<Weapon> sortedWeaponList = sortedWeapons.ToList();
-            if (sortedWeaponList.Count == 0)
-            {
-                Console.WriteLine("You have no weapons in your inventory");
-                return null;
-            }
-            return sortedWeaponList;
-        }
         /// <summary>
         /// Handles the logic for the player to equip a different weapon
         /// </summary>
-        /// <param name="weaponIndex">The index of the weapon within the player's inventory (when inventory is sorted by type)</param>
+        /// <param name="weaponIndex">The index of the weapon within the player's inventory (when inventory is sorted by damage descending)</param>
         public void EquipDifferentWeapon(int weaponIndex)
         {
             // Swap the selected weapon with the currently equipped weapon
-            var weapons = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
-            var sortedWeapons = from Weapon weapon in weapons orderby weapon.AttackDamage descending select weapon;
-            List<Weapon> sortedWeaponList = sortedWeapons.ToList();
+            List<Weapon> sortedWeaponList = _inventory.GetWeaponsInInventory(Player.SortBy.Ascending);
             Weapon weaponToEquip = sortedWeaponList[weaponIndex];
             Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
             _inventory.Remove(weaponToEquip);
@@ -134,26 +119,16 @@ namespace DungeonExplorer
                 $"{previousEquippedWeapon.Name} has been added to your inventory");
             return;
         }
-        // TODO: Documentation
-        public List<Spell> GetSpellsInInventory()
-        {
-            var spells = _inventory.OfType<Spell>().Select(spell => spell);
-            List<Spell> spellsList = spells.ToList();
-            if (spellsList.Count == 0)
-            {
-                Console.WriteLine("You have no spells in your inventory");
-                return null;
-            }
-            return spellsList;
-        }
-        // TODO: Documentation
+        /// <summary>
+        /// Uses a spell from the player's inventory to heal the player.
+        /// </summary>
+        /// <param name="spellIndex">The index of the spell to use in the inventory.</param>
         public void UseSpell(int spellIndex)
         {
-            var spellsWithIndex = _inventory.OfType<Spell>().Select(spell => spell).ToList();
-            Spell spellToUse = spellsWithIndex[spellIndex];
+            List<Spell> spellList = _inventory.GetSpellsInInventory();
+            Spell spellToUse = spellList[spellIndex];
             Debug.Assert(spellToUse != null, "Error: spellToUse is null");
             _inventory.Remove(spellToUse);
-
             Health = Health + spellToUse.HealAmount;
             if (Health > MaxHealth)
             {
@@ -174,16 +149,58 @@ namespace DungeonExplorer
             return _inventory.Count;
         }
         /// <summary>
-        /// <c>GetCurrentAttackDamage()</c> returns a the damage of the Player's equipped weapon
+        /// Gets the total number of weapons in the player's inventory.
         /// </summary>
-        /// <returns><c>Player._currentEquippedWeapon.GetAttackDamage()</c></returns>
+        /// <returns>The total number of weapons in the inventory.</returns>
+        public int GetTotalWeaponsInInventory()
+        {
+            Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
+            return _inventory.GetTotalWeaponsInInventory();
+        }
+        /// <summary>
+        /// Gets the total number of spells in the player's inventory.
+        /// </summary>
+        /// <returns>The total number of spells in the inventory.</returns>
+        public int GetTotalSpellsInInventory()
+        {
+            Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
+            return _inventory.GetTotalSpellsInInventory();
+        }
+        /// <summary>
+        /// Gets a list of weapons in the player's inventory sorted by the specified criteria.
+        /// </summary>
+        /// <param name="sortBy">The sorting criteria.</param>
+        /// <returns>A list of weapons sorted by the specified criteria.</returns>
+        public List<Weapon> GetWeaponsInInventory(Player.SortBy sortBy)
+        {
+            Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
+            return _inventory.GetWeaponsInInventory(sortBy);
+        }
+        /// <summary>
+        /// Gets a list of spells in the player's inventory.
+        /// </summary>
+        /// <returns>A list of spells in the inventory.</returns>
+        public List<Spell> GetSpellsInInventory()
+        {
+            Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
+            return _inventory.GetSpellsInInventory();
+        }
+        /// <summary>
+        /// Gets the attack damage of the player's currently equipped weapon.
+        /// </summary>
+        /// <returns>The attack damage of the equipped weapon.</returns>
         public int GetAttackDamage()
         {
+            Debug.Assert(_currentEquippedWeapon != null, "Error: _currentEquippedWeapon doesn't exist");
             int attackDamage = _currentEquippedWeapon.GetAttackDamage();
             Testing.TestForPositiveInteger(attackDamage);
             return attackDamage;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the attack message for the player's attack with their weapon.
+        /// </summary>
+        /// <param name="damage">The damage dealt by the attack.</param>
+        /// <returns>A message describing the player's attack.</returns>
         public string GetAttackMessage(int damage)
         {
             return $"The player attacked with their weapon {_currentEquippedWeapon.Name} and did {damage} damage";

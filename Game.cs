@@ -92,12 +92,15 @@ namespace DungeonExplorer
                     if (decision == 0)
                     {
                         //Player wants to view inventory
-                        UserInterface.ViewItemsInInventory(_player);
+                        //TODO: Changing this to manage inventory, in manage inventory the user will be able to see their
+                        //inventory, and choose how they wish for it to be sorted. The user wil also be able to discard/remove items
+                        ManageInventory(_player);
+                        //UserInterface.ViewItemsInInventory(_player);
                     }
                     else if (decision == 1)
                     {
                         //player has chosen to change their equipped item
-                        List<Weapon> weapons = _player.GetWeaponsInInventory();
+                        List<Weapon> weapons = _player.GetWeaponsInInventory(Player.SortBy.Ascending);
                         if (weapons == null)
                         {
                             UserInterface.EndTurn();
@@ -168,7 +171,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 7)
                     {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                        if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
                         {
                             Console.WriteLine("Your inventory is full, you may not collect any more spells");
                         }
@@ -180,7 +183,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 8)
                     {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                        if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
                         {
                             Console.WriteLine("Your inventory is full, you may not collect any more weapons");
                         }
@@ -210,12 +213,12 @@ namespace DungeonExplorer
                     if (decision == 0)
                     {
                         //Player wants to view inventory
-                        UserInterface.ViewItemsInInventory(_player);
+                        ManageInventory(_player);
                     }
                     else if (decision == 1)
                     {
                         //player has chosen to change their equipped item
-                        List<Weapon> weapons = _player.GetWeaponsInInventory();
+                        List<Weapon> weapons = _player.GetWeaponsInInventory(Player.SortBy.Ascending);
                         if (weapons == null)
                         {
                             UserInterface.EndTurn();
@@ -290,7 +293,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 7)
                     {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                        if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
                         {
                             Console.WriteLine("Your inventory is full, you may not collect any more spells");
                         }
@@ -302,7 +305,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 8)
                     {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                        if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
                         {
                             Console.WriteLine("Your inventory is full, you may not collect any more weapons");
                         }
@@ -328,6 +331,30 @@ namespace DungeonExplorer
             UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
         }
+        /// <summary>
+        /// Manages the player's inventory by displaying items, checking inventory status, and sorting items based on user input.
+        /// </summary>
+        /// <param name="player">The player whose inventory is being managed.</param>
+        public void ManageInventory(Player player)
+        {
+            UserInterface.ViewItemsInInventory(player);
+            if (player.GetTotalItemsInInventory() == 0)
+            {
+                return;
+            }
+            if (player.GetTotalWeaponsInInventory() == 0)
+            {
+                return;
+            }
+            UserInterface.DisplaySortingOptions();
+            Player.SortBy? sortingOption = UserInterface.GetSortingOption();
+            if (sortingOption == null)
+            {
+                return;
+            }
+            UserInterface.ViewItemsInInventory(_player, sortingOption.Value);
+        }
+
         // TODO: Documentation now that currentRoom is MonsterRoom
         /// <summary>
         /// Check if the currentRoom's door is locked
