@@ -31,11 +31,6 @@ namespace DungeonExplorer
             return true;
         }
         // TODO: Documentation
-        public List<Item> inventory
-        {
-            get { return _inventoryList; }
-        }
-        // TODO: Documentation
         public void Remove(Item item)
         {
             _inventoryList.Remove(item);

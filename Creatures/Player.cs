@@ -114,7 +114,7 @@ namespace DungeonExplorer
             List<Spell> spellList = _inventory.GetSpellsInInventory();
             Spell spellToUse = spellList[spellIndex];
             Debug.Assert(spellToUse != null, "Error: spellToUse is null");
-            _inventory.inventory.Remove(spellToUse);
+            _inventory.Remove(spellToUse);
             Health = Health + spellToUse.HealAmount;
             if (Health > MaxHealth)
             {
