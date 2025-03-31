@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonExplorer.Rooms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,28 +22,50 @@ namespace DungeonExplorer
             Console.WriteLine("Upcoming Rooms:");
             for (int i = currentRoomIndex; i < _rooms.Count; i++)
             {
-                string roomName = _rooms[i].RoomName;
-                string monsterType = _rooms[i].MonsterInTheRoom.GetType().Name;
-                int monsterAttackDamage = _rooms[i].MonsterInTheRoom.AverageAttackDamage;
-                if (i == currentRoomIndex)
+                if (_rooms[i] is MonsterRoom monsterRoom)
                 {
-                    Console.Write("--> Current ");
+                    string roomName = monsterRoom.RoomName;
+                    string monsterType = monsterRoom.Monster.GetType().Name;
+                    int monsterAttackDamage = monsterRoom.Monster.Weapon.AttackDamage;
+                    if (i == currentRoomIndex)
+                    {
+                        Console.Write("--> Current ");
+                    }
+                    Console.Write($"Room {i + 1}: {roomName} contains a {monsterType} that deals {monsterAttackDamage} damage.");
+                    if (monsterRoom.Weapon != null)
+                    {
+                        string weaponName = monsterRoom.Weapon.Name;
+                        Console.Write($" Contains a {weaponName}.");
+                    }
+                    if (monsterRoom.Spell != null)
+                    {
+                        string spellName = monsterRoom.Spell.Name;
+                        Console.Write($" Contains a {spellName}. ");
+                    }
+                    Console.Write("\n");
                 }
-                Console.Write($"Room {i + 1}: {roomName} contains a {monsterType} that deals {monsterAttackDamage} damage.");
-                if (_rooms[i].WeaponInTheRoom != null)
+                else if (_rooms[i] is PuzzleRoom puzzleRoom)
                 {
-                    string weaponName = _rooms[i].WeaponInTheRoom.Name;
-                    Console.Write($" Contains a {weaponName}.");
+                    string roomName = puzzleRoom.RoomName;
+                    if (i == currentRoomIndex)
+                    {
+                        Console.Write("--> Current ");
+                    }
+                    Console.Write($"Room {i + 1}: {roomName} contains a puzzle that involves guessing a number!");
+                    if (puzzleRoom.Weapon != null)
+                    {
+                        string weaponName = puzzleRoom.Weapon.Name;
+                        Console.Write($" Contains a {weaponName}.");
+                    }
+                    if (puzzleRoom.Spell != null)
+                    {
+                        string spellName = puzzleRoom.Spell.Name;
+                        Console.Write($" Contains a {spellName}. ");
+                    }
+                    Console.Write("\n");
                 }
-                if (_rooms[i].SpellInTheRoom != null)
-                {
-                    string spellName = _rooms[i].SpellInTheRoom.Name;
-                    Console.Write($" Contains a {spellName}. ");
-                }
-                Console.Write("\n");
-
-
             }
+            
         }
     }
 }

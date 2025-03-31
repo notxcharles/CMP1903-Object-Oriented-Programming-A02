@@ -56,6 +56,7 @@ namespace DungeonExplorer
             Testing.TestForPositiveInteger(health);
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty();
+            Health = (int)(health * _difficulty);
         }
         //TODO: Update documentation
         /// <summary>
@@ -65,12 +66,13 @@ namespace DungeonExplorer
         /// <param name="breed">The breed of the monster</param>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty) : base(name, health)
+        public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty) : base(name)
         {
             Debug.Assert(name != null, "Error: name does not exist");
             Testing.TestForPositiveInteger(health);
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty(minDifficulty, maxDifficulty);
+            Health = (int)(health * _difficulty);
         }
         //TODO: Update documentation
         /// <summary>
@@ -78,18 +80,20 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(int health, float difficulty, Weapon weapon) : base(health)
+        public Monster(int health, float difficulty, Weapon weapon)
         {
             Name = CreateMonsterName();
             Testing.TestForPositiveInteger(health);
             _difficulty = difficulty;
+            Health = (int)(health * _difficulty);
             _weapon = weapon;
         }
         //TODO: Documentation
-        public Monster(int health, Weapon weapon) : base(health)
+        public Monster(int health, Weapon weapon)
         {
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty();
+            Health = (int)(health * _difficulty);
         }
         // TODO: Documentation
         public Weapon Weapon
@@ -102,6 +106,25 @@ namespace DungeonExplorer
         {
             get { return _difficulty; }
             protected set { _difficulty = value; }
+        }
+        //TODO: Documentation
+        public string DifficultyLevel
+        {
+            get
+            {
+                if (Difficulty < 0.8)
+                {
+                    return "Easy";
+                }
+                else if (Difficulty < 1.2)
+                {
+                    return "Medium";
+                }
+                else
+                {
+                    return "Hard";
+                }
+            }
         }
         // TODO: Documentation
         private float CalculateRandomDifficulty()

@@ -59,7 +59,9 @@
     <Compile Include="Creatures\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room.cs" />
+    <Compile Include="Rooms\MonsterRoom.cs" />
+    <Compile Include="Rooms\PuzzleRoom.cs" />
+    <Compile Include="Rooms\Room.cs" />
     <Compile Include="Items\Spell.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="Testing.cs" />
