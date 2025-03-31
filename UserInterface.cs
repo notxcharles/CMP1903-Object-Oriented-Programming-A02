@@ -216,7 +216,9 @@ namespace DungeonExplorer
             Console.WriteLine(endGameStatistics);
             return;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Displays the sorting options for weapons to the user.
+        /// </summary>
         public static void DisplaySortingOptions()
         {
             Console.WriteLine("How would you like to sort the Weapons?");
@@ -225,7 +227,10 @@ namespace DungeonExplorer
             Console.WriteLine($"(3) Sort alphabetically (using Weapon name)");
             Console.WriteLine($"(4) Cancel");
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the sorting option selected by the user.
+        /// </summary>
+        /// <returns>The selected sorting option, or <c>null</c> if the user cancels.</returns>
         public static Player.SortBy? GetSortingOption()
         {
             int input = GetInput(1, 4, false);
