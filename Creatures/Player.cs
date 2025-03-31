@@ -15,6 +15,12 @@ namespace DungeonExplorer
         private List<Item> _inventory = new List<Item>();
         public int MaxInventorySpace { get; private set; }
         private Weapon _currentEquippedWeapon;
+        public enum SortBy
+        {
+            Ascending,
+            Descending,
+            Alphabetically
+        }
         /// <summary>
         /// Class <c>Player</c>'s constructor
         /// </summary>
@@ -25,25 +31,6 @@ namespace DungeonExplorer
             Debug.Assert(name != null && name.Length > 0, "Error: Player name is null or string is empty");
             Testing.TestForPositiveInteger(health);
             MaxInventorySpace = 4;
-            //The player's default starting weapon are their fists
-            _currentEquippedWeapon = new Weapon("Fists", 30);
-        }
-        /// <summary>
-        /// Class <c>Player</c>'s constructor
-        /// </summary>
-        /// <param name="name">Player's name</param>
-        /// <param name="health">Player's max health</param>
-        /// <param name="maxInventorySpace">The maximum inventory space of the player. 0-9</param>
-        public Player(string name, int health, int maxInventorySpace): base(name, health)
-        {
-            Debug.Assert(name != null && name.Length > 0, "Error: Player name is null or string is empty");
-            Testing.TestForPositiveInteger(health);
-            // There needs to be a maximum inventory space so that ChangeEquippedWeapon() can work
-            if (maxInventorySpace > 9)
-            {
-                maxInventorySpace = 9;
-            }
-            this.MaxInventorySpace = maxInventorySpace;
             //The player's default starting weapon are their fists
             _currentEquippedWeapon = new Weapon("Fists", 30);
         }
@@ -100,9 +87,21 @@ namespace DungeonExplorer
             }
             return;
         }
-        
         // TODO: Documentation
-        public List<Weapon> GetWeaponsInInventory()
+        private List<Weapon> GetWeaponsInInventoryAscending()
+        {
+            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
+            var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.AttackDamage ascending select weapon;
+            List<Weapon> sortedWeaponList = sortedWeapons.ToList();
+            if (sortedWeaponList.Count == 0)
+            {
+                Console.WriteLine("You have no weapons in your inventory");
+                return null;
+            }
+            return sortedWeaponList;
+        }
+        // TODO: Documentation
+        private List<Weapon> GetWeaponsInInventoryDescending()
         {
             var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
             var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.AttackDamage descending select weapon;
@@ -113,6 +112,36 @@ namespace DungeonExplorer
                 return null;
             }
             return sortedWeaponList;
+        }
+        // TODO: Documentation
+        private List<Weapon> GetWeaponsInInventorAlphabetically()
+        {
+            var weaponsWithIndex = _inventory.OfType<Weapon>().Select(weapon => weapon).ToList();
+            var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.Name select weapon;
+            List<Weapon> sortedWeaponList = sortedWeapons.ToList();
+            if (sortedWeaponList.Count == 0)
+            {
+                Console.WriteLine("You have no weapons in your inventory");
+                return null;
+            }
+            return sortedWeaponList;
+        }
+        // TODO: Documentation
+        public List<Weapon> GetWeaponsInInventory(SortBy sortBy)
+        {
+            if (sortBy == SortBy.Ascending)
+            {
+                return GetWeaponsInInventoryAscending();
+            }
+            else if (sortBy == SortBy.Descending)
+            {
+                return GetWeaponsInInventoryDescending();
+            }   
+            else if (sortBy == SortBy.Alphabetically)
+            {
+                return GetWeaponsInInventorAlphabetically();
+            }
+            return null;
         }
         /// <summary>
         /// Handles the logic for the player to equip a different weapon
@@ -137,8 +166,9 @@ namespace DungeonExplorer
         // TODO: Documentation
         public List<Spell> GetSpellsInInventory()
         {
-            var spells = _inventory.OfType<Spell>().Select(spell => spell);
-            List<Spell> spellsList = spells.ToList();
+            var spells = _inventory.OfType<Spell>().Select(spell => spell).ToList();
+            var sortedSpells = from Spell spell in spells orderby spell.HealAmount ascending select spell;
+            List<Spell> spellsList = sortedSpells.ToList();
             if (spellsList.Count == 0)
             {
                 Console.WriteLine("You have no spells in your inventory");
@@ -172,6 +202,12 @@ namespace DungeonExplorer
         {
             Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
             return _inventory.Count;
+        }
+        // TODO: Documentation
+        public int GetTotalWeaponsInInventory()
+        {
+            int weaponCount = _inventory.OfType<Weapon>().Count();
+            return weaponCount;
         }
         /// <summary>
         /// <c>GetCurrentAttackDamage()</c> returns a the damage of the Player's equipped weapon

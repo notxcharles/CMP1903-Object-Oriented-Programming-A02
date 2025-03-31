@@ -92,12 +92,15 @@ namespace DungeonExplorer
                     if (decision == 0)
                     {
                         //Player wants to view inventory
-                        UserInterface.ViewItemsInInventory(_player);
+                        //TODO: Changing this to manage inventory, in manage inventory the user will be able to see their
+                        //inventory, and choose how they wish for it to be sorted. The user wil also be able to discard/remove items
+                        ManageInventory(_player);
+                        //UserInterface.ViewItemsInInventory(_player);
                     }
                     else if (decision == 1)
                     {
                         //player has chosen to change their equipped item
-                        List<Weapon> weapons = _player.GetWeaponsInInventory();
+                        List<Weapon> weapons = _player.GetWeaponsInInventory(Player.SortBy.Ascending);
                         if (weapons == null)
                         {
                             UserInterface.EndTurn();
@@ -210,12 +213,12 @@ namespace DungeonExplorer
                     if (decision == 0)
                     {
                         //Player wants to view inventory
-                        UserInterface.ViewItemsInInventory(_player);
+                        ManageInventory(_player);
                     }
                     else if (decision == 1)
                     {
                         //player has chosen to change their equipped item
-                        List<Weapon> weapons = _player.GetWeaponsInInventory();
+                        List<Weapon> weapons = _player.GetWeaponsInInventory(Player.SortBy.Ascending);
                         if (weapons == null)
                         {
                             UserInterface.EndTurn();
@@ -328,6 +331,30 @@ namespace DungeonExplorer
             UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
         }
+        //TODO: Documentation
+        public void ManageInventory(Player player)
+        {
+            UserInterface.ViewItemsInInventory(player);
+            if (player.GetTotalItemsInInventory() == 0)
+            {
+                return;
+            }
+            if (player.GetTotalWeaponsInInventory() == 0)
+            {
+                return;
+            }
+            //// Player should have the choice between discarding an item and sorting the weapons
+            //UserInterface.DisplayInventoryManagementOptions(player);
+
+            UserInterface.DisplaySortingOptions();
+            Player.SortBy? sortingOption = UserInterface.GetSortingOption();
+            if (sortingOption == null)
+            {
+                return;
+            }
+            UserInterface.ViewItemsInInventory(_player, sortingOption.Value);
+        }
+
         // TODO: Documentation now that currentRoom is MonsterRoom
         /// <summary>
         /// Check if the currentRoom's door is locked
