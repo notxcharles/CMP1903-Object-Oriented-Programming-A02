@@ -19,13 +19,16 @@ namespace DungeonExplorer
             _maxLength = maxLength;
         }
         // TODO: Documentation
-        public void Add(Item item)
+        // returns true if is a success
+        public bool Add(Item item)
         {
             if (_inventoryList.Count >= _maxLength)
             {
                 Console.WriteLine("Your inventory is full, if you wish to add more items to your inventory then you must discard some items");
+                return false;
             }
             _inventoryList.Add(item);
+            return true;
         }
         // TODO: Documentation
         public List<Item> inventory
