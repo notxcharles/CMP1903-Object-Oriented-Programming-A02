@@ -219,9 +219,10 @@ namespace DungeonExplorer
         // TODO: Documentation
         public static void DisplaySortingOptions()
         {
-            Console.WriteLine($"(1) Sort by ascending");
-            Console.WriteLine($"(2) Sort by decending");
-            Console.WriteLine($"(3) Sort alphabetically");
+            Console.WriteLine("How would you like to sort the Weapons?");
+            Console.WriteLine($"(1) Sort by ascending damage");
+            Console.WriteLine($"(2) Sort by decending damage");
+            Console.WriteLine($"(3) Sort alphabetically (using Weapon name)");
             Console.WriteLine($"(4) Cancel");
         }
         // TODO: Documentation
@@ -330,7 +331,7 @@ namespace DungeonExplorer
             // If there are no items in the inventory, show an error
             if (player.GetTotalItemsInInventory() == 0)
             {
-                Console.WriteLine($"You have no items in your inventory. You can hold up to {player.maxInventoryLength} items.");
+                Console.WriteLine($"You have no items in your inventory. You can hold up to {player.MaxInventoryLength} items.");
             }
             else
             {
@@ -354,7 +355,7 @@ namespace DungeonExplorer
                         Console.WriteLine($"- {spell.CreateSummary()}");
                     }
                 }
-                Console.WriteLine($"You can hold up to {player.maxInventoryLength} items in your inventory. You " +
+                Console.WriteLine($"You can hold up to {player.MaxInventoryLength} items in your inventory. You " +
                     $"are currently holding {player.GetTotalItemsInInventory()} items.");
             }
             return;
@@ -397,7 +398,7 @@ namespace DungeonExplorer
         {
             if (weaponEnumerable.Count() == 0)
             {
-                Console.WriteLine($"You have no Weapons in your inventory. You can hold up to {player.maxInventoryLength - player.GetTotalItemsInInventory()} weapons.");
+                Console.WriteLine($"You have no Weapons in your inventory. You can hold up to {player.MaxInventoryLength - player.GetTotalItemsInInventory()} weapons.");
                 return;
             }
             List<Weapon> weaponsList = weaponEnumerable.ToList();
@@ -426,7 +427,7 @@ namespace DungeonExplorer
         {
             if (spellEnumerable.Count() == 0)
             {
-                Console.WriteLine($"You have no Spells in your inventory. You can hold up to {player.maxInventoryLength - player.GetTotalItemsInInventory()} spells.");
+                Console.WriteLine($"You have no Spells in your inventory. You can hold up to {player.MaxInventoryLength - player.GetTotalItemsInInventory()} spells.");
                 return;
             }
             List<Spell> spellList = spellEnumerable.ToList();
