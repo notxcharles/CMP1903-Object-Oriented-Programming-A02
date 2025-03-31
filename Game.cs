@@ -343,9 +343,6 @@ namespace DungeonExplorer
             {
                 return;
             }
-            //// Player should have the choice between discarding an item and sorting the weapons
-            //UserInterface.DisplayInventoryManagementOptions(player);
-
             UserInterface.DisplaySortingOptions();
             Player.SortBy? sortingOption = UserInterface.GetSortingOption();
             if (sortingOption == null)
