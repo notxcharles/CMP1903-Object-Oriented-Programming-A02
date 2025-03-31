@@ -131,9 +131,10 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="room">The room in which the player is currently located.</param>
         /// <param name="player">The player making the decision.</param>
-        public static void ShowTurnDecisions(MonsterRoom room, Player player)
+        public static void ShowTurnDecisions(Room room, Player player)
         {
-            Debug.Assert(!(room.MonsterIsAlive == true && room.MonsterIsAlive == false), "Error: monsterAlive was both true and false");
+            Debug.Assert(room != null, "Error: room is null");
+            Debug.Assert(player != null, "Error: player is null");
             Console.WriteLine("What do you want to do?");
             Console.WriteLine("(0) View Inventory");
             Console.WriteLine("(1) Change Equipped Weapon");
@@ -144,45 +145,19 @@ namespace DungeonExplorer
             }
             Console.WriteLine("(4) Open the door");
             Console.WriteLine("(5) View room name and description again");
-            if (room.MonsterIsAlive)
+            if (room is MonsterRoom mRoom)
             {
-                Console.WriteLine($"(6) Attack Monster with {player.Weapon.Name}");
+                if (mRoom.MonsterIsAlive)
+                {
+                    Console.WriteLine($"(6) Attack Monster with {player.Weapon.Name}");
+                }
             }
-            if (room.Spell != null)
+            else if (room is PuzzleRoom pRoom)
             {
-                Console.WriteLine($"(7) Pick up spell");
-            }
-            if (room.Weapon != null)
-            {
-                Console.WriteLine($"(8) Pick up weapon");
-            }
-
-            Console.WriteLine("(9) Exit game");
-            Console.WriteLine("(m) Display map");
-            return;
-        }
-        // TODO: Documentation now that room is PuzzleRoom
-        /// <summary>
-        /// Presents the player with a list of possible actions they can take during their turn.
-        /// The available options depend on the state of the room and the player's inventory.
-        /// </summary>
-        /// <param name="room">The room in which the player is currently located.</param>
-        /// <param name="player">The player making the decision.</param>
-        public static void ShowTurnDecisions(PuzzleRoom room, Player player)
-        {
-            Console.WriteLine("What do you want to do?");
-            Console.WriteLine("(0) View Inventory");
-            Console.WriteLine("(1) Change Equipped Weapon");
-            Console.WriteLine("(2) Use a spell");
-            if (room.Hint != null)
-            {
-                Console.WriteLine("(3) Read the clue");
-            }
-            Console.WriteLine("(4) Open the door");
-            Console.WriteLine("(5) View room name and description again");
-            if (room.PuzzleSolved == false)
-            {
-                Console.WriteLine("(6) Attempt to solve the puzzle");
+                if (pRoom.PuzzleSolved == false)
+                {
+                    Console.WriteLine("(6) Attempt to solve the puzzle");
+                }
             }
             if (room.Spell != null)
             {
