@@ -331,7 +331,10 @@ namespace DungeonExplorer
             UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
         }
-        //TODO: Documentation
+        /// <summary>
+        /// Manages the player's inventory by displaying items, checking inventory status, and sorting items based on user input.
+        /// </summary>
+        /// <param name="player">The player whose inventory is being managed.</param>
         public void ManageInventory(Player player)
         {
             UserInterface.ViewItemsInInventory(player);
