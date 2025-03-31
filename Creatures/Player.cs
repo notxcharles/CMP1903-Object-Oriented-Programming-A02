@@ -137,21 +137,25 @@ namespace DungeonExplorer
         // TODO: Documentation
         public int GetTotalWeaponsInInventory()
         {
+            Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
             return _inventory.GetTotalWeaponsInInventory();
         }
         // TODO: Documentation
         public int GetTotalSpellsInInventory()
         {
+            Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
             return _inventory.GetTotalSpellsInInventory();
         }
         // TODO: Documentation
         public List<Weapon> GetWeaponsInInventory(Player.SortBy sortBy)
         {
+            Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
             return _inventory.GetWeaponsInInventory(sortBy);
         }
         // TODO: Documentation
         public List<Spell> GetSpellsInInventory()
         {
+            Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
             return _inventory.GetSpellsInInventory();
         }
         /// <summary>
@@ -160,6 +164,7 @@ namespace DungeonExplorer
         /// <returns><c>Player._currentEquippedWeapon.GetAttackDamage()</c></returns>
         public int GetAttackDamage()
         {
+            Debug.Assert(_currentEquippedWeapon != null, "Error: Inventory doesn't exist");
             int attackDamage = _currentEquippedWeapon.GetAttackDamage();
             Testing.TestForPositiveInteger(attackDamage);
             return attackDamage;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,7 @@ namespace DungeonExplorer
         // TODO: Documentation
         private List<Weapon> GetWeaponsInInventoryAscending()
         {
+            Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             var weaponsWithIndex = _inventoryList.OfType<Weapon>().Select(weapon => weapon).ToList();
             var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.AttackDamage ascending select weapon;
             List<Weapon> sortedWeaponList = sortedWeapons.ToList();
@@ -56,6 +58,7 @@ namespace DungeonExplorer
         // TODO: Documentation
         private List<Weapon> GetWeaponsInInventoryDescending()
         {
+            Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             var weaponsWithIndex = _inventoryList.OfType<Weapon>().Select(weapon => weapon).ToList();
             var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.AttackDamage descending select weapon;
             List<Weapon> sortedWeaponList = sortedWeapons.ToList();
@@ -69,6 +72,7 @@ namespace DungeonExplorer
         // TODO: Documentation
         private List<Weapon> GetWeaponsInInventorAlphabetically()
         {
+            Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             var weaponsWithIndex = _inventoryList.OfType<Weapon>().Select(weapon => weapon).ToList();
             var sortedWeapons = from Weapon weapon in weaponsWithIndex orderby weapon.Name select weapon;
             List<Weapon> sortedWeaponList = sortedWeapons.ToList();
@@ -99,6 +103,7 @@ namespace DungeonExplorer
         // TODO: Documentation
         public List<Spell> GetSpellsInInventory()
         {
+            Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             var spells = _inventoryList.OfType<Spell>().Select(spell => spell).ToList();
             var sortedSpells = from Spell spell in spells orderby spell.HealAmount ascending select spell;
             List<Spell> spellsList = sortedSpells.ToList();
@@ -112,12 +117,14 @@ namespace DungeonExplorer
         // TODO: Documentation
         public int GetTotalWeaponsInInventory()
         {
+            Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             int weaponCount = _inventoryList.OfType<Weapon>().Count();
             return weaponCount;
         }
         // TODO: Documentation
         public int GetTotalSpellsInInventory()
         {
+            Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             int spellCount = _inventoryList.OfType<Spell>().Count();
             return spellCount;
         }
