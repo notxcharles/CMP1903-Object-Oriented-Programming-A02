@@ -59,15 +59,12 @@ namespace DungeonExplorer
             "A vast underground lake, the water impossibly still. Jagged rocks rise from the surface like teeth, and something beneath the water disturbs the reflection."
         };
         private static Random _random = new Random();
-        // TODO: Update documentation to add spellInTheRoom and hint
         /// <summary>
-        /// Class <c>Room</c>'s constructor
+        /// Initializes a new instance of the <see cref="Room"/> class with a weapon, spell, and hint.
         /// </summary>
-        /// <remarks>
-        /// The name and the description of the room are picked at random from a list of premade names and descriptions.
-        /// </remarks>
-        /// <param name="monster">The instance of the monster</param>
-        /// <param name="weaponInTheRoom"></param>
+        /// <param name="weaponInTheRoom">The weapon associated with the room.</param>
+        /// <param name="spellInTheRoom">The spell associated with the room.</param>
+        /// <param name="hint">The hint associated with the room.</param>
         public Room(Weapon weaponInTheRoom, Spell spellInTheRoom, Hint hint)
         {
             _roomName = CreateRoomName();
@@ -80,15 +77,11 @@ namespace DungeonExplorer
             _hintInTheRoom = hint;
             _doorIsLocked = true;
         }
-        // TODO: Update documentation to add spellInTheRoom
         /// <summary>
-        /// Class <c>Room</c>'s constructor
+        /// Initializes a new instance of the <see cref="Room"/> class with a weapon and spell.
         /// </summary>
-        /// <remarks>
-        /// The name and the description of the room are picked at random from a list of premade names and descriptions.
-        /// </remarks>
-        /// <param name="monster">The instance of the monster</param>
-        /// <param name="weaponInTheRoom"></param>
+        /// <param name="weaponInTheRoom">The weapon associated with the room.</param>
+        /// <param name="spellInTheRoom">The spell associated with the room.</param>
         public Room(Weapon weaponInTheRoom, Spell spellInTheRoom)
         {
             _roomName = CreateRoomName();
@@ -99,15 +92,10 @@ namespace DungeonExplorer
             _spellInTheRoom = spellInTheRoom;
             _doorIsLocked = true;
         }
-        // TODO: Update documentation to add spellInTheRoom
         /// <summary>
-        /// Class <c>Room</c>'s constructor
+        /// Initializes a new instance of the <see cref="Room"/> class with a weapon.
         /// </summary>
-        /// <remarks>
-        /// The name and the description of the room are picked at random from a list of premade names and descriptions.
-        /// </remarks>
-        /// <param name="monster">The instance of the monster</param>
-        /// <param name="weaponInTheRoom"></param>
+        /// <param name="weaponInTheRoom">The weapon associated with the room.</param>
         public Room(Weapon weaponInTheRoom)
         {
             _roomName = CreateRoomName();
@@ -134,62 +122,79 @@ namespace DungeonExplorer
             int index = _random.Next(0, _roomDescriptions.Length);
             return _roomDescriptions[index];
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the name of the room.
+        /// </summary>
         public string RoomName
         {
             get { return _roomName; }
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the description of the room.
+        /// </summary>
         public string RoomDescription
         {
             get { return _roomDescription; }
         }
-       
-        // TODO: Documentation
+
+        /// <summary>
+        /// Gets a value indicating whether the door is locked.
+        /// </summary>
         public bool DoorIsLocked
         {
             get { return _doorIsLocked; }
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the weapon associated with the room.
+        /// </summary>
         public Weapon Weapon
         {
             get { return _weaponInTheRoom; }
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the spell associated with the room.
+        /// </summary>
         public Spell Spell
         {
             get { return _spellInTheRoom; }
         }
+        /// <summary>
+        /// Gets a value indicating whether there is a hint in the room.
+        /// </summary>
         public bool IsHint
         {
             get { return _hintInTheRoom != null; }
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the hint associated with the room.
+        /// </summary>
         public Hint Hint
         {
             get { return _hintInTheRoom; }
         }
         /// <summary>
-        /// Set Room.WeaponInTheRoom to null
+        /// Marks the weapon in the room as picked up and removes it.
         /// </summary>
         public void WeaponPickedUp()
         {
             _weaponInTheRoom = null;
             return;
         }
-        //TODO: Documentation
+        /// <summary>
+        /// Marks the spell in the room as picked up and removes it.
+        /// </summary>
         public void SpellPickedUp()
         {
             _spellInTheRoom = null; 
             return;
         }
-        
-        //TODO: Documentation
+        /// <summary>
+        /// Unlocks the door of the room.
+        /// </summary>
         public void UnlockDoor()
         {
             _doorIsLocked = false;
             return;
         }
-        // TODO: Documentation
     }
 }
