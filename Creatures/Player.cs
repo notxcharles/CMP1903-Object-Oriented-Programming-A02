@@ -14,7 +14,7 @@ namespace DungeonExplorer
     public class Player : Creature, ICanDamage
     {
         private Inventory _inventory;
-        public int MaxInventorySpace { get; private set; }
+        private int _maxInventoryLength;
         private Weapon _currentEquippedWeapon;
         public enum SortBy
         {
@@ -27,12 +27,13 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="name">Player's name</param>
         /// <param name="health">Player's max health</param>
-        public Player(string name, int health) : base(name, health)
+        /// <param name="maxInventoryLength">Player's maximum inventory length</param>
+        public Player(string name, int health, int maxInventoryLength) : base(name, health)
         {
             Debug.Assert(name != null && name.Length > 0, "Error: Player name is null or string is empty");
             Testing.TestForPositiveInteger(health);
-            MaxInventorySpace = 4;
-            _inventory = new Inventory(4);
+            _maxInventoryLength = maxInventoryLength;
+            _inventory = new Inventory(_maxInventoryLength);
             //The player's default starting weapon are their fists
             _currentEquippedWeapon = new Weapon("Fists", 30);
         }
@@ -42,6 +43,13 @@ namespace DungeonExplorer
         public Weapon Weapon
         {
             get { return _currentEquippedWeapon; }
+        }
+        /// <summary>
+        /// Gets the player's maximum inventory length
+        /// </summary>
+        public int MaxInventoryLength
+        {
+            get { return _maxInventoryLength; }
         }
         /// <summary>
         /// Player can <c>PickUpItem</c>
@@ -54,8 +62,8 @@ namespace DungeonExplorer
         /// <param name="weapon">The weapon that the player will pick up</param>
         public void PickUpWeapon(Weapon weapon)
         {
-            Debug.Assert(MaxInventorySpace <= 9, "Error: MaxInventorySpace should not be greater than 9");
-            if (_inventory.Count == MaxInventorySpace)
+            Debug.Assert(_maxInventoryLength <= 9, "Error: MaxInventorySpace should not be greater than 9");
+            if (_inventory.Count == _maxInventoryLength)
             {
                 Console.WriteLine("Your inventory is full! You cannot pick up any more weapons");
             }
@@ -76,8 +84,8 @@ namespace DungeonExplorer
         /// <param name="spell">The spell to add to the inventory.</param>
         public void PickUpSpell(Spell spell)
         {
-            Debug.Assert(MaxInventorySpace <= 9, "Error: MaxInventorySpace should not be greater than 9");
-            if (_inventory.Count == MaxInventorySpace)
+            Debug.Assert(_maxInventoryLength <= 9, "Error: MaxInventorySpace should not be greater than 9");
+            if (_inventory.Count == _maxInventoryLength)
             {
                 Console.WriteLine("Your inventory is full! You cannot pick up any more items");
             }

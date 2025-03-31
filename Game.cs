@@ -171,7 +171,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 7)
                     {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                        if (_player.GetTotalItemsInInventory() == _player.maxInventoryLength)
                         {
                             Console.WriteLine("Your inventory is full, you may not collect any more spells");
                         }
@@ -183,7 +183,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 8)
                     {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                        if (_player.GetTotalItemsInInventory() == _player.maxInventoryLength)
                         {
                             Console.WriteLine("Your inventory is full, you may not collect any more weapons");
                         }
@@ -293,7 +293,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 7)
                     {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                        if (_player.GetTotalItemsInInventory() == _player.maxInventoryLength)
                         {
                             Console.WriteLine("Your inventory is full, you may not collect any more spells");
                         }
@@ -305,7 +305,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 8)
                     {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventorySpace)
+                        if (_player.GetTotalItemsInInventory() == _player.maxInventoryLength)
                         {
                             Console.WriteLine("Your inventory is full, you may not collect any more weapons");
                         }
