@@ -8,19 +8,27 @@ using static DungeonExplorer.Player;
 
 namespace DungeonExplorer
 {
-    // TODO: Documentation
+    /// <summary>
+    /// Represents an inventory that can hold a collection of items.
+    /// </summary>
     public class Inventory
     {
         private List<Item> _inventoryList;
         private int _maxLength;
-        // TODO: Documentation
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Inventory"/> class with a specified maximum length.
+        /// </summary>
+        /// <param name="maxLength">The maximum number of items the inventory can hold.</param>
         public Inventory(int maxLength)
         {
             _inventoryList = new List<Item>();
             _maxLength = maxLength;
         }
-        // TODO: Documentation
-        // returns true if is a success
+        /// <summary>
+        /// Adds an item to the inventory.
+        /// </summary>
+        /// <param name="item">The item to add to the inventory.</param>
+        /// <returns><c>true</c> if the item was successfully added, otherwise, <c>false</c>.</returns>
         public bool Add(Item item)
         {
             if (_inventoryList.Count >= _maxLength)
@@ -31,7 +39,10 @@ namespace DungeonExplorer
             _inventoryList.Add(item);
             return true;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Removes an item from the inventory.
+        /// </summary>
+        /// <param name="item">The item to remove from the inventory.</param>
         public void Remove(Item item)
         {
             _inventoryList.Remove(item);
@@ -55,7 +66,9 @@ namespace DungeonExplorer
             }
             return sortedWeaponList;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the number of items currently in the inventory.
+        /// </summary>
         private List<Weapon> GetWeaponsInInventoryDescending()
         {
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
@@ -69,7 +82,10 @@ namespace DungeonExplorer
             }
             return sortedWeaponList;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets a list of weapons in the inventory sorted by attack damage in ascending order.
+        /// </summary>
+        /// <returns>A list of weapons sorted by attack damage in ascending order, or <c>null</c> if there are no weapons.</returns>
         private List<Weapon> GetWeaponsInInventorAlphabetically()
         {
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
@@ -83,7 +99,10 @@ namespace DungeonExplorer
             }
             return sortedWeaponList;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets a list of weapons in the inventory sorted by attack damage in descending order.
+        /// </summary>
+        /// <returns>A list of weapons sorted by attack damage in descending order, or <c>null</c> if there are no weapons.</returns>
         public List<Weapon> GetWeaponsInInventory(SortBy sortBy)
         {
             if (sortBy == SortBy.Ascending)
@@ -100,7 +119,10 @@ namespace DungeonExplorer
             }
             return null;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets a list of weapons in the inventory sorted alphabetically by name.
+        /// </summary>
+        /// <returns>A list of weapons sorted alphabetically by name, or <c>null</c> 
         public List<Spell> GetSpellsInInventory()
         {
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
@@ -114,14 +136,19 @@ namespace DungeonExplorer
             }
             return spellsList;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the total number of weapons in the inventory.
+        /// </summary>
         public int GetTotalWeaponsInInventory()
         {
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             int weaponCount = _inventoryList.OfType<Weapon>().Count();
             return weaponCount;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the total number of spells in the inventory.
+        /// </summary>
+        /// <returns>The total number of spells in the inventory.</returns>
         public int GetTotalSpellsInInventory()
         {
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
