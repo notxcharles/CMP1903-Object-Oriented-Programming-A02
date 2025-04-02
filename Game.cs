@@ -43,7 +43,7 @@ namespace DungeonExplorer
                 new Spell("Healing potion", 50), 
                 new Hint("Hint 2", $"The mystery number is 7"));
             MonsterRoom room3 = new MonsterRoom(
-                new Dragon("Dragon", 100, new Weapon("Fire Breating", 30), 60, 150), 
+                new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150), 
                 new Weapon(100), 
                 new Spell("Potion of healing", 50));
             MonsterRoom room4 = new MonsterRoom(
@@ -125,7 +125,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(spells, true, _player);
-                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count, false);
+                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false);
                         if (spellChosenIndex == -1)
                         {
                             UserInterface.EndTurn();
@@ -243,7 +243,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(spells, true, _player);
-                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count, false);
+                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false);
                         if (spellChosenIndex == -1)
                         {
                             UserInterface.EndTurn();

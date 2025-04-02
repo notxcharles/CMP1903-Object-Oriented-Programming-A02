@@ -127,7 +127,7 @@ namespace DungeonExplorer
         {
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             var spells = _inventoryList.OfType<Spell>().Select(spell => spell).ToList();
-            var sortedSpells = from Spell spell in spells orderby spell.HealAmount ascending select spell;
+            var sortedSpells = from Spell spell in spells orderby spell.HealAmount descending select spell;
             List<Spell> spellsList = sortedSpells.ToList();
             if (spellsList.Count == 0)
             {
