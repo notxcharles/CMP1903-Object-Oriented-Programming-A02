@@ -46,5 +46,15 @@ namespace DungeonExplorer
             _player.PickUpWeapon(spell);
             Assert.AreEqual(_player.HasItem(spellName), true);
         }
+        /// <summary>
+        /// Tests if weapon.GetAttackDamage() returns 0 or a positive integer
+        /// </summary>
+        [TestMethod]
+        public void WeaponDoesZeroOrPositiveDamage()
+        {
+            string weaponName = "TestingWeapon";
+            Weapon weapon = new Weapon(weaponName, 50);
+            Assert.IsTrue(weapon.GetAttackDamage() >= 0, "The result should be a positive integer");
+        }
     }
 }

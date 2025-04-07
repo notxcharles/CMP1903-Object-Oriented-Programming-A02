@@ -101,6 +101,10 @@ namespace DungeonExplorer
             double attackDamageGaussian = CreateRandomGaussianNumber(_averageAttackDamage, _averageAttackDamage / _stdDevPercentage);
             int attackDamage = Convert.ToInt32(attackDamageGaussian);
             Testing.TestForPositiveInteger(attackDamage);
+            if (attackDamage < 0)
+            {
+                return 0;
+            }
             return attackDamage;
         }
         /// <summary>
