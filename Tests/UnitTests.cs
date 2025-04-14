@@ -16,6 +16,12 @@ namespace DungeonExplorer
         private Player _player;
         private Spell _spell;
         private Weapon _weapon;
+
+        private Witch _witch;
+        private Dragon _dragon;
+        private Shulker _shulker;
+        private Skeleton _skeleton;
+        private Warden _warden;
         /// <summary>
         /// Initialises the test environment before each test method
         /// </summary>
@@ -28,6 +34,11 @@ namespace DungeonExplorer
             _game = new Game("TestingGame", _player);
             _spell = new Spell("Healing Spell of Testing", 1000);
             _weapon = new Weapon("Weapon of Mass Testing", 30);
+            _witch = new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130);
+            _dragon = new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150);
+            _shulker = new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140);
+            _skeleton = new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150);
+            _warden = new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140);
         }
         [TestMethod]
         /// <summary>
@@ -66,8 +77,8 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfWitchInitialises()
         {
-            Witch witch = new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130);
-            Assert.IsNotNull(witch, "Witch did not initialise");
+            
+            Assert.IsNotNull(_witch, "Witch did not initialise");
         }
         [TestMethod]
         /// <summary>
@@ -75,8 +86,7 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfDragonInitialises()
         {
-            Dragon dragon = new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150);
-            Assert.IsNotNull(dragon, "Dragon did not initialise");
+            Assert.IsNotNull(_dragon, "Dragon did not initialise");
         }
         [TestMethod]
         /// <summary>
@@ -84,8 +94,7 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfShulkerInitialises()
         {
-            Shulker shulker = new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140);
-            Assert.IsNotNull(shulker, "shulker did not initialise");
+            Assert.IsNotNull(_shulker, "shulker did not initialise");
         }
         [TestMethod]
         /// <summary>
@@ -93,8 +102,7 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfSkeletonInitialises()
         {
-            Skeleton skeleton = new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150);
-            Assert.IsNotNull(skeleton, "skeleton did not initialise");
+            Assert.IsNotNull(_skeleton, "skeleton did not initialise");
         }
         [TestMethod]
         /// <summary>
@@ -102,8 +110,7 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfWardenInitialises()
         {
-            Warden warden = new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140);
-            Assert.IsNotNull(warden, "Warden did not initialise");
+            Assert.IsNotNull(_warden, "Warden did not initialise");
         }
         [TestMethod]
         /// <summary>
@@ -201,6 +208,50 @@ namespace DungeonExplorer
             Assert.IsNotNull(_spell.CreateSummary(), "Spell summary should not be null");
             Assert.IsNotEmpty(_spell.CreateSummary(), "Spell summary should not be empty");
         }
-
+        [TestMethod]
+        /// <summary>
+        /// Tests if the creature's GetAttackMessage() returns a null or empty string
+        /// </summary>
+        public void DragonGetAttackMessage()
+        {
+            Assert.IsNotNull(_dragon.GetAttackMessage(50), "Attack Message should not be null");
+            Assert.IsNotEmpty(_dragon.GetAttackMessage(50), "Attack Message  should not be empty");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Tests if the creature's GetAttackMessage() returns a null or empty string
+        /// </summary>
+        public void SkeletonGetAttackMessage()
+        {
+            Assert.IsNotNull(_skeleton.GetAttackMessage(50), "Attack Message should not be null");
+            Assert.IsNotEmpty(_skeleton.GetAttackMessage(50), "Attack Message should not be empty");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Tests if the creature's GetAttackMessage() returns a null or empty string
+        /// </summary>
+        public void ShulkerGetAttackMessage()
+        {
+            Assert.IsNotNull(_shulker.GetAttackMessage(50), "Attack Message should not be null");
+            Assert.IsNotEmpty(_shulker.GetAttackMessage(50), "Attack Message should not be empty");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Tests if the creature's GetAttackMessage() returns a null or empty string
+        /// </summary>
+        public void WardenGetAttackMessage()
+        {
+            Assert.IsNotNull(_warden.GetAttackMessage(50), "Attack Message should not be null");
+            Assert.IsNotEmpty(_warden.GetAttackMessage(50), "Attack Message should not be empty");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Tests if the creature's GetAttackMessage() returns a null or empty string
+        /// </summary>
+        public void WitchGetAttackMessage()
+        {
+            Assert.IsNotNull(_witch.GetAttackMessage(50), "Attack Message should not be null");
+            Assert.IsNotEmpty(_witch.GetAttackMessage(50), "Attack Message should not be empty");
+        }
     }
 }
