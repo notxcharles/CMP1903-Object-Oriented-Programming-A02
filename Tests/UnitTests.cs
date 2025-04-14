@@ -148,5 +148,14 @@ namespace DungeonExplorer
             Assert.IsNotNull(_weapon.CreateSummary(), "Weapon summary should not be null");
             Assert.IsNotEmpty(_weapon.CreateSummary(), "Weapon summary should not be empty");
         }
+        [TestMethod]
+        /// <summary>
+        /// Tests if Spell.CreateSummary() should not return a null or empty string
+        /// </summary>
+        public void SpellCreateSummary()
+        {
+            Assert.IsNotNull(_spell.CreateSummary(), "Spell summary should not be null");
+            Assert.IsNotEmpty(_spell.CreateSummary(), "Spell summary should not be empty");
+        }
     }
 }
