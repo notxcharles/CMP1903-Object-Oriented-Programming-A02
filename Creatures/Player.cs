@@ -31,7 +31,7 @@ namespace DungeonExplorer
         public Player(string name, int health, int maxInventoryLength) : base(name, health)
         {
             Debug.Assert(name != null && name.Length > 0, "Error: Player name is null or string is empty");
-            Testing.TestForPositiveInteger(health);
+            Tests.TestForPositiveInteger(health);
             _maxInventoryLength = maxInventoryLength;
             _inventory = new Inventory(_maxInventoryLength);
             //The player's default starting weapon are their fists
@@ -193,7 +193,7 @@ namespace DungeonExplorer
         {
             Debug.Assert(_currentEquippedWeapon != null, "Error: _currentEquippedWeapon doesn't exist");
             int attackDamage = _currentEquippedWeapon.GetAttackDamage();
-            Testing.TestForPositiveInteger(attackDamage);
+            Tests.TestForPositiveInteger(attackDamage);
             return attackDamage;
         }
         /// <summary>

@@ -53,7 +53,7 @@ namespace DungeonExplorer
         public Monster(string name, int health, Weapon weapon) : base(name, health)  
         {
             Debug.Assert(name != null, "Error: name does not exist");
-            Testing.TestForPositiveInteger(health);
+            Tests.TestForPositiveInteger(health);
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty();
             Health = (int)(health * _difficulty);
@@ -69,7 +69,7 @@ namespace DungeonExplorer
         public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty) : base(name)
         {
             Debug.Assert(name != null, "Error: name does not exist");
-            Testing.TestForPositiveInteger(health);
+            Tests.TestForPositiveInteger(health);
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty(minDifficulty, maxDifficulty);
             Health = (int)(health * _difficulty);
@@ -83,7 +83,7 @@ namespace DungeonExplorer
         public Monster(int health, float difficulty, Weapon weapon)
         {
             Name = CreateMonsterName();
-            Testing.TestForPositiveInteger(health);
+            Tests.TestForPositiveInteger(health);
             _difficulty = difficulty;
             Health = (int)(health * _difficulty);
             _weapon = weapon;
