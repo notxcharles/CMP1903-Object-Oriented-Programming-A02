@@ -24,10 +24,11 @@ namespace DungeonExplorer
         private Shulker _shulker;
         private Skeleton _skeleton;
         private Warden _warden;
+
+        [TestInitialize]
         /// <summary>
         /// Initialises the test environment before each test method
         /// </summary>
-        [TestInitialize]
         public void SetUp() 
         {
             // [TestInitialize] attribute instructs VS to run setup before each test method,
@@ -110,6 +111,7 @@ namespace DungeonExplorer
                 throw;
             }
         }
+        [TestMethod]
         /// <summary>
         /// Test if the Creature can be instantiated
         /// </summary>
@@ -126,7 +128,7 @@ namespace DungeonExplorer
                 throw;
             }
         }
-        [TestMethod]
+        
         /// <summary>
         /// Test if the Creature can be instantiated
         /// </summary>
