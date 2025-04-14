@@ -16,12 +16,6 @@ namespace DungeonExplorer
         private Inventory _inventory;
         private int _maxInventoryLength;
         private Weapon _currentEquippedWeapon;
-        public enum SortBy
-        {
-            Ascending,
-            Descending,
-            Alphabetically
-        }
         /// <summary>
         /// Class <c>Player</c>'s constructor
         /// </summary>
@@ -108,7 +102,7 @@ namespace DungeonExplorer
         public void EquipDifferentWeapon(int weaponIndex)
         {
             // Swap the selected weapon with the currently equipped weapon
-            List<Weapon> sortedWeaponList = _inventory.GetWeaponsInInventory(Player.SortBy.Ascending);
+            List<Weapon> sortedWeaponList = _inventory.GetWeaponsInInventory(Inventory.SortBy.Ascending);
             Weapon weaponToEquip = sortedWeaponList[weaponIndex];
             Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
             _inventory.Remove(weaponToEquip);
@@ -171,7 +165,7 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="sortBy">The sorting criteria.</param>
         /// <returns>A list of weapons sorted by the specified criteria.</returns>
-        public List<Weapon> GetWeaponsInInventory(Player.SortBy sortBy)
+        public List<Weapon> GetWeaponsInInventory(Inventory.SortBy sortBy)
         {
             Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
             return _inventory.GetWeaponsInInventory(sortBy);

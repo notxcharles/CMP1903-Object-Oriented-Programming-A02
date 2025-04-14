@@ -100,7 +100,7 @@ namespace DungeonExplorer
                     else if (decision == 1)
                     {
                         //player has chosen to change their equipped item
-                        List<Weapon> weapons = _player.GetWeaponsInInventory(Player.SortBy.Ascending);
+                        List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
                         if (weapons == null)
                         {
                             UserInterface.EndTurn();
@@ -218,7 +218,7 @@ namespace DungeonExplorer
                     else if (decision == 1)
                     {
                         //player has chosen to change their equipped item
-                        List<Weapon> weapons = _player.GetWeaponsInInventory(Player.SortBy.Ascending);
+                        List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
                         if (weapons == null)
                         {
                             UserInterface.EndTurn();
@@ -347,7 +347,7 @@ namespace DungeonExplorer
                 return;
             }
             UserInterface.DisplaySortingOptions();
-            Player.SortBy? sortingOption = UserInterface.GetSortingOption();
+            Inventory.SortBy? sortingOption = UserInterface.GetSortingOption();
             if (sortingOption == null)
             {
                 return;

@@ -15,6 +15,12 @@ namespace DungeonExplorer
     {
         private List<Item> _inventoryList;
         private int _maxLength;
+        public enum SortBy
+        {
+            Ascending,
+            Descending,
+            Alphabetically
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Inventory"/> class with a specified maximum length.
         /// </summary>

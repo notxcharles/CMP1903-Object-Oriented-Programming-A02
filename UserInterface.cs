@@ -206,20 +206,20 @@ namespace DungeonExplorer
         /// Gets the sorting option selected by the user.
         /// </summary>
         /// <returns>The selected sorting option, or <c>null</c> if the user cancels.</returns>
-        public static Player.SortBy? GetSortingOption()
+        public static Inventory.SortBy? GetSortingOption()
         {
             int input = GetInput(1, 4, false);
             if (input == 1)
             {
-                return Player.SortBy.Ascending;
+                return Inventory.SortBy.Ascending;
             }
             else if (input == 2)
             {
-                return Player.SortBy.Descending;
+                return Inventory.SortBy.Descending;
             }
             else if (input == 3)
             {
-                return Player.SortBy.Alphabetically;
+                return Inventory.SortBy.Alphabetically;
             }
             return null;
         }
@@ -306,7 +306,7 @@ namespace DungeonExplorer
         /// <param name="monster">The monster being fought.</param>
         /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
         /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
-        public static void ViewItemsInInventory(Player player, Player.SortBy sortBy = Player.SortBy.Ascending)
+        public static void ViewItemsInInventory(Player player, Inventory.SortBy sortBy = Inventory.SortBy.Ascending)
         {
             // If there are no items in the inventory, show an error
             if (player.GetTotalItemsInInventory() == 0)
