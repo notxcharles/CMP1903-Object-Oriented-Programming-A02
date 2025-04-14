@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using DungeonExplorer.Creatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NLog;
 
 namespace DungeonExplorer
 {
     [TestClass]
     public class UnitTests
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private Game _game;
         private Player _player;
         private Spell _spell;
@@ -46,7 +48,16 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfGameInitialises()
         {
-            Assert.IsNotNull(_game, "Game does not initialise");
+            try
+            {
+                Assert.IsNotNull(_game, "Game does not initialise");
+                logger.Info("TestIfGameInitialises passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TestIfGameInitialises failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
