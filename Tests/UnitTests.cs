@@ -56,6 +56,30 @@ namespace DungeonExplorer
             _player.PickUpWeapon(spell);
             Assert.AreEqual(_player.HasItem(spellName), true);
         }
+        [TestMethod]
+        /// <summary>
+        /// Tests if Player.GetTotalItemsInInventory() returns 0 or a positive integer
+        /// </summary>
+        public void PlayerGetTotalItemsInInventory()
+        {
+            Assert.IsTrue(_player.GetTotalItemsInInventory() >= 0, "Player's inventory has negative items in their inventory");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Tests if Player.GetTotalWeaponsInInventory() returns 0 or a positive integer
+        /// </summary>
+        public void PlayerGetTotalWeaponsInInventory()
+        {
+            Assert.IsTrue(_player.GetTotalWeaponsInInventory() >= 0, "Player's inventory has negative items in their inventory");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Tests if Player.GetTotalWeaponsInInventory() returns 0 or a positive integer
+        /// </summary>
+        public void PlayerGetTotalSpellsInInventory()
+        {
+            Assert.IsTrue(_player.GetTotalSpellsInInventory() >= 0, "Player's inventory has negative items in their inventory");
+        }
         /// <summary>
         /// Tests if weapon.GetAttackDamage() returns 0 or a positive integer
         /// </summary>
