@@ -24,10 +24,12 @@ namespace DungeonExplorer
             _player = new Player("TestingPlayer", 500, 8);
             _game = new Game("TestingGame", _player);
         }
+        [TestMethod]
         public void TestGameInitialisation()
         {
             Assert.IsTrue(_game != null, "Game does not initialise");
         }
+        [TestMethod]
         public void TestPlayerInitialisation()
         {
             Assert.IsTrue(_player != null, "Player does not initialise");
