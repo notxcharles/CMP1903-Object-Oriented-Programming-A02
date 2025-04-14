@@ -13,6 +13,8 @@ namespace DungeonExplorer
     {
         private Game _game;
         private Player _player;
+        private Spell _spell;
+        private Weapon _weapon;
         /// <summary>
         /// Initialises the test environment before each test method
         /// </summary>
@@ -23,16 +25,40 @@ namespace DungeonExplorer
             // ensuring that all objects are properly initialised
             _player = new Player("TestingPlayer", 500, 8);
             _game = new Game("TestingGame", _player);
+            _spell = new Spell("Healing Spell of Testing", 1000);
+            _weapon = new Weapon("Weapon of Mass Testing", 30);
         }
         [TestMethod]
+        /// <summary>
+        /// Tests if the game object is successfully initialised
+        /// </summary>
         public void TestGameInitialisation()
         {
             Assert.IsTrue(_game != null, "Game does not initialise");
         }
         [TestMethod]
+        /// <summary>
+        /// Tests if the player object is successfully initialised
+        /// </summary>
         public void TestPlayerInitialisation()
         {
             Assert.IsTrue(_player != null, "Player does not initialise");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Tests if the spell object is successfully initialised
+        /// </summary>
+        public void TestSpellInitialisation()
+        {
+            Assert.IsTrue(_spell != null, "Spell does not initialise");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Tests if the weapon object is successfully initialised
+        /// </summary>
+        public void TestWeaponInitialisation()
+        {
+            Assert.IsTrue(_weapon != null, "Weapon does not initialise");
         }
         /// <summary>
         /// Tests if the player can pick up a weapon and have it in their inventory
