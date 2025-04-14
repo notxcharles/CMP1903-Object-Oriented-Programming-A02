@@ -65,7 +65,16 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfPlayerInitialises()
         {
-            Assert.IsNotNull(_player, "Player does not initialise");
+            try
+            { 
+                Assert.IsNotNull(_player, "Player does not initialise");
+                logger.Info("TestIfPlayerInitialises passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TestIfPlayerInitialises failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -73,7 +82,16 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfSpellInitialises()
         {
-            Assert.IsNotNull(_spell, "Spell does not initialise");
+            try
+            { 
+                Assert.IsNotNull(_spell, "Spell does not initialise");
+                logger.Info("TestIfSpellInitialises passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TestIfSpellInitialises failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -81,15 +99,32 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfWeaponInitialises()
         {
-            Assert.IsNotNull(_weapon, "Weapon does not initialise");
+            try
+            { 
+                Assert.IsNotNull(_weapon, "Weapon does not initialise");
+                logger.Info("TestIfWeaponInitialises passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TestIfWeaponInitialises failed.");
+                throw;
+            }
         }
         /// <summary>
         /// Test if the Creature can be instantiated
         /// </summary>
         public void TestIfWitchInitialises()
         {
-            
-            Assert.IsNotNull(_witch, "Witch did not initialise");
+            try
+            { 
+                Assert.IsNotNull(_witch, "Witch did not initialise");
+                logger.Info("TestIfWitchInitialises passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TestIfWitchInitialises failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -97,7 +132,16 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfDragonInitialises()
         {
-            Assert.IsNotNull(_dragon, "Dragon did not initialise");
+            try
+            { 
+                Assert.IsNotNull(_dragon, "Dragon did not initialise");
+                logger.Info("TestIfDragonInitialises passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TestIfDragonInitialises failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -105,7 +149,16 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfShulkerInitialises()
         {
-            Assert.IsNotNull(_shulker, "shulker did not initialise");
+            try
+            { 
+                Assert.IsNotNull(_shulker, "shulker did not initialise");
+                logger.Info("TestIfShulkerInitialises passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TestIfShulkerInitialises failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -113,7 +166,16 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfSkeletonInitialises()
         {
-            Assert.IsNotNull(_skeleton, "skeleton did not initialise");
+            try
+            { 
+                Assert.IsNotNull(_skeleton, "skeleton did not initialise");
+                logger.Info("TestIfSkeletonInitialises passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TestIfSkeletonInitialises failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -121,7 +183,16 @@ namespace DungeonExplorer
         /// </summary>
         public void TestIfWardenInitialises()
         {
-            Assert.IsNotNull(_warden, "Warden did not initialise");
+            try
+            {
+                Assert.IsNotNull(_warden, "Warden did not initialise");
+                logger.Info("TestIfWardenInitialises passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "TestIfWardenInitialises failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -132,7 +203,16 @@ namespace DungeonExplorer
             string weaponName = "TestingWeapon";
             Weapon weapon = new Weapon(weaponName, 50);
             _player.PickUpWeapon(weapon);
-            Assert.AreEqual(_player.HasItem(weaponName), true);
+            try
+            { 
+                Assert.AreEqual(_player.HasItem(weaponName), true);
+                logger.Info("PlayerPicksUpWeapon passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "PlayerPicksUpWeapon failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -143,7 +223,16 @@ namespace DungeonExplorer
             string spellName = "TestingSpell";
             Weapon spell = new Weapon(spellName, 50);
             _player.PickUpWeapon(spell);
-            Assert.IsTrue(_player.HasItem(spellName), "Player does not have the item it should have");
+            try
+            { 
+                Assert.IsTrue(_player.HasItem(spellName), "Player's inventory does not contain the spell it should contain");
+                logger.Info("PlayerPicksUpSpell passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "PlayerPicksUpSpell failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -154,7 +243,16 @@ namespace DungeonExplorer
             string name = "item with name";
             Weapon weapon = new Weapon(name, 50);
             _player.PickUpWeapon(weapon);
-            Assert.IsTrue(_player.HasItem(name), "Player's inventory does not contain a weapon");
+            try
+            { 
+                Assert.IsTrue(_player.HasItem(name), "Player's inventory does not contain the weapon it should contain");
+                logger.Info("PlayerInventoryHasWeaponWithName passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "PlayerInventoryHasWeaponWithName failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -165,7 +263,16 @@ namespace DungeonExplorer
             string name = "item with name";
             Spell item = new Spell(name, 50);
             _player.PickUpSpell(item);
-            Assert.IsTrue(_player.HasItem(name), "Player's inventory does not contain a spell");
+            try
+            { 
+                Assert.IsTrue(_player.HasItem(name), "Player's inventory does not contain a spell");
+                logger.Info("PlayerInventoryHasSpellWithName passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "PlayerInventoryHasSpellWithName failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -173,7 +280,16 @@ namespace DungeonExplorer
         /// </summary>
         public void PlayerGetTotalItemsInInventory()
         {
-            Assert.IsTrue(_player.GetTotalItemsInInventory() >= 0, "Player's inventory has negative items in their inventory");
+            try
+            { 
+                Assert.IsTrue(_player.GetTotalItemsInInventory() >= 0, "Player's inventory has negative items in their inventory");
+                logger.Info("PlayerGetTotalItemsInInventory passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "PlayerGetTotalItemsInInventory failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -181,7 +297,16 @@ namespace DungeonExplorer
         /// </summary>
         public void PlayerGetTotalWeaponsInInventory()
         {
-            Assert.IsTrue(_player.GetTotalWeaponsInInventory() >= 0, "Player's inventory has negative items in their inventory");
+            try
+            { 
+                Assert.IsTrue(_player.GetTotalWeaponsInInventory() >= 0, "Player's inventory has negative items in their inventory");
+                logger.Info("PlayerGetTotalWeaponsInInventory passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "PlayerGetTotalWeaponsInInventory failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -189,7 +314,16 @@ namespace DungeonExplorer
         /// </summary>
         public void PlayerGetTotalSpellsInInventory()
         {
-            Assert.IsTrue(_player.GetTotalSpellsInInventory() >= 0, "Player's inventory has negative items in their inventory");
+            try
+            { 
+                Assert.IsTrue(_player.GetTotalSpellsInInventory() >= 0, "Player's inventory has negative items in their inventory");
+                logger.Info("PlayerGetTotalSpellsInInventory passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "PlayerGetTotalSpellsInInventory failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -199,7 +333,16 @@ namespace DungeonExplorer
         {
             string weaponName = "TestingWeapon";
             Weapon weapon = new Weapon(weaponName, 50);
-            Assert.IsTrue(weapon.GetAttackDamage() >= 0, "The result should be a positive integer");
+            try
+            { 
+                Assert.IsTrue(weapon.GetAttackDamage() >= 0, "The result should be a positive integer");
+                logger.Info("WeaponDoesZeroOrPositiveDamage passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "WeaponDoesZeroOrPositiveDamage failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -207,8 +350,17 @@ namespace DungeonExplorer
         /// </summary>
         public void WeaponCreateSummary()
         {
-            Assert.IsNotNull(_weapon.CreateSummary(), "Weapon summary should not be null");
-            Assert.IsNotEmpty(_weapon.CreateSummary(), "Weapon summary should not be empty");
+            try
+            { 
+                Assert.IsNotNull(_weapon.CreateSummary(), "Weapon summary should not be null");
+                Assert.IsNotEmpty(_weapon.CreateSummary(), "Weapon summary should not be empty");
+                logger.Info("WeaponCreateSummary passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "WeaponCreateSummary failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -216,8 +368,17 @@ namespace DungeonExplorer
         /// </summary>
         public void SpellCreateSummary()
         {
-            Assert.IsNotNull(_spell.CreateSummary(), "Spell summary should not be null");
-            Assert.IsNotEmpty(_spell.CreateSummary(), "Spell summary should not be empty");
+            try
+            { 
+                Assert.IsNotNull(_spell.CreateSummary(), "Spell summary should not be null");
+                Assert.IsNotEmpty(_spell.CreateSummary(), "Spell summary should not be empty");
+                logger.Info("SpellCreateSummary passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "SpellCreateSummary failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -225,8 +386,17 @@ namespace DungeonExplorer
         /// </summary>
         public void DragonGetAttackMessage()
         {
-            Assert.IsNotNull(_dragon.GetAttackMessage(50), "Attack Message should not be null");
-            Assert.IsNotEmpty(_dragon.GetAttackMessage(50), "Attack Message  should not be empty");
+            try
+            { 
+                Assert.IsNotNull(_dragon.GetAttackMessage(50), "Attack Message should not be null");
+                Assert.IsNotEmpty(_dragon.GetAttackMessage(50), "Attack Message  should not be empty");
+                logger.Info("DragonGetAttackMessage passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "DragonGetAttackMessage failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -234,8 +404,17 @@ namespace DungeonExplorer
         /// </summary>
         public void SkeletonGetAttackMessage()
         {
-            Assert.IsNotNull(_skeleton.GetAttackMessage(50), "Attack Message should not be null");
-            Assert.IsNotEmpty(_skeleton.GetAttackMessage(50), "Attack Message should not be empty");
+            try
+            { 
+                Assert.IsNotNull(_skeleton.GetAttackMessage(50), "Attack Message should not be null");
+                Assert.IsNotEmpty(_skeleton.GetAttackMessage(50), "Attack Message should not be empty");
+                logger.Info("SkeletonGetAttackMessage passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "SkeletonGetAttackMessage failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -243,8 +422,17 @@ namespace DungeonExplorer
         /// </summary>
         public void ShulkerGetAttackMessage()
         {
-            Assert.IsNotNull(_shulker.GetAttackMessage(50), "Attack Message should not be null");
-            Assert.IsNotEmpty(_shulker.GetAttackMessage(50), "Attack Message should not be empty");
+            try
+            { 
+                Assert.IsNotNull(_shulker.GetAttackMessage(50), "Attack Message should not be null");
+                Assert.IsNotEmpty(_shulker.GetAttackMessage(50), "Attack Message should not be empty");
+                logger.Info("ShulkerGetAttackMessage passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "ShulkerGetAttackMessage failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -252,8 +440,17 @@ namespace DungeonExplorer
         /// </summary>
         public void WardenGetAttackMessage()
         {
-            Assert.IsNotNull(_warden.GetAttackMessage(50), "Attack Message should not be null");
-            Assert.IsNotEmpty(_warden.GetAttackMessage(50), "Attack Message should not be empty");
+            try
+            { 
+                Assert.IsNotNull(_warden.GetAttackMessage(50), "Attack Message should not be null");
+                Assert.IsNotEmpty(_warden.GetAttackMessage(50), "Attack Message should not be empty");
+                logger.Info("WardenGetAttackMessage passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "WardenGetAttackMessage failed.");
+                throw;
+            }
         }
         [TestMethod]
         /// <summary>
@@ -261,8 +458,17 @@ namespace DungeonExplorer
         /// </summary>
         public void WitchGetAttackMessage()
         {
-            Assert.IsNotNull(_witch.GetAttackMessage(50), "Attack Message should not be null");
-            Assert.IsNotEmpty(_witch.GetAttackMessage(50), "Attack Message should not be empty");
+            try 
+            { 
+                Assert.IsNotNull(_witch.GetAttackMessage(50), "Attack Message should not be null");
+                Assert.IsNotEmpty(_witch.GetAttackMessage(50), "Attack Message should not be empty");
+                logger.Info("WitchGetAttackMessage passed");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "WitchGetAttackMessage failed.");
+                throw;
+            }
         }
     }
 }
