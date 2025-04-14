@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DungeonExplorer.Creatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DungeonExplorer
@@ -32,7 +33,7 @@ namespace DungeonExplorer
         /// <summary>
         /// Tests if the game object is successfully initialised
         /// </summary>
-        public void TestGameInitialisation()
+        public void TestIfGameInitialises()
         {
             Assert.IsNotNull(_game, "Game does not initialise");
         }
@@ -40,7 +41,7 @@ namespace DungeonExplorer
         /// <summary>
         /// Tests if the player object is successfully initialised
         /// </summary>
-        public void TestPlayerInitialisation()
+        public void TestIfPlayerInitialises()
         {
             Assert.IsNotNull(_player, "Player does not initialise");
         }
@@ -48,7 +49,7 @@ namespace DungeonExplorer
         /// <summary>
         /// Tests if the spell object is successfully initialised
         /// </summary>
-        public void TestSpellInitialisation()
+        public void TestIfSpellInitialises()
         {
             Assert.IsNotNull(_spell, "Spell does not initialise");
         }
@@ -56,14 +57,58 @@ namespace DungeonExplorer
         /// <summary>
         /// Tests if the weapon object is successfully initialised
         /// </summary>
-        public void TestWeaponInitialisation()
+        public void TestIfWeaponInitialises()
         {
             Assert.IsNotNull(_weapon, "Weapon does not initialise");
         }
         /// <summary>
+        /// Test if the Creature can be instantiated
+        /// </summary>
+        public void TestIfWitchInitialises()
+        {
+            Witch witch = new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130);
+            Assert.IsNotNull(witch, "Witch did not initialise");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Test if the Creature can be instantiated
+        /// </summary>
+        public void TestIfDragonInitialises()
+        {
+            Dragon dragon = new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150);
+            Assert.IsNotNull(dragon, "Dragon did not initialise");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Test if the Creature can be instantiated
+        /// </summary>
+        public void TestIfShulkerInitialises()
+        {
+            Shulker shulker = new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140);
+            Assert.IsNotNull(shulker, "shulker did not initialise");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Test if the Creature can be instantiated
+        /// </summary>
+        public void TestIfSkeletonInitialises()
+        {
+            Skeleton skeleton = new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150);
+            Assert.IsNotNull(skeleton, "skeleton did not initialise");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Test if the Creature can be instantiated
+        /// </summary>
+        public void TestIfWardenInitialises()
+        {
+            Warden warden = new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140);
+            Assert.IsNotNull(warden, "Warden did not initialise");
+        }
+        [TestMethod]
+        /// <summary>
         /// Tests if the player can pick up a weapon and have it in their inventory
         /// </summary>
-        [TestMethod]
         public void PlayerPicksUpWeapon()
         {
             string weaponName = "TestingWeapon";
@@ -71,10 +116,10 @@ namespace DungeonExplorer
             _player.PickUpWeapon(weapon);
             Assert.AreEqual(_player.HasItem(weaponName), true);
         }
+        [TestMethod]
         /// <summary>
         /// Tests if the player can pick up a spell and have it in their inventory
         /// </summary>
-        [TestMethod]
         public void PlayerPicksUpSpell()
         {
             string spellName = "TestingSpell";
@@ -128,11 +173,10 @@ namespace DungeonExplorer
         {
             Assert.IsTrue(_player.GetTotalSpellsInInventory() >= 0, "Player's inventory has negative items in their inventory");
         }
-        
+        [TestMethod]
         /// <summary>
         /// Tests if weapon.GetAttackDamage() returns 0 or a positive integer
         /// </summary>
-        [TestMethod]
         public void WeaponDoesZeroOrPositiveDamage()
         {
             string weaponName = "TestingWeapon";
@@ -157,5 +201,6 @@ namespace DungeonExplorer
             Assert.IsNotNull(_spell.CreateSummary(), "Spell summary should not be null");
             Assert.IsNotEmpty(_spell.CreateSummary(), "Spell summary should not be empty");
         }
+
     }
 }
