@@ -139,5 +139,14 @@ namespace DungeonExplorer
             Weapon weapon = new Weapon(weaponName, 50);
             Assert.IsTrue(weapon.GetAttackDamage() >= 0, "The result should be a positive integer");
         }
+        [TestMethod]
+        /// <summary>
+        /// Tests if Weapon.CreateSummary() should not return a null or empty string
+        /// </summary>
+        public void WeaponCreateSummary()
+        {
+            Assert.IsNotNull(_weapon.CreateSummary(), "Weapon summary should not be null");
+            Assert.IsNotEmpty(_weapon.CreateSummary(), "Weapon summary should not be empty");
+        }
     }
 }
