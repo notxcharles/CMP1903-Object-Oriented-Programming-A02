@@ -2,9 +2,9 @@
 
 namespace DungeonExplorer
 {
-    class Testing
+    class Tests
     {
-        public Testing()
+        public Tests()
         {
 
         } 

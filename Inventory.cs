@@ -155,5 +155,23 @@ namespace DungeonExplorer
             int spellCount = _inventoryList.OfType<Spell>().Count();
             return spellCount;
         }
+        /// <summary>
+        /// Determines whether the inventory list contains an item with the specified name.
+        /// </summary>
+        /// <param name="itemName">The name of the item to search for in the inventory list.</param>
+        /// <returns>
+        /// <c>true</c> if an item with the specified name is found in the inventory list; otherwise, <c>false</c>.
+        /// </returns>
+        public bool HasItem(string itemName)
+        {
+            foreach (Item item in _inventoryList)
+            {
+                if (item.Name == itemName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

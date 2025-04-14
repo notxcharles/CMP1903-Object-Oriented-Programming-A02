@@ -60,7 +60,7 @@ namespace DungeonExplorer
         /// <param name="roomNumber">The index of the room in the dungeon sequence.</param>
         public static void DisplayRoomInformation(MonsterRoom room, int roomNumber)
         {
-            Testing.TestForZeroOrAbove(roomNumber);
+            Tests.TestForZeroOrAbove(roomNumber);
             Console.WriteLine($"Welcome to Room {room.RoomName} (Room {roomNumber + 1})");
             Console.WriteLine($"{room.RoomDescription}\n");
             if (room.Monster != null)
@@ -95,7 +95,7 @@ namespace DungeonExplorer
         /// <param name="roomNumber">The index of the room in the dungeon sequence.</param>
         public static void DisplayRoomInformation(PuzzleRoom room, int roomNumber)
         {
-            Testing.TestForZeroOrAbove(roomNumber);
+            Tests.TestForZeroOrAbove(roomNumber);
             Console.WriteLine($"Welcome to Room {room.RoomName} (Room {roomNumber + 1})");
             Console.WriteLine($"{room.RoomDescription}\n");
             Console.WriteLine($"There is no monster in this room, instead there is a puzzle to solve.");
