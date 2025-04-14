@@ -34,7 +34,7 @@ namespace DungeonExplorer
         /// </summary>
         public void TestGameInitialisation()
         {
-            Assert.IsTrue(_game != null, "Game does not initialise");
+            Assert.IsNotNull(_game, "Game does not initialise");
         }
         [TestMethod]
         /// <summary>
@@ -42,7 +42,7 @@ namespace DungeonExplorer
         /// </summary>
         public void TestPlayerInitialisation()
         {
-            Assert.IsTrue(_player != null, "Player does not initialise");
+            Assert.IsNotNull(_player, "Player does not initialise");
         }
         [TestMethod]
         /// <summary>
@@ -50,7 +50,7 @@ namespace DungeonExplorer
         /// </summary>
         public void TestSpellInitialisation()
         {
-            Assert.IsTrue(_spell != null, "Spell does not initialise");
+            Assert.IsNotNull(_spell, "Spell does not initialise");
         }
         [TestMethod]
         /// <summary>
@@ -58,7 +58,7 @@ namespace DungeonExplorer
         /// </summary>
         public void TestWeaponInitialisation()
         {
-            Assert.IsTrue(_weapon != null, "Weapon does not initialise");
+            Assert.IsNotNull(_weapon, "Weapon does not initialise");
         }
         /// <summary>
         /// Tests if the player can pick up a weapon and have it in their inventory
@@ -80,7 +80,7 @@ namespace DungeonExplorer
             string spellName = "TestingSpell";
             Weapon spell = new Weapon(spellName, 50);
             _player.PickUpWeapon(spell);
-            Assert.AreEqual(_player.HasItem(spellName), true);
+            Assert.IsTrue(_player.HasItem(spellName), "Player does not have the item it should have");
         }
         [TestMethod]
         /// <summary>
