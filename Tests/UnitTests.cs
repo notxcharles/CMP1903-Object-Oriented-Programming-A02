@@ -58,6 +58,28 @@ namespace DungeonExplorer
         }
         [TestMethod]
         /// <summary>
+        /// Tests if Player.HasItem() returns true. If it returns false, the inventory doesn't keep track of items that it should contain
+        /// </summary>
+        public void PlayerInventoryHasWeaponWithName()
+        {
+            string name = "item with name";
+            Weapon weapon = new Weapon(name, 50);
+            _player.PickUpWeapon(weapon);
+            Assert.IsTrue(_player.HasItem(name), "Player's inventory does not contain a weapon");
+        }
+        [TestMethod]
+        /// <summary>
+        /// Tests if Player.HasItem() returns true. If it returns false, the inventory doesn't keep track of items that it should contain
+        /// </summary>
+        public void PlayerInventoryHasSpellWithName()
+        {
+            string name = "item with name";
+            Spell item = new Spell(name, 50);
+            _player.PickUpSpell(item);
+            Assert.IsTrue(_player.HasItem(name), "Player's inventory does not contain a spell");
+        }
+        [TestMethod]
+        /// <summary>
         /// Tests if Player.GetTotalItemsInInventory() returns 0 or a positive integer
         /// </summary>
         public void PlayerGetTotalItemsInInventory()
@@ -80,6 +102,7 @@ namespace DungeonExplorer
         {
             Assert.IsTrue(_player.GetTotalSpellsInInventory() >= 0, "Player's inventory has negative items in their inventory");
         }
+        
         /// <summary>
         /// Tests if weapon.GetAttackDamage() returns 0 or a positive integer
         /// </summary>
