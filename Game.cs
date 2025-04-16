@@ -17,6 +17,7 @@ namespace DungeonExplorer
         private int _numberOfRooms;
         private GameMap _map;
         private static Random _random = new Random();
+        private int _roomNumber;
 
         private List<Room> _rooms = new List<Room>();
         /// <summary>
@@ -38,8 +39,7 @@ namespace DungeonExplorer
         /// </summary>
         public void Start()
         {
-            // 
-            int roomNumber = 0;
+            _roomNumber = 0;
             UserInterface.DisplayGameStart(_gameName);
             int loadGame = UserInterface.GetInput(0, 1, false, false);
             if (loadGame == 0)
@@ -53,17 +53,17 @@ namespace DungeonExplorer
                 LoadGameInstance();
             }
 
-            while (roomNumber < _numberOfRooms)
+            while (_roomNumber < _numberOfRooms)
             {
-                Console.WriteLine($"room number {roomNumber} < max rooms {_numberOfRooms}");
-                _currentRoom = _rooms[roomNumber];
+                Console.WriteLine($"room number {_roomNumber} < max rooms {_numberOfRooms}");
+                _currentRoom = _rooms[_roomNumber];
                 if ( _currentRoom is MonsterRoom monsterRoom)
                 {
-                    UserInterface.DisplayRoomInformation(monsterRoom, roomNumber);
+                    UserInterface.DisplayRoomInformation(monsterRoom, _roomNumber);
                     UserInterface.DisplayPlayerDetails(_player);
                     UserInterface.ShowTurnDecisions(monsterRoom, _player);
                     int decision = UserInterface.GetInput(0, 9, true, true);
-                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 8");
+                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
                     if (decision == 0)
                     {
                         //Player wants to view inventory
@@ -125,7 +125,7 @@ namespace DungeonExplorer
                         //Player wants to goes to next room
                         if (NextRoom(monsterRoom))
                         {
-                            roomNumber += 1;
+                            _roomNumber += 1;
                         }
                     }
                     else if (decision == 5)
@@ -175,21 +175,25 @@ namespace DungeonExplorer
                     else if (decision == 10)
                     {
                         //Show map
-                        _map.CreateMap(roomNumber);
+                        _map.CreateMap(_roomNumber);
                     }
                     else if (decision == 11)
                     {
                         // Player wants to save their game
+                        //We need to save the room number, the player object and the list of game rooms
+                        //GameState = new GameState(_roomNumber, _player, _rooms);
+                        // and then we save the GameState object
+                        // See notes on my ipad
                         throw new NotImplementedException();
                     }
                 }
                 else if (_currentRoom is PuzzleRoom puzzleRoom)
                 {
-                    UserInterface.DisplayRoomInformation(puzzleRoom, roomNumber);
+                    UserInterface.DisplayRoomInformation(puzzleRoom, _roomNumber);
                     UserInterface.DisplayPlayerDetails(_player);
                     UserInterface.ShowTurnDecisions(puzzleRoom, _player);
                     int decision = UserInterface.GetInput(0, 9, true, true);
-                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 8");
+                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
                     if (decision == 0)
                     {
                         //Player wants to view inventory
@@ -197,7 +201,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 1)
                     {
-                        //player has chosen to change their equipped item
+                        //player has chosen to change their equipped items
                         List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
                         if (weapons == null)
                         {
@@ -248,7 +252,7 @@ namespace DungeonExplorer
                         //Player wants to goes to next room
                         if (NextRoom(puzzleRoom))
                         {
-                            roomNumber += 1;
+                            _roomNumber += 1;
                         }
                     }
                     else if (decision == 5)
@@ -302,7 +306,7 @@ namespace DungeonExplorer
                     else if (decision == 10)
                     {
                         //Show map
-                        _map.CreateMap(roomNumber);
+                        _map.CreateMap(_roomNumber);
                     }
                     else if (decision == 11)
                     {
@@ -355,10 +359,12 @@ namespace DungeonExplorer
             _rooms.Add(room7);
             _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
+            _roomNumber = 0;
         }
         //TODO: DOCUMENTATION
         public void LoadGameInstance()
         {
+
             throw new NotImplementedException();
         }
         /// <summary>
