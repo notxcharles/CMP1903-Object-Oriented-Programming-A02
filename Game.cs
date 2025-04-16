@@ -41,7 +41,7 @@ namespace DungeonExplorer
             // 
             int roomNumber = 0;
             UserInterface.DisplayGameStart(_gameName);
-            int loadGame = UserInterface.GetInput(0, 1, false);
+            int loadGame = UserInterface.GetInput(0, 1, false, false);
             if (loadGame == 0)
             {
                 //Create a new game
@@ -62,8 +62,8 @@ namespace DungeonExplorer
                     UserInterface.DisplayRoomInformation(monsterRoom, roomNumber);
                     UserInterface.DisplayPlayerDetails(_player);
                     UserInterface.ShowTurnDecisions(monsterRoom, _player);
-                    int decision = UserInterface.GetInput(0, 9, true);
-                    Debug.Assert(decision >= 0 && decision <= 10, "Error: Decision must be an integer value from 0 to 8");
+                    int decision = UserInterface.GetInput(0, 9, true, true);
+                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 8");
                     if (decision == 0)
                     {
                         //Player wants to view inventory
@@ -82,7 +82,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(weapons, true, _player);
-                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false);
+                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
                         if (weaponChosenIndex == -1)
                         {
                             UserInterface.EndTurn();
@@ -100,7 +100,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(spells, true, _player);
-                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false);
+                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false, false);
                         if (spellChosenIndex == -1)
                         {
                             UserInterface.EndTurn();
@@ -177,14 +177,19 @@ namespace DungeonExplorer
                         //Show map
                         _map.CreateMap(roomNumber);
                     }
+                    else if (decision == 11)
+                    {
+                        // Player wants to save their game
+                        throw new NotImplementedException();
+                    }
                 }
                 else if (_currentRoom is PuzzleRoom puzzleRoom)
                 {
                     UserInterface.DisplayRoomInformation(puzzleRoom, roomNumber);
                     UserInterface.DisplayPlayerDetails(_player);
                     UserInterface.ShowTurnDecisions(puzzleRoom, _player);
-                    int decision = UserInterface.GetInput(0, 9, true);
-                    Debug.Assert(decision >= 0 && decision <= 10, "Error: Decision must be an integer value from 0 to 8");
+                    int decision = UserInterface.GetInput(0, 9, true, true);
+                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 8");
                     if (decision == 0)
                     {
                         //Player wants to view inventory
@@ -200,7 +205,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(weapons, true, _player);
-                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false);
+                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
                         if (weaponChosenIndex == -1)
                         {
                             UserInterface.EndTurn();
@@ -218,7 +223,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(spells, true, _player);
-                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false);
+                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false, false);
                         if (spellChosenIndex == -1)
                         {
                             UserInterface.EndTurn();
@@ -298,6 +303,11 @@ namespace DungeonExplorer
                     {
                         //Show map
                         _map.CreateMap(roomNumber);
+                    }
+                    else if (decision == 11)
+                    {
+                        // Player wants to save their game
+                        throw new NotImplementedException();
                     }
                 }
                 UserInterface.EndTurn();

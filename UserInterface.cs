@@ -167,6 +167,7 @@ namespace DungeonExplorer
 
             Console.WriteLine("(9) Exit game");
             Console.WriteLine("(m) Display map");
+            Console.WriteLine("(s) Save game");
             return;
         }
         /// <summary>
@@ -205,7 +206,7 @@ namespace DungeonExplorer
         /// <returns>The selected sorting option, or <c>null</c> if the user cancels.</returns>
         public static Inventory.SortBy? GetSortingOption()
         {
-            int input = GetInput(1, 4, false);
+            int input = GetInput(1, 4, false, false);
             if (input == 1)
             {
                 return Inventory.SortBy.Ascending;
@@ -228,7 +229,7 @@ namespace DungeonExplorer
         /// <param name="maxInput">The maximum valid input value.</param>
         /// <param name="mAsInput">Indicates whether the 'm' key should be treated as a valid input (returns 10).</param>
         /// <returns>The validated integer input from the user, or 10 if 'm' is pressed and allowed.</returns>
-        public static int GetInput(int minInput, int maxInput, bool mAsInput)
+        public static int GetInput(int minInput, int maxInput, bool mAsInput, bool sAsInput)
         {
             while (true)
             {
@@ -251,6 +252,10 @@ namespace DungeonExplorer
                     {
                         return 10;
                     }
+                    if (mAsInput && key.KeyChar.ToString() == "s")
+                    {
+                        return 11;
+                    }
                     Console.WriteLine($"{key} was pressed. You may only press a key from {minInput} to {maxInput}");
                 }
             }
@@ -259,13 +264,13 @@ namespace DungeonExplorer
         public static int GetGuessLessThan()
         {
             Console.WriteLine($"You must guess a number. If your guess is less than the mystery number then you may progress. If it is not, your health will be reduced!");
-            return GetInput(0, 9, false);
+            return GetInput(0, 9, false, false);
         }
         // TODO: Documentation
         public static int GetGuessGreaterThan()
         {
             Console.WriteLine($"You must guess a number. If your guess is greater than the mystery number then you may progress. If it is not, your health will be reduced!");
-            return GetInput(0, 9, false);
+            return GetInput(0, 9, false, false);
         }
         /// <summary>
         /// Displays attack results for both the player and the monster. 
