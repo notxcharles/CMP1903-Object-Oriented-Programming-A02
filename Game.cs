@@ -184,6 +184,7 @@ namespace DungeonExplorer
                         //GameState = new GameState(_roomNumber, _player, _rooms);
                         // and then we save the GameState object
                         // See notes on my ipad
+                        // video: https://youtu.be/ISCYD7YPSf4?si=PaOyuqKDBGLtA6Ws
                         throw new NotImplementedException();
                     }
                 }
