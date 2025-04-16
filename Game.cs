@@ -32,52 +32,27 @@ namespace DungeonExplorer
             // Initialize the game with one room and one player
             _gameName = gameName;
             _player = player;
-
-            MonsterRoom room1 = new MonsterRoom(
-                new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130),
-                new Weapon(100),
-                new Spell("Potion of healing", 25),
-                new Hint("Hint 1", "You must defeat the monster before you can advance to the next room!"));
-            PuzzleRoom room2 = new PuzzleRoom(7, 
-                new Weapon(100), 
-                new Spell("Healing potion", 50), 
-                new Hint("Hint 2", $"The mystery number is 7"));
-            MonsterRoom room3 = new MonsterRoom(
-                new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150), 
-                new Weapon(100), 
-                new Spell("Potion of healing", 50));
-            MonsterRoom room4 = new MonsterRoom(
-                new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140), 
-                new Weapon(100));
-            PuzzleRoom room5 = new PuzzleRoom(3,
-                new Weapon(100),
-                new Spell("Healing potion", 50),
-                new Hint("Hint 2", $"The mystery number is 3"));
-            MonsterRoom room6 = new MonsterRoom(
-                new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150), 
-                new Weapon(100), 
-                new Spell("Potion of healing", 150));
-            MonsterRoom room7 = new MonsterRoom(
-                new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140), 
-                new Weapon(100));
-            _rooms.Add(room1);
-            _rooms.Add(room2);
-            _rooms.Add(room3);
-            _rooms.Add(room4);
-            _rooms.Add(room5);
-            _rooms.Add(room6);
-            _rooms.Add(room7);
-            _map = new GameMap(_rooms);
-            _numberOfRooms = _rooms.Count;
         }
         /// <summary>
         /// The primary part of the game's logic
         /// </summary>
         public void Start()
         {
+            // 
             int roomNumber = 0;
             UserInterface.DisplayGameStart(_gameName);
-            
+            int loadGame = UserInterface.GetInput(0, 1, false);
+            if (loadGame == 0)
+            {
+                //Create a new game
+                CreateNewGameInstance();
+            }
+            else
+            {
+                //Load the game from a file
+                LoadGameInstance();
+            }
+
             while (roomNumber < _numberOfRooms)
             {
                 Console.WriteLine($"room number {roomNumber} < max rooms {_numberOfRooms}");
@@ -330,6 +305,51 @@ namespace DungeonExplorer
             string endGameStatistics = Statistics.GetEndGameStatisticsString();
             UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
+        }
+        // tODO: Documentation
+        public void CreateNewGameInstance()
+        {
+            MonsterRoom room1 = new MonsterRoom(
+                new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130),
+                new Weapon(100),
+                new Spell("Potion of healing", 25),
+                new Hint("Hint 1", "You must defeat the monster before you can advance to the next room!"));
+            PuzzleRoom room2 = new PuzzleRoom(7,
+                new Weapon(100),
+                new Spell("Healing potion", 50),
+                new Hint("Hint 2", $"The mystery number is 7"));
+            MonsterRoom room3 = new MonsterRoom(
+                new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150),
+                new Weapon(100),
+                new Spell("Potion of healing", 50));
+            MonsterRoom room4 = new MonsterRoom(
+                new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140),
+                new Weapon(100));
+            PuzzleRoom room5 = new PuzzleRoom(3,
+                new Weapon(100),
+                new Spell("Healing potion", 50),
+                new Hint("Hint 2", $"The mystery number is 3"));
+            MonsterRoom room6 = new MonsterRoom(
+                new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150),
+                new Weapon(100),
+                new Spell("Potion of healing", 150));
+            MonsterRoom room7 = new MonsterRoom(
+                new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140),
+                new Weapon(100));
+            _rooms.Add(room1);
+            _rooms.Add(room2);
+            _rooms.Add(room3);
+            _rooms.Add(room4);
+            _rooms.Add(room5);
+            _rooms.Add(room6);
+            _rooms.Add(room7);
+            _map = new GameMap(_rooms);
+            _numberOfRooms = _rooms.Count;
+        }
+        //TODO: DOCUMENTATION
+        public void LoadGameInstance()
+        {
+            throw new NotImplementedException();
         }
         /// <summary>
         /// Manages the player's inventory by displaying items, checking inventory status, and sorting items based on user input.

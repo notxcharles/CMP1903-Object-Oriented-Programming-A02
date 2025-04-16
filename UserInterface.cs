@@ -35,20 +35,17 @@ namespace DungeonExplorer
             ConsoleKeyInfo key = Console.ReadKey();
             ClearConsole();
         }
-        /// <summary>
-        /// Prints the display for the start of the game
-        /// </summary>
-        /// <remarks>
-        /// This prints multiple messages to the console, welcoming the user to the game. <c>gameName</c> is
-        /// used as the title of the game
-        /// </remarks>
+        // TODO: documentation
         public static void DisplayGameStart(string gameName)
         {
             ClearConsole();
             Console.WriteLine($"Welcome to {gameName}");
             Console.WriteLine($"You must battle your way through each room. In each room you will have to defeat a " +
                 $"monster who will have the the key to unlock the door!");
-            EndTurn();
+            Console.WriteLine();
+            Console.WriteLine($"Would you like to:");
+            Console.WriteLine($"(0) Start a new game");
+            Console.WriteLine($"(1) Load game from file");
             return;
         }
         // TODO: Documentation now that room is MonsterRoom
