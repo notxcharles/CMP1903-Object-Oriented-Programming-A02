@@ -18,6 +18,7 @@ namespace DungeonExplorer
         private GameMap _map;
         private static Random _random = new Random();
         private int _roomNumber;
+        private GameState _gameState;
 
         private List<Room> _rooms = new List<Room>();
         /// <summary>
@@ -181,7 +182,7 @@ namespace DungeonExplorer
                     {
                         // Player wants to save their game
                         //We need to save the room number, the player object and the list of game rooms
-                        //GameState = new GameState(_roomNumber, _player, _rooms);
+                        _gameState = new GameState(_roomNumber, _player, _rooms);
                         // and then we save the GameState object
                         // See notes on my ipad
                         // video: https://youtu.be/ISCYD7YPSf4?si=PaOyuqKDBGLtA6Ws
@@ -361,6 +362,8 @@ namespace DungeonExplorer
             _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
             _roomNumber = 0;
+            _gameState = new GameState(_roomNumber, _player, _rooms);
+            return;
         }
         //TODO: DOCUMENTATION
         public void LoadGameInstance()
