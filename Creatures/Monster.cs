@@ -1,4 +1,5 @@
 ﻿using DungeonExplorer.Creatures;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 
@@ -40,6 +41,7 @@ namespace DungeonExplorer
             "Jabba the Hutt",
         };
         private Weapon _weapon;
+        [JsonProperty]
         private float _difficulty;
         //TODO: Update documentation
         /// <summary>

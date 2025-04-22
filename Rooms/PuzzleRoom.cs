@@ -12,7 +12,9 @@ namespace DungeonExplorer.Rooms
     /// </summary>
     public class PuzzleRoom : Room
     {
+        [JsonProperty]
         private bool _puzzleSolved;
+        [JsonProperty]
         private int _numberToGuess;
         [JsonConstructor]
         public PuzzleRoom()

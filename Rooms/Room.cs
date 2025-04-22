@@ -10,12 +10,19 @@ namespace DungeonExplorer
     /// </summary>
     public class Room
     {
+        [JsonProperty]
         private string _roomName;
+        [JsonProperty]
         private string _roomDescription;
+        [JsonProperty]
         private bool _doorIsLocked;
+        [JsonProperty]
         private Weapon _weaponInTheRoom;
+        [JsonProperty]
         private Spell _spellInTheRoom;
+        [JsonProperty]
         private Hint _hintInTheRoom;
+
         private static string[] _roomNames = new string[] {
             "The Forgotten Hall",
             "Chamber of Chains",

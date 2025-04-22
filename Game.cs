@@ -386,15 +386,12 @@ namespace DungeonExplorer
             _rooms = new List<Room>();
             foreach (Room room in _gameState.Rooms)
             {
-                Console.WriteLine($"{room.RoomName}, {room.GetType().Name}");
                 if (room is MonsterRoom monsterRoom)
                 {
-                    Console.WriteLine("MonsterRoom");
                     _rooms.Add(monsterRoom);
                 }
                 else if (room is PuzzleRoom puzzleRoom)
                 {
-                    Console.WriteLine("PuzzleRoom");
                     _rooms.Add(puzzleRoom);
                 }
             }
