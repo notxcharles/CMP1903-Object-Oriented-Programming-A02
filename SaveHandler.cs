@@ -31,7 +31,7 @@ namespace DungeonExplorer
             string filePath = Path.Combine(path, "saveFile.txt");
 
             // Convert gameState object to string
-            var serialisedObject = Newtonsoft.Json.JsonConvert.SerializeObject(gameState);
+            var serialisedObject = Newtonsoft.Json.JsonConvert.SerializeObject(gameState, Formatting.Indented);
             //Write to filePath
             using (StreamWriter sw = new StreamWriter(filePath))
             {
