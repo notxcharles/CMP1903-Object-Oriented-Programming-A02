@@ -69,6 +69,8 @@ namespace DungeonExplorer
         };
         private static Random _random = new Random();
         [JsonConstructor]
+        // TODO: Documentation comment
+        // this constructor is blank because it allows me to implement the funcitonality of loading the class from a save file
         public Room()
         {
         }
