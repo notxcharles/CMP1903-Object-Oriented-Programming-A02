@@ -18,5 +18,17 @@ namespace DungeonExplorer
             _player = player;
             _rooms = rooms;
         }
+        public int RoomNumber
+        {
+            get { return _roomNumber; }
+        }
+        public Player Player
+        {
+            get { return _player; }
+        }
+        public List<Room> Rooms
+        {
+            get { return _rooms; }
+        }
     }
 }
