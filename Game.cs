@@ -325,7 +325,7 @@ namespace DungeonExplorer
             return;
         }
         // tODO: Documentation
-        public void CreateNewGameInstance()
+        public GameState CreateNewGameInstance()
         {
             MonsterRoom room1 = new MonsterRoom(
                 new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130),
@@ -366,12 +366,17 @@ namespace DungeonExplorer
             _roomNumber = 0;
             _statistics = new Statistics();
             _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
+
+            // TESTING
+
+            //Debug.Assert(_gameState == LoadGameInstance());
             SaveHandler.SaveToFile(_gameState);
-            return;
+            return _gameState;
         }
         //TODO: DOCUMENTATION
-        public void LoadGameInstance()
+        public GameState LoadGameInstance()
         {
+
             GameState loadedGameState = SaveHandler.LoadFromFile();
             GameState _gameState = loadedGameState;
             
@@ -396,7 +401,7 @@ namespace DungeonExplorer
             _statistics = _gameState.Statistics;
             _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
-            return;
+            return _gameState;
         }
         /// <summary>
         /// Manages the player's inventory by displaying items, checking inventory status, and sorting items based on user input.

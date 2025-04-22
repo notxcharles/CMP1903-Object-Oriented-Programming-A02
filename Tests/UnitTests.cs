@@ -6,7 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DungeonExplorer.Creatures;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using NLog;
+using System.IO;
+
 
 namespace DungeonExplorer
 {
@@ -469,6 +472,33 @@ namespace DungeonExplorer
             catch (Exception ex)
             {
                 logger.Error(ex, "WitchGetAttackMessage failed.");
+                throw;
+            }
+        }
+
+        // I want to test that the saved gamestate is equal to the gamestate when it has been loaded from the file
+        [TestMethod]
+        public void SavingIsWorkingAsIntended()
+        {
+            try
+            {
+                GameState savedGameState = _game.CreateNewGameInstance();
+                GameState loadedGameState = _game.LoadGameInstance();
+                var jsonSettings = SaveHandler.GetSettings();
+                string savedJson = JsonConvert.SerializeObject(savedGameState, jsonSettings);
+                string loadedJson = JsonConvert.SerializeObject(loadedGameState, jsonSettings);
+                Assert.IsTrue(savedJson == loadedJson);
+            }
+            catch (Exception ex)
+            {
+                GameState savedGameState = _game.CreateNewGameInstance();
+                GameState loadedGameState = _game.LoadGameInstance();
+                var jsonSettings = SaveHandler.GetSettings();
+                string savedJson = JsonConvert.SerializeObject(savedGameState, jsonSettings);
+                string loadedJson = JsonConvert.SerializeObject(loadedGameState, jsonSettings);
+                File.WriteAllText("original.json", savedJson);
+                File.WriteAllText("loaded.json", loadedJson);
+                logger.Error(ex, "SavingIsWorkingAsIntended. Saved Game was not equal to loaded game");
                 throw;
             }
         }
