@@ -57,6 +57,7 @@ namespace DungeonExplorer
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty();
             Health = (int)(health * _difficulty);
+            MaxHealth = Health;
         }
         //TODO: Update documentation
         /// <summary>
@@ -73,6 +74,7 @@ namespace DungeonExplorer
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty(minDifficulty, maxDifficulty);
             Health = (int)(health * _difficulty);
+            MaxHealth = Health;
         }
         //TODO: Update documentation
         /// <summary>
@@ -86,6 +88,7 @@ namespace DungeonExplorer
             Tests.TestForPositiveInteger(health);
             _difficulty = difficulty;
             Health = (int)(health * _difficulty);
+            MaxHealth = Health;
             _weapon = weapon;
         }
         //TODO: Documentation
@@ -94,6 +97,7 @@ namespace DungeonExplorer
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty();
             Health = (int)(health * _difficulty);
+            MaxHealth = Health;
         }
         // TODO: Documentation
         public Weapon Weapon

@@ -18,6 +18,7 @@ namespace DungeonExplorer
             _name = name;
             _health = health;
             _maxHealth = health;
+            Console.WriteLine($"the monster {_name} of type {this.GetType().Name}, has health {_health} and max health {_maxHealth}");
         }
         // TODO: Documentation
         public Creature(int health)
@@ -51,6 +52,7 @@ namespace DungeonExplorer
         public int MaxHealth
         {
             get { return _maxHealth; }
+            protected set { _maxHealth = value; }
         }
     }
 }
