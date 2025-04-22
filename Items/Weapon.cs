@@ -42,9 +42,10 @@ namespace DungeonExplorer
         private static int _stdDevPercentage = 5;
 
         [JsonConstructor]
+        // TODO: Documentation comment
+        // this constructor is blank because it allows me to implement the funcitonality of loading the class from a save file
         public Weapon()
         {
-            Console.WriteLine("WEAPON JSON");
         }
         /// <summary>
         /// Class <c>Weapon</c>'s constructor

@@ -17,9 +17,10 @@ namespace DungeonExplorer.Rooms
         [JsonProperty]
         private int _numberToGuess;
         [JsonConstructor]
+        // TODO: Documentation comment
+        // this constructor is blank because it allows me to implement the funcitonality of loading the class from a save file
         public PuzzleRoom()
         {
-            Console.WriteLine("PuzzleRoom JSON");
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="PuzzleRoom"/> class.

@@ -71,7 +71,6 @@ namespace DungeonExplorer
         [JsonConstructor]
         public Room()
         {
-            Console.WriteLine("ROOM JSON");
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Room"/> class with a weapon, spell, and hint.

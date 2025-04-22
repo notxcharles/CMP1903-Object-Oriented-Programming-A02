@@ -16,9 +16,10 @@ namespace DungeonExplorer.Rooms
         [JsonProperty]
         private Monster _monsterInTheRoom;
         [JsonConstructor]
+        // TODO: Documentation comment
+        // this constructor is blank because it allows me to implement the funcitonality of loading the class from a save file
         public MonsterRoom()
         {
-            Console.WriteLine("MonsterRoom JSON");
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="MonsterRoom"/> class with a monster, weapon, spell, and hint.
