@@ -12,7 +12,6 @@ namespace DungeonExplorer
     /// </remarks>
     public class Monster : Creature, ICanDamage
     {
-        public int AverageAttackDamage { get; private set; }
         private static Random _random = new Random();
         private static string[] _monsterNames = new string[] {
             "Walter White",

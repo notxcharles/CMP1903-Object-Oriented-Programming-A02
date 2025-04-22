@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,7 +13,13 @@ namespace DungeonExplorer.Rooms
     /// </summary>
     public class MonsterRoom : Room
     {
+        [JsonProperty]
         private Monster _monsterInTheRoom;
+        [JsonConstructor]
+        public MonsterRoom()
+        {
+            Console.WriteLine("MonsterRoom JSON");
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="MonsterRoom"/> class with a monster, weapon, spell, and hint.
         /// </summary>

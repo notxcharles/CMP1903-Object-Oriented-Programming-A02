@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 
 namespace DungeonExplorer
@@ -12,6 +13,7 @@ namespace DungeonExplorer
     /// </remarks>
     public class Weapon : Item, IHasSummary
     {
+        [JsonProperty]
         public int _averageAttackDamage;
         private static Random _random = new Random();
         private static string[] _weaponNames = {
@@ -37,7 +39,13 @@ namespace DungeonExplorer
             "Fireworks",
             "Tennis Ball Machine"
         };
-        private const int _stdDevPercentage = 5;
+        private static int _stdDevPercentage = 5;
+
+        [JsonConstructor]
+        public Weapon()
+        {
+            Console.WriteLine("WEAPON JSON");
+        }
         /// <summary>
         /// Class <c>Weapon</c>'s constructor
         /// </summary>

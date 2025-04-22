@@ -11,12 +11,14 @@ namespace DungeonExplorer
         private int _roomNumber;
         private Player _player;
         private List<Room> _rooms;
+        private Statistics _statistics;
 
-        public GameState(int roomNumber, Player player, List<Room> rooms)
+        public GameState(int roomNumber, Player player, List<Room> rooms, Statistics statistics)
         {
             _roomNumber = roomNumber;
             _player = player;
             _rooms = rooms;
+            _statistics = statistics;
         }
         public int RoomNumber
         {
@@ -29,6 +31,10 @@ namespace DungeonExplorer
         public List<Room> Rooms
         {
             get { return _rooms; }
+        }
+        public Statistics Statistics
+        {
+            get { return _statistics; }
         }
     }
 }

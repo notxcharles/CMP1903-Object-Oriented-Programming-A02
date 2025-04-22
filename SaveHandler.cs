@@ -11,27 +11,44 @@ namespace DungeonExplorer
     internal class SaveHandler
     {
         private string _fileName;
-        private JsonSerializerSettings _jsonSettings;
         public SaveHandler()
         {
-            _jsonSettings = new Newtonsoft.Json.JsonSerializerSettings();
-            _jsonSettings.TypeNameHandling = TypeNameHandling.All;
+            
         }
+        public static JsonSerializerSettings GetSettings()
+        {
+            JsonSerializerSettings jsonSettings = new JsonSerializerSettings();
+            jsonSettings.TypeNameHandling = TypeNameHandling.All;
+            jsonSettings.Formatting = Formatting.Indented;
+            return jsonSettings;
+        }
+        public static GameState LoadFromFile()
+        {
+            string path = null;
+            path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string filePath = Path.Combine(path, "saveFile.txt");
 
-        //public GameState LoadFromFile()
-        //{
-
-        //}
+            string fileContents = null;
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                fileContents = sr.ReadToEnd();
+            }
+            JsonSerializerSettings jsonSettings = GetSettings();
+            var loadedGameState = Newtonsoft.Json.JsonConvert.DeserializeObject<GameState>(fileContents, jsonSettings);
+            return loadedGameState;
+        }
 
         public static void SaveToFile(GameState gameState)
         {
+            JsonSerializerSettings jsonSettings = GetSettings();
+
             // Create a filePath directory to C://My Documents/saveFile.txt
             string path = null;
             path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string filePath = Path.Combine(path, "saveFile.txt");
 
             // Convert gameState object to string
-            var serialisedObject = Newtonsoft.Json.JsonConvert.SerializeObject(gameState, Formatting.Indented);
+            var serialisedObject = Newtonsoft.Json.JsonConvert.SerializeObject(gameState, jsonSettings);
             //Write to filePath
             using (StreamWriter sw = new StreamWriter(filePath))
             {

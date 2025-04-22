@@ -19,6 +19,7 @@ namespace DungeonExplorer
         private static Random _random = new Random();
         private int _roomNumber;
         private GameState _gameState;
+        private Statistics _statistics;
 
         private List<Room> _rooms = new List<Room>();
         /// <summary>
@@ -54,7 +55,7 @@ namespace DungeonExplorer
                 //Load the game from a file
                 LoadGameInstance();
             }
-
+            
             while (_roomNumber < _numberOfRooms)
             {
                 Console.WriteLine($"room number {_roomNumber} < max rooms {_numberOfRooms}");
@@ -183,7 +184,7 @@ namespace DungeonExplorer
                     {
                         // Player wants to save their game
                         //We need to save the room number, the player object and the list of game rooms
-                        _gameState = new GameState(_roomNumber, _player, _rooms);
+                        //_gameState = new GameState(_roomNumber, _player, _rooms);
                         // and then we save the GameState object
                         // See notes on my ipad
                         // video: https://youtu.be/ISCYD7YPSf4?si=PaOyuqKDBGLtA6Ws
@@ -319,7 +320,7 @@ namespace DungeonExplorer
                 }
                 UserInterface.EndTurn();
             }
-            string endGameStatistics = Statistics.GetEndGameStatisticsString();
+            string endGameStatistics = _statistics.GetEndGameStatisticsString();
             UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
         }
@@ -363,15 +364,39 @@ namespace DungeonExplorer
             _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
             _roomNumber = 0;
-            _gameState = new GameState(_roomNumber, _player, _rooms);
+            _statistics = new Statistics();
+            _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
             SaveHandler.SaveToFile(_gameState);
             return;
         }
         //TODO: DOCUMENTATION
         public void LoadGameInstance()
         {
-
-            throw new NotImplementedException();
+            GameState loadedGameState = SaveHandler.LoadFromFile();
+            GameState _gameState = loadedGameState;
+            
+            _roomNumber = _gameState.RoomNumber;
+            _player = _gameState.Player;
+            List<Room> tempRoomList = _gameState.Rooms;
+            _rooms = new List<Room>();
+            foreach (Room room in _gameState.Rooms)
+            {
+                Console.WriteLine($"{room.RoomName}, {room.GetType().Name}");
+                if (room is MonsterRoom monsterRoom)
+                {
+                    Console.WriteLine("MonsterRoom");
+                    _rooms.Add(monsterRoom);
+                }
+                else if (room is PuzzleRoom puzzleRoom)
+                {
+                    Console.WriteLine("PuzzleRoom");
+                    _rooms.Add(puzzleRoom);
+                }
+            }
+            _statistics = _gameState.Statistics;
+            _map = new GameMap(_rooms);
+            _numberOfRooms = _rooms.Count;
+            return;
         }
         /// <summary>
         /// Manages the player's inventory by displaying items, checking inventory status, and sorting items based on user input.
@@ -411,7 +436,7 @@ namespace DungeonExplorer
             if (currentRoom.DoorIsLocked == false)
             {
                 Console.WriteLine("The door is unlocked. You proceed to the next room. . .");
-                Statistics.PlayerCompletedARoom();
+                _statistics.PlayerCompletedARoom();
                 return true;
             }
             Console.WriteLine("The door is locked! Have you defeated the monster?");
@@ -431,7 +456,7 @@ namespace DungeonExplorer
             if (currentRoom.DoorIsLocked == false)
             {
                 Console.WriteLine("The door is unlocked. You proceed to the next room. . .");
-                Statistics.PlayerCompletedARoom();
+                _statistics.PlayerCompletedARoom();
                 return true;
             }
             Console.WriteLine("The door is locked! Have you solved the puzzle?");
@@ -466,9 +491,9 @@ namespace DungeonExplorer
                 room.MonsterDefeated();
                 room.UnlockDoor();
             }
-            Statistics.PlayerDealtDamage(playerAttackDamage);
-            Statistics.PlayerReceivedDamage(monsterAttackDamage);
-            UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage);
+            _statistics.PlayerDealtDamage(playerAttackDamage);
+            _statistics.PlayerReceivedDamage(monsterAttackDamage);
+            UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage, _statistics);
             return;
         }
         

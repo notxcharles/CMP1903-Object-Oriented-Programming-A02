@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,11 @@ namespace DungeonExplorer.Rooms
     {
         private bool _puzzleSolved;
         private int _numberToGuess;
+        [JsonConstructor]
+        public PuzzleRoom()
+        {
+            Console.WriteLine("PuzzleRoom JSON");
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="PuzzleRoom"/> class.
         /// </summary>
