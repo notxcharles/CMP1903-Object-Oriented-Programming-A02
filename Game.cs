@@ -34,6 +34,7 @@ namespace DungeonExplorer
             // Initialize the game with one room and one player
             _gameName = gameName;
             _player = player;
+            
         }
         /// <summary>
         /// The primary part of the game's logic
@@ -363,6 +364,7 @@ namespace DungeonExplorer
             _numberOfRooms = _rooms.Count;
             _roomNumber = 0;
             _gameState = new GameState(_roomNumber, _player, _rooms);
+            SaveHandler.SaveToFile(_gameState);
             return;
         }
         //TODO: DOCUMENTATION
