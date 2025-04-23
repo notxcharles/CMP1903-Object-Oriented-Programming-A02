@@ -48,12 +48,12 @@ namespace DungeonExplorer
             if (loadGame == 0)
             {
                 //Create a new game
-                CreateNewGameInstance();
+                CreateNewGameState();
             }
             else
             {
                 //Load the game from a file
-                LoadGameFromFile();
+                LoadGameStateFromFile();
             }
             
             while (_roomNumber < _numberOfRooms)
@@ -184,7 +184,7 @@ namespace DungeonExplorer
                     {
                         // Player wants to save their game
                         _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
-                        SaveHandler.SaveToFile(_gameState);
+                        SaveHandler.SaveGameStateToFile(_gameState);
                         UserInterface.GameSaved();
                     }
                 }
@@ -313,7 +313,7 @@ namespace DungeonExplorer
                     {
                         // Player wants to save their game
                         _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
-                        SaveHandler.SaveToFile(_gameState);
+                        SaveHandler.SaveGameStateToFile(_gameState);
                         UserInterface.GameSaved();
                     }
                 }
@@ -324,7 +324,7 @@ namespace DungeonExplorer
             return;
         }
         // tODO: Documentation
-        public GameState CreateNewGameInstance()
+        public GameState CreateNewGameState()
         {
             MonsterRoom room1 = new MonsterRoom(
                 new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130),
@@ -366,18 +366,18 @@ namespace DungeonExplorer
             _statistics = new Statistics();
             _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
 
-            SaveHandler.SaveToFile(_gameState);
+            SaveHandler.SaveGameStateToFile(_gameState);
             return _gameState;
         }
         //TODO: DOCUMENTATION
-        public GameState LoadGameFromFile()
+        public GameState LoadGameStateFromFile()
         {
 
-            GameState loadedGameState = SaveHandler.LoadFromFile();
+            GameState loadedGameState = SaveHandler.GetGameStateFromFile();
             if (loadedGameState == null)
             {
                 Console.WriteLine("Error: Could not load game state from file. Creating a new game");
-                return CreateNewGameInstance();
+                return CreateNewGameState();
             }
             GameState _gameState = loadedGameState;
 

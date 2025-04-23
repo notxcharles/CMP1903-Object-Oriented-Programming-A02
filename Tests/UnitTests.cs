@@ -482,18 +482,18 @@ namespace DungeonExplorer
         {
             try
             {
-                GameState savedGameState = _game.CreateNewGameInstance();
-                GameState loadedGameState = _game.LoadGameFromFile();
-                var jsonSettings = SaveHandler.GetSettings();
+                GameState savedGameState = _game.CreateNewGameState();
+                GameState loadedGameState = _game.LoadGameStateFromFile();
+                var jsonSettings = SaveHandler.GetJsonSerializerSettings();
                 string savedJson = JsonConvert.SerializeObject(savedGameState, jsonSettings);
                 string loadedJson = JsonConvert.SerializeObject(loadedGameState, jsonSettings);
                 Assert.IsTrue(savedJson == loadedJson);
             }
             catch (Exception ex)
             {
-                GameState savedGameState = _game.CreateNewGameInstance();
-                GameState loadedGameState = _game.LoadGameFromFile();
-                var jsonSettings = SaveHandler.GetSettings();
+                GameState savedGameState = _game.CreateNewGameState();
+                GameState loadedGameState = _game.LoadGameStateFromFile();
+                var jsonSettings = SaveHandler.GetJsonSerializerSettings();
                 string savedJson = JsonConvert.SerializeObject(savedGameState, jsonSettings);
                 string loadedJson = JsonConvert.SerializeObject(loadedGameState, jsonSettings);
                 File.WriteAllText("original.json", savedJson);
