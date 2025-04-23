@@ -54,7 +54,6 @@ namespace DungeonExplorer
             {
                 //Load the game from a file
                 LoadGameFromFile();
-                Console.WriteLine("Loaded");
             }
             
             while (_roomNumber < _numberOfRooms)
@@ -375,6 +374,11 @@ namespace DungeonExplorer
         {
 
             GameState loadedGameState = SaveHandler.LoadFromFile();
+            if (loadedGameState == null)
+            {
+                Console.WriteLine("Error: Could not load game state from file. Creating a new game");
+                return CreateNewGameInstance();
+            }
             GameState _gameState = loadedGameState;
 
             _roomNumber = _gameState.RoomNumber;
@@ -395,6 +399,7 @@ namespace DungeonExplorer
             _statistics = _gameState.Statistics;
             _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
+            Console.WriteLine("Game has been successfully loaded");
             return _gameState;
         }
         /// <summary>

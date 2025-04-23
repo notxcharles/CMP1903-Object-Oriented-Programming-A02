@@ -28,6 +28,17 @@ namespace DungeonExplorer
             path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string filePath = Path.Combine(path, "DungeonExplorerSave.json");
 
+            // Check if file exists before attempting to read it
+            if (File.Exists(filePath))
+            {
+                Console.WriteLine("EXISTS");
+            }
+            else
+            {
+                Console.WriteLine("DOES NOT EXIST");
+                return null;
+            }
+
             string fileContents = null;
             using (StreamReader sr = new StreamReader(filePath))
             {
