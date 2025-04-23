@@ -327,7 +327,7 @@ namespace DungeonExplorer
         public GameState CreateNewGameState()
         {
             MonsterRoom room1 = new MonsterRoom(
-                new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130),
+                new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130, 40),
                 new Weapon(100),
                 new Spell("Potion of healing", 25),
                 new Hint("Hint 1", "You must defeat the monster before you can advance to the next room!"));
@@ -336,22 +336,22 @@ namespace DungeonExplorer
                 new Spell("Healing potion", 50),
                 new Hint("Hint 2", $"The mystery number is 7"));
             MonsterRoom room3 = new MonsterRoom(
-                new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150),
+                new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150, 35),
                 new Weapon(100),
                 new Spell("Potion of healing", 50));
             MonsterRoom room4 = new MonsterRoom(
-                new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140),
+                new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140, 30),
                 new Weapon(100));
             PuzzleRoom room5 = new PuzzleRoom(3,
                 new Weapon(100),
                 new Spell("Healing potion", 50),
                 new Hint("Hint 2", $"The mystery number is 3"));
             MonsterRoom room6 = new MonsterRoom(
-                new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150),
+                new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150, 20),
                 new Weapon(100),
                 new Spell("Potion of healing", 150));
             MonsterRoom room7 = new MonsterRoom(
-                new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140),
+                new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140, 10),
                 new Weapon(100));
             _rooms.Add(room1);
             _rooms.Add(room2);
@@ -485,6 +485,12 @@ namespace DungeonExplorer
             int playerAttackDamage = player.GetAttackDamage();
             monster.Health -= playerAttackDamage;
             int monsterAttackDamage = -1;
+
+            bool wantsToFlee = monster.WantsToFlee(25);
+            if (wantsToFlee)
+            {
+                monster.Health = 0;
+            }
             if (monster.Health > 0)
             {
                 monsterAttackDamage = monster.GetAttackDamage();
@@ -496,8 +502,11 @@ namespace DungeonExplorer
                 room.UnlockDoor();
             }
             _statistics.PlayerDealtDamage(playerAttackDamage);
-            _statistics.PlayerReceivedDamage(monsterAttackDamage);
-            UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage, _statistics);
+            if (monsterAttackDamage != -1)
+            {
+                _statistics.PlayerReceivedDamage(monsterAttackDamage);
+            }
+            UserInterface.DisplayAttackInformation(player, monster, wantsToFlee, playerAttackDamage, monsterAttackDamage, _statistics);
             return;
         }
         

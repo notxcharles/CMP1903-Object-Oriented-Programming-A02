@@ -281,16 +281,21 @@ namespace DungeonExplorer
         /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
         /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
         /// <param name="statistics">The statistics instance to keep track of the current game's stats</param>
-        public static void DisplayAttackInformation(Player player, Monster monster, int playerAttackDamage, int monsterAttackDamage, Statistics statistics)
+        public static void DisplayAttackInformation(Player player, Monster monster, bool monsterHasFled, int playerAttackDamage, int monsterAttackDamage, Statistics statistics)
         {
+            if (monsterHasFled)
+            {
+                Console.WriteLine($"The monster has fled after you dealt {playerAttackDamage} damage. Congratulations!");
+                return;
+            }
             if (monster.Health <= 0)
             {
-                Console.WriteLine($"You have killed the monster! You did {playerAttackDamage} damage. Congratulations!");
+                Console.WriteLine($"You have killed the monster! You dealt {playerAttackDamage} damage. Congratulations!");
                 return;
             }
             else if (player.Health <= 0)
             {
-                Console.WriteLine($"The monster has killed you! You took {monsterAttackDamage} damage. Game Over");
+                Console.WriteLine($"The monster has killed you! You took {monsterAttackDamage} damage. Game Over.");
                 string endGameStatistics = statistics.GetEndGameStatisticsString();
                 DisplayFinishGame(false, endGameStatistics);
                 Environment.Exit(1);
