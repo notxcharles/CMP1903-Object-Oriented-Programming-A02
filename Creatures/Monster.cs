@@ -168,5 +168,25 @@ namespace DungeonExplorer
             Console.WriteLine($"DEBUG: {this.GetType().Name} has {_difficulty} difficulty");
             return $"The {this.GetType().Name}, {Name} dealt {damage} damage";
         }
+
+        /// <summary>
+        /// WantsToFlee determines if the monster has fled from the player
+        /// </summary>
+        /// <param name="maximumHealthToFlee">If the monster's health is greater than maximumHealthToFlee then return false</param>
+        /// <param name="fleeChance">The percentage chance that the monster will flee</param>
+        /// <returns>true if monster has fled</returns>
+        public virtual bool WantsToFlee(int maximumHealthToFlee, int fleeChance)
+        {
+            if (maximumHealthToFlee > Health)
+            {
+                return false;
+            }
+            int randomValue = _random.Next(0, 100);
+            if (fleeChance < randomValue)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
