@@ -24,6 +24,10 @@ namespace DungeonExplorer
         {
             _numberOfCompletedRooms = 0;
         }
+        public int GetTotalDamageDealt
+        {
+            get { return GetListTotal(_dealtDamage); }
+        }
         // TODO: Documentation comments
         public List<int> DealtDamage
         {

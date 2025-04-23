@@ -114,9 +114,10 @@ namespace DungeonExplorer
         /// Displays the player's current details, including health and equipped weapon.
         /// </summary>
         /// <param name="player">The player whose details are to be displayed.</param>
-        public static void DisplayPlayerDetails(Player player)
+        public static void DisplayPlayerDetails(Player player, Statistics statistics)
         {
             Console.WriteLine($"\nCharacter Details:");
+            Console.WriteLine($"Score: {statistics.GetTotalDamageDealt}"); 
             Console.WriteLine($"Health: {player.Health}/{player.MaxHealth}");
             Console.WriteLine($"Equipped Weapon: {player.Weapon.CreateSummary()}\n");
             return;
