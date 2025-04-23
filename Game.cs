@@ -188,7 +188,8 @@ namespace DungeonExplorer
                         // and then we save the GameState object
                         // See notes on my ipad
                         // video: https://youtu.be/ISCYD7YPSf4?si=PaOyuqKDBGLtA6Ws
-                        throw new NotImplementedException();
+                        SaveHandler.SaveToFile(_gameState);
+                        UserInterface.GameSaved();
                     }
                 }
                 else if (_currentRoom is PuzzleRoom puzzleRoom)
@@ -315,7 +316,8 @@ namespace DungeonExplorer
                     else if (decision == 11)
                     {
                         // Player wants to save their game
-                        throw new NotImplementedException();
+                        SaveHandler.SaveToFile(_gameState);
+                        UserInterface.GameSaved();
                     }
                 }
                 UserInterface.EndTurn();

@@ -427,5 +427,11 @@ namespace DungeonExplorer
                 }
             }
         }
+        // TODO: Documentation Comments
+        public static void GameSaved()
+        {
+            Console.WriteLine("\nGame has been saved successfully");
+            return;
+        }
     }
 }
