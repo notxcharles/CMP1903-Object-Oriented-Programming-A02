@@ -26,7 +26,7 @@ namespace DungeonExplorer
         {
             string path = null;
             path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filePath = Path.Combine(path, "saveFile.txt");
+            string filePath = Path.Combine(path, "DungeonExplorerSave.json");
 
             string fileContents = null;
             using (StreamReader sr = new StreamReader(filePath))
@@ -45,7 +45,7 @@ namespace DungeonExplorer
             // Create a filePath directory to C://My Documents/saveFile.txt
             string path = null;
             path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filePath = Path.Combine(path, "saveFile.txt");
+            string filePath = Path.Combine(path, "DungeonExplorerSave.json");
 
             // Convert gameState object to string
             var serialisedObject = Newtonsoft.Json.JsonConvert.SerializeObject(gameState, jsonSettings);
