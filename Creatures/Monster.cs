@@ -181,7 +181,6 @@ namespace DungeonExplorer
         public virtual bool WantsToFlee(int fleeChance)
         {
             fleeChance = (int)(fleeChance * (2*_difficulty));
-            Console.WriteLine($"DEBUG FLEE CHANCE {fleeChance} ({_fleeHealth})");
             if (_fleeHealth < Health)
             {
                 return false;
