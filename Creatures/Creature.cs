@@ -53,7 +53,7 @@ namespace DungeonExplorer
         public int MaxHealth
         {
             get { return _maxHealth; }
-            private set { _maxHealth = value; }
+            protected set { _maxHealth = value; }
         }
     }
 }
