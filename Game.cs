@@ -53,7 +53,8 @@ namespace DungeonExplorer
             else
             {
                 //Load the game from a file
-                LoadGameInstance();
+                LoadGameFromFile();
+                Console.WriteLine("Loaded");
             }
             
             while (_roomNumber < _numberOfRooms)
@@ -183,11 +184,7 @@ namespace DungeonExplorer
                     else if (decision == 11)
                     {
                         // Player wants to save their game
-                        //We need to save the room number, the player object and the list of game rooms
-                        //_gameState = new GameState(_roomNumber, _player, _rooms);
-                        // and then we save the GameState object
-                        // See notes on my ipad
-                        // video: https://youtu.be/ISCYD7YPSf4?si=PaOyuqKDBGLtA6Ws
+                        _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
                         SaveHandler.SaveToFile(_gameState);
                         UserInterface.GameSaved();
                     }
@@ -316,6 +313,7 @@ namespace DungeonExplorer
                     else if (decision == 11)
                     {
                         // Player wants to save their game
+                        _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
                         SaveHandler.SaveToFile(_gameState);
                         UserInterface.GameSaved();
                     }
@@ -369,19 +367,16 @@ namespace DungeonExplorer
             _statistics = new Statistics();
             _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
 
-            // TESTING
-
-            //Debug.Assert(_gameState == LoadGameInstance());
             SaveHandler.SaveToFile(_gameState);
             return _gameState;
         }
         //TODO: DOCUMENTATION
-        public GameState LoadGameInstance()
+        public GameState LoadGameFromFile()
         {
 
             GameState loadedGameState = SaveHandler.LoadFromFile();
             GameState _gameState = loadedGameState;
-            
+
             _roomNumber = _gameState.RoomNumber;
             _player = _gameState.Player;
             List<Room> tempRoomList = _gameState.Rooms;

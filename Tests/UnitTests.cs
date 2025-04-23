@@ -483,7 +483,7 @@ namespace DungeonExplorer
             try
             {
                 GameState savedGameState = _game.CreateNewGameInstance();
-                GameState loadedGameState = _game.LoadGameInstance();
+                GameState loadedGameState = _game.LoadGameFromFile();
                 var jsonSettings = SaveHandler.GetSettings();
                 string savedJson = JsonConvert.SerializeObject(savedGameState, jsonSettings);
                 string loadedJson = JsonConvert.SerializeObject(loadedGameState, jsonSettings);
@@ -492,7 +492,7 @@ namespace DungeonExplorer
             catch (Exception ex)
             {
                 GameState savedGameState = _game.CreateNewGameInstance();
-                GameState loadedGameState = _game.LoadGameInstance();
+                GameState loadedGameState = _game.LoadGameFromFile();
                 var jsonSettings = SaveHandler.GetSettings();
                 string savedJson = JsonConvert.SerializeObject(savedGameState, jsonSettings);
                 string loadedJson = JsonConvert.SerializeObject(loadedGameState, jsonSettings);
