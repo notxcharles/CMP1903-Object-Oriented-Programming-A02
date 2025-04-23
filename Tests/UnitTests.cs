@@ -40,11 +40,11 @@ namespace DungeonExplorer
             _game = new Game("TestingGame", _player);
             _spell = new Spell("Healing Spell of Testing", 1000);
             _weapon = new Weapon("Weapon of Mass Testing", 30);
-            _witch = new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130);
-            _dragon = new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150);
-            _shulker = new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140);
-            _skeleton = new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150);
-            _warden = new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140);
+            _witch = new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130, 30);
+            _dragon = new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150, 30);
+            _shulker = new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140, 30);
+            _skeleton = new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150, 30);
+            _warden = new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140, 30);
         }
         [TestMethod]
         /// <summary>

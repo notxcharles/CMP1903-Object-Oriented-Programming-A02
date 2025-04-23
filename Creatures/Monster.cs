@@ -43,6 +43,8 @@ namespace DungeonExplorer
         private Weapon _weapon;
         [JsonProperty]
         private float _difficulty;
+        [JsonProperty]
+        private int _fleeHealth;
         //TODO: Update documentation
         /// <summary>
         /// Class <c>Monster</c>'s constructor
@@ -68,7 +70,7 @@ namespace DungeonExplorer
         /// <param name="breed">The breed of the monster</param>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty) : base(name)
+        public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty, int maximumHealthToFlee) : base(name)
         {
             Debug.Assert(name != null, "Error: name does not exist");
             Tests.TestForPositiveInteger(health);
@@ -76,6 +78,7 @@ namespace DungeonExplorer
             _difficulty = CalculateRandomDifficulty(minDifficulty, maxDifficulty);
             Health = (int)(health * _difficulty);
             MaxHealth = Health;
+            _fleeHealth = maximumHealthToFlee;
         }
         //TODO: Update documentation
         /// <summary>
@@ -175,9 +178,11 @@ namespace DungeonExplorer
         /// <param name="maximumHealthToFlee">If the monster's health is greater than maximumHealthToFlee then return false</param>
         /// <param name="fleeChance">The percentage chance that the monster will flee</param>
         /// <returns>true if monster has fled</returns>
-        public virtual bool WantsToFlee(int maximumHealthToFlee, int fleeChance)
+        public virtual bool WantsToFlee(int fleeChance)
         {
-            if (maximumHealthToFlee > Health)
+            fleeChance = (int)(fleeChance * (2*_difficulty));
+            Console.WriteLine($"DEBUG FLEE CHANCE {fleeChance} ({_fleeHealth})");
+            if (_fleeHealth < Health)
             {
                 return false;
             }
