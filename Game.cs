@@ -17,6 +17,9 @@ namespace DungeonExplorer
         private int _numberOfRooms;
         private GameMap _map;
         private static Random _random = new Random();
+        private int _roomNumber;
+        private GameState _gameState;
+        private Statistics _statistics;
 
         private List<Room> _rooms = new List<Room>();
         /// <summary>
@@ -32,63 +35,38 @@ namespace DungeonExplorer
             // Initialize the game with one room and one player
             _gameName = gameName;
             _player = player;
-
-            MonsterRoom room1 = new MonsterRoom(
-                new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130),
-                new Weapon(100),
-                new Spell("Potion of healing", 25),
-                new Hint("Hint 1", "You must defeat the monster before you can advance to the next room!"));
-            PuzzleRoom room2 = new PuzzleRoom(7, 
-                new Weapon(100), 
-                new Spell("Healing potion", 50), 
-                new Hint("Hint 2", $"The mystery number is 7"));
-            MonsterRoom room3 = new MonsterRoom(
-                new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150), 
-                new Weapon(100), 
-                new Spell("Potion of healing", 50));
-            MonsterRoom room4 = new MonsterRoom(
-                new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140), 
-                new Weapon(100));
-            PuzzleRoom room5 = new PuzzleRoom(3,
-                new Weapon(100),
-                new Spell("Healing potion", 50),
-                new Hint("Hint 2", $"The mystery number is 3"));
-            MonsterRoom room6 = new MonsterRoom(
-                new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150), 
-                new Weapon(100), 
-                new Spell("Potion of healing", 150));
-            MonsterRoom room7 = new MonsterRoom(
-                new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140), 
-                new Weapon(100));
-            _rooms.Add(room1);
-            _rooms.Add(room2);
-            _rooms.Add(room3);
-            _rooms.Add(room4);
-            _rooms.Add(room5);
-            _rooms.Add(room6);
-            _rooms.Add(room7);
-            _map = new GameMap(_rooms);
-            _numberOfRooms = _rooms.Count;
+            
         }
         /// <summary>
         /// The primary part of the game's logic
         /// </summary>
         public void Start()
         {
-            int roomNumber = 0;
+            _roomNumber = 0;
             UserInterface.DisplayGameStart(_gameName);
-            
-            while (roomNumber < _numberOfRooms)
+            int loadGame = UserInterface.GetInput(0, 1, false, false);
+            if (loadGame == 0)
             {
-                Console.WriteLine($"room number {roomNumber} < max rooms {_numberOfRooms}");
-                _currentRoom = _rooms[roomNumber];
+                //Create a new game
+                CreateNewGameState();
+            }
+            else
+            {
+                //Load the game from a file
+                LoadGameStateFromFile();
+            }
+            
+            while (_roomNumber < _numberOfRooms)
+            {
+                Console.WriteLine($"room number {_roomNumber} < max rooms {_numberOfRooms}");
+                _currentRoom = _rooms[_roomNumber];
                 if ( _currentRoom is MonsterRoom monsterRoom)
                 {
-                    UserInterface.DisplayRoomInformation(monsterRoom, roomNumber);
+                    UserInterface.DisplayRoomInformation(monsterRoom, _roomNumber);
                     UserInterface.DisplayPlayerDetails(_player);
                     UserInterface.ShowTurnDecisions(monsterRoom, _player);
-                    int decision = UserInterface.GetInput(0, 9, true);
-                    Debug.Assert(decision >= 0 && decision <= 10, "Error: Decision must be an integer value from 0 to 8");
+                    int decision = UserInterface.GetInput(0, 9, true, true);
+                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
                     if (decision == 0)
                     {
                         //Player wants to view inventory
@@ -107,7 +85,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(weapons, true, _player);
-                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false);
+                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
                         if (weaponChosenIndex == -1)
                         {
                             UserInterface.EndTurn();
@@ -125,7 +103,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(spells, true, _player);
-                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false);
+                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false, false);
                         if (spellChosenIndex == -1)
                         {
                             UserInterface.EndTurn();
@@ -150,7 +128,7 @@ namespace DungeonExplorer
                         //Player wants to goes to next room
                         if (NextRoom(monsterRoom))
                         {
-                            roomNumber += 1;
+                            _roomNumber += 1;
                         }
                     }
                     else if (decision == 5)
@@ -200,16 +178,23 @@ namespace DungeonExplorer
                     else if (decision == 10)
                     {
                         //Show map
-                        _map.CreateMap(roomNumber);
+                        _map.CreateMap(_roomNumber);
+                    }
+                    else if (decision == 11)
+                    {
+                        // Player wants to save their game
+                        _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
+                        SaveHandler.SaveGameStateToFile(_gameState);
+                        UserInterface.GameSaved();
                     }
                 }
                 else if (_currentRoom is PuzzleRoom puzzleRoom)
                 {
-                    UserInterface.DisplayRoomInformation(puzzleRoom, roomNumber);
+                    UserInterface.DisplayRoomInformation(puzzleRoom, _roomNumber);
                     UserInterface.DisplayPlayerDetails(_player);
                     UserInterface.ShowTurnDecisions(puzzleRoom, _player);
-                    int decision = UserInterface.GetInput(0, 9, true);
-                    Debug.Assert(decision >= 0 && decision <= 10, "Error: Decision must be an integer value from 0 to 8");
+                    int decision = UserInterface.GetInput(0, 9, true, true);
+                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
                     if (decision == 0)
                     {
                         //Player wants to view inventory
@@ -217,7 +202,7 @@ namespace DungeonExplorer
                     }
                     else if (decision == 1)
                     {
-                        //player has chosen to change their equipped item
+                        //player has chosen to change their equipped items
                         List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
                         if (weapons == null)
                         {
@@ -225,7 +210,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(weapons, true, _player);
-                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false);
+                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
                         if (weaponChosenIndex == -1)
                         {
                             UserInterface.EndTurn();
@@ -243,7 +228,7 @@ namespace DungeonExplorer
                             continue;
                         }
                         UserInterface.DisplayEnumerable(spells, true, _player);
-                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false);
+                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false, false);
                         if (spellChosenIndex == -1)
                         {
                             UserInterface.EndTurn();
@@ -268,7 +253,7 @@ namespace DungeonExplorer
                         //Player wants to goes to next room
                         if (NextRoom(puzzleRoom))
                         {
-                            roomNumber += 1;
+                            _roomNumber += 1;
                         }
                     }
                     else if (decision == 5)
@@ -322,14 +307,100 @@ namespace DungeonExplorer
                     else if (decision == 10)
                     {
                         //Show map
-                        _map.CreateMap(roomNumber);
+                        _map.CreateMap(_roomNumber);
+                    }
+                    else if (decision == 11)
+                    {
+                        // Player wants to save their game
+                        _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
+                        SaveHandler.SaveGameStateToFile(_gameState);
+                        UserInterface.GameSaved();
                     }
                 }
                 UserInterface.EndTurn();
             }
-            string endGameStatistics = Statistics.GetEndGameStatisticsString();
+            string endGameStatistics = _statistics.GetEndGameStatisticsString();
             UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
+        }
+        // tODO: Documentation
+        public GameState CreateNewGameState()
+        {
+            MonsterRoom room1 = new MonsterRoom(
+                new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130),
+                new Weapon(100),
+                new Spell("Potion of healing", 25),
+                new Hint("Hint 1", "You must defeat the monster before you can advance to the next room!"));
+            PuzzleRoom room2 = new PuzzleRoom(7,
+                new Weapon(100),
+                new Spell("Healing potion", 50),
+                new Hint("Hint 2", $"The mystery number is 7"));
+            MonsterRoom room3 = new MonsterRoom(
+                new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150),
+                new Weapon(100),
+                new Spell("Potion of healing", 50));
+            MonsterRoom room4 = new MonsterRoom(
+                new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140),
+                new Weapon(100));
+            PuzzleRoom room5 = new PuzzleRoom(3,
+                new Weapon(100),
+                new Spell("Healing potion", 50),
+                new Hint("Hint 2", $"The mystery number is 3"));
+            MonsterRoom room6 = new MonsterRoom(
+                new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150),
+                new Weapon(100),
+                new Spell("Potion of healing", 150));
+            MonsterRoom room7 = new MonsterRoom(
+                new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140),
+                new Weapon(100));
+            _rooms.Add(room1);
+            _rooms.Add(room2);
+            _rooms.Add(room3);
+            _rooms.Add(room4);
+            _rooms.Add(room5);
+            _rooms.Add(room6);
+            _rooms.Add(room7);
+            _map = new GameMap(_rooms);
+            _numberOfRooms = _rooms.Count;
+            _roomNumber = 0;
+            _statistics = new Statistics();
+            _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
+
+            SaveHandler.SaveGameStateToFile(_gameState);
+            return _gameState;
+        }
+        //TODO: DOCUMENTATION
+        public GameState LoadGameStateFromFile()
+        {
+
+            GameState loadedGameState = SaveHandler.GetGameStateFromFile();
+            if (loadedGameState == null)
+            {
+                Console.WriteLine("Error: Could not load game state from file. Creating a new game");
+                return CreateNewGameState();
+            }
+            GameState _gameState = loadedGameState;
+
+            _roomNumber = _gameState.RoomNumber;
+            _player = _gameState.Player;
+            List<Room> tempRoomList = _gameState.Rooms;
+            _rooms = new List<Room>();
+            foreach (Room room in _gameState.Rooms)
+            {
+                if (room is MonsterRoom monsterRoom)
+                {
+                    _rooms.Add(monsterRoom);
+                }
+                else if (room is PuzzleRoom puzzleRoom)
+                {
+                    _rooms.Add(puzzleRoom);
+                }
+            }
+            _statistics = _gameState.Statistics;
+            _map = new GameMap(_rooms);
+            _numberOfRooms = _rooms.Count;
+            Console.WriteLine("Game has been successfully loaded");
+            return _gameState;
         }
         /// <summary>
         /// Manages the player's inventory by displaying items, checking inventory status, and sorting items based on user input.
@@ -369,7 +440,7 @@ namespace DungeonExplorer
             if (currentRoom.DoorIsLocked == false)
             {
                 Console.WriteLine("The door is unlocked. You proceed to the next room. . .");
-                Statistics.PlayerCompletedARoom();
+                _statistics.PlayerCompletedARoom();
                 return true;
             }
             Console.WriteLine("The door is locked! Have you defeated the monster?");
@@ -389,7 +460,7 @@ namespace DungeonExplorer
             if (currentRoom.DoorIsLocked == false)
             {
                 Console.WriteLine("The door is unlocked. You proceed to the next room. . .");
-                Statistics.PlayerCompletedARoom();
+                _statistics.PlayerCompletedARoom();
                 return true;
             }
             Console.WriteLine("The door is locked! Have you solved the puzzle?");
@@ -424,9 +495,9 @@ namespace DungeonExplorer
                 room.MonsterDefeated();
                 room.UnlockDoor();
             }
-            Statistics.PlayerDealtDamage(playerAttackDamage);
-            Statistics.PlayerReceivedDamage(monsterAttackDamage);
-            UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage);
+            _statistics.PlayerDealtDamage(playerAttackDamage);
+            _statistics.PlayerReceivedDamage(monsterAttackDamage);
+            UserInterface.DisplayAttackInformation(player, monster, playerAttackDamage, monsterAttackDamage, _statistics);
             return;
         }
         

@@ -1,4 +1,5 @@
 ﻿using DungeonExplorer.Creatures;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 
@@ -12,7 +13,6 @@ namespace DungeonExplorer
     /// </remarks>
     public class Monster : Creature, ICanDamage
     {
-        public int AverageAttackDamage { get; private set; }
         private static Random _random = new Random();
         private static string[] _monsterNames = new string[] {
             "Walter White",
@@ -41,6 +41,7 @@ namespace DungeonExplorer
             "Jabba the Hutt",
         };
         private Weapon _weapon;
+        [JsonProperty]
         private float _difficulty;
         //TODO: Update documentation
         /// <summary>

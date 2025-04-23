@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DungeonExplorer.Rooms;
+using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 
 namespace DungeonExplorer
@@ -8,12 +10,19 @@ namespace DungeonExplorer
     /// </summary>
     public class Room
     {
+        [JsonProperty]
         private string _roomName;
+        [JsonProperty]
         private string _roomDescription;
+        [JsonProperty]
         private bool _doorIsLocked;
+        [JsonProperty]
         private Weapon _weaponInTheRoom;
+        [JsonProperty]
         private Spell _spellInTheRoom;
+        [JsonProperty]
         private Hint _hintInTheRoom;
+
         private static string[] _roomNames = new string[] {
             "The Forgotten Hall",
             "Chamber of Chains",
@@ -59,6 +68,12 @@ namespace DungeonExplorer
             "A vast underground lake, the water impossibly still. Jagged rocks rise from the surface like teeth, and something beneath the water disturbs the reflection."
         };
         private static Random _random = new Random();
+        [JsonConstructor]
+        // TODO: Documentation comment
+        // this constructor is blank because it allows me to implement the funcitonality of loading the class from a save file
+        public Room()
+        {
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Room"/> class with a weapon, spell, and hint.
         /// </summary>
@@ -128,6 +143,7 @@ namespace DungeonExplorer
         public string RoomName
         {
             get { return _roomName; }
+            protected set { _roomName = value; }
         }
         /// <summary>
         /// Gets the description of the room.
@@ -135,6 +151,7 @@ namespace DungeonExplorer
         public string RoomDescription
         {
             get { return _roomDescription; }
+            protected set { _roomDescription = value; }
         }
 
         /// <summary>
@@ -143,6 +160,7 @@ namespace DungeonExplorer
         public bool DoorIsLocked
         {
             get { return _doorIsLocked; }
+            protected set { _doorIsLocked = value; }
         }
         /// <summary>
         /// Gets the weapon associated with the room.
@@ -150,6 +168,7 @@ namespace DungeonExplorer
         public Weapon Weapon
         {
             get { return _weaponInTheRoom; }
+            protected set {_weaponInTheRoom = value; }
         }
         /// <summary>
         /// Gets the spell associated with the room.
@@ -157,6 +176,7 @@ namespace DungeonExplorer
         public Spell Spell
         {
             get { return _spellInTheRoom; }
+            protected set { _spellInTheRoom = value; }
         }
         /// <summary>
         /// Gets a value indicating whether there is a hint in the room.
@@ -171,6 +191,7 @@ namespace DungeonExplorer
         public Hint Hint
         {
             get { return _hintInTheRoom; }
+            protected set { _hintInTheRoom = value; }
         }
         /// <summary>
         /// Marks the weapon in the room as picked up and removes it.

@@ -35,20 +35,17 @@ namespace DungeonExplorer
             ConsoleKeyInfo key = Console.ReadKey();
             ClearConsole();
         }
-        /// <summary>
-        /// Prints the display for the start of the game
-        /// </summary>
-        /// <remarks>
-        /// This prints multiple messages to the console, welcoming the user to the game. <c>gameName</c> is
-        /// used as the title of the game
-        /// </remarks>
+        // TODO: documentation
         public static void DisplayGameStart(string gameName)
         {
             ClearConsole();
             Console.WriteLine($"Welcome to {gameName}");
             Console.WriteLine($"You must battle your way through each room. In each room you will have to defeat a " +
                 $"monster who will have the the key to unlock the door!");
-            EndTurn();
+            Console.WriteLine();
+            Console.WriteLine($"Would you like to:");
+            Console.WriteLine($"(0) Start a new game");
+            Console.WriteLine($"(1) Load game from file");
             return;
         }
         // TODO: Documentation now that room is MonsterRoom
@@ -170,6 +167,7 @@ namespace DungeonExplorer
 
             Console.WriteLine("(9) Exit game");
             Console.WriteLine("(m) Display map");
+            Console.WriteLine("(s) Save game");
             return;
         }
         /// <summary>
@@ -208,7 +206,7 @@ namespace DungeonExplorer
         /// <returns>The selected sorting option, or <c>null</c> if the user cancels.</returns>
         public static Inventory.SortBy? GetSortingOption()
         {
-            int input = GetInput(1, 4, false);
+            int input = GetInput(1, 4, false, false);
             if (input == 1)
             {
                 return Inventory.SortBy.Ascending;
@@ -231,7 +229,7 @@ namespace DungeonExplorer
         /// <param name="maxInput">The maximum valid input value.</param>
         /// <param name="mAsInput">Indicates whether the 'm' key should be treated as a valid input (returns 10).</param>
         /// <returns>The validated integer input from the user, or 10 if 'm' is pressed and allowed.</returns>
-        public static int GetInput(int minInput, int maxInput, bool mAsInput)
+        public static int GetInput(int minInput, int maxInput, bool mAsInput, bool sAsInput)
         {
             while (true)
             {
@@ -254,6 +252,10 @@ namespace DungeonExplorer
                     {
                         return 10;
                     }
+                    if (mAsInput && key.KeyChar.ToString() == "s")
+                    {
+                        return 11;
+                    }
                     Console.WriteLine($"{key} was pressed. You may only press a key from {minInput} to {maxInput}");
                 }
             }
@@ -262,13 +264,13 @@ namespace DungeonExplorer
         public static int GetGuessLessThan()
         {
             Console.WriteLine($"You must guess a number. If your guess is less than the mystery number then you may progress. If it is not, your health will be reduced!");
-            return GetInput(0, 9, false);
+            return GetInput(0, 9, false, false);
         }
         // TODO: Documentation
         public static int GetGuessGreaterThan()
         {
             Console.WriteLine($"You must guess a number. If your guess is greater than the mystery number then you may progress. If it is not, your health will be reduced!");
-            return GetInput(0, 9, false);
+            return GetInput(0, 9, false, false);
         }
         /// <summary>
         /// Displays attack results for both the player and the monster. 
@@ -278,7 +280,8 @@ namespace DungeonExplorer
         /// <param name="monster">The monster being fought.</param>
         /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
         /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
-        public static void DisplayAttackInformation(Player player, Monster monster, int playerAttackDamage, int monsterAttackDamage)
+        /// <param name="statistics">The statistics instance to keep track of the current game's stats</param>
+        public static void DisplayAttackInformation(Player player, Monster monster, int playerAttackDamage, int monsterAttackDamage, Statistics statistics)
         {
             if (monster.Health <= 0)
             {
@@ -288,7 +291,7 @@ namespace DungeonExplorer
             else if (player.Health <= 0)
             {
                 Console.WriteLine($"The monster has killed you! You took {monsterAttackDamage} damage. Game Over");
-                string endGameStatistics = Statistics.GetEndGameStatisticsString();
+                string endGameStatistics = statistics.GetEndGameStatisticsString();
                 DisplayFinishGame(false, endGameStatistics);
                 Environment.Exit(1);
                 return;
@@ -423,6 +426,12 @@ namespace DungeonExplorer
                     Console.WriteLine($"- {spellList[i].CreateSummary()}");
                 }
             }
+        }
+        // TODO: Documentation Comments
+        public static void GameSaved()
+        {
+            Console.WriteLine("\nGame has been saved successfully");
+            return;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace DungeonExplorer
     {
         protected string _name;
         protected int _health;
+        [JsonProperty]
         protected int _maxHealth;
         // TODO: Documentation
         public Creature(string name, int health)
