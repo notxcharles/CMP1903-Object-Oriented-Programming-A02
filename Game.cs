@@ -195,7 +195,7 @@ namespace DungeonExplorer
         /// <returns>
         /// true if <c>currentRoom.DoorIsLocked</c> is false. Otherwise returns false
         /// </returns>
-        public bool NextRoom(MonsterRoom currentRoom)
+        public bool CanGoToNextRoom(Room currentRoom)
         {
             Debug.Assert(currentRoom != null, "Error: room is null");
             if (currentRoom.DoorIsLocked == false)
@@ -205,26 +205,6 @@ namespace DungeonExplorer
                 return true;
             }
             Console.WriteLine("The door is locked! Have you defeated the monster?");
-            return false;
-        }
-        // TODO: Documentation now that currentRoom is PuzzleRoom
-        /// <summary>
-        /// Check if the currentRoom's door is locked
-        /// </summary>
-        /// <param name="currentRoom">Reference to the current Room object</param>
-        /// <returns>
-        /// true if <c>currentRoom.DoorIsLocked</c> is false. Otherwise returns false
-        /// </returns>
-        public bool CanGoToNextRoom(PuzzleRoom currentRoom)
-        {
-            Debug.Assert(currentRoom != null, "Error: room is null");
-            if (currentRoom.DoorIsLocked == false)
-            {
-                Console.WriteLine("The door is unlocked. You proceed to the next room. . .");
-                _statistics.PlayerCompletedARoom();
-                return true;
-            }
-            Console.WriteLine("The door is locked! Have you solved the puzzle?");
             return false;
         }
         /// <summary>
@@ -294,7 +274,7 @@ namespace DungeonExplorer
             else if (decision == 4)
             {
                 //Player wants to goes to next room
-                if (NextRoom(monsterRoom))
+                if (CanGoToNextRoom(monsterRoom))
                 {
                     _roomNumber += 1;
                 }
