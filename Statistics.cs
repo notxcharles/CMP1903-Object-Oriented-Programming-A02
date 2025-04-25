@@ -10,7 +10,6 @@ namespace DungeonExplorer
     /// Represents the player's game statistics, including damage dealt, damage received, and number of completed rooms.
     /// Provides methods for updating and retrieving these statistics throughout the game.
     /// </summary>
-
     public class Statistics
     {
         private List<int> _dealtDamage = new List<int>();
@@ -24,23 +23,37 @@ namespace DungeonExplorer
         {
             _numberOfCompletedRooms = 0;
         }
+        /// <summary>
+        /// Gets the total damage dealt by the player.
+        /// </summary>
         public int GetTotalDamageDealt
         {
             get { return GetListTotal(_dealtDamage); }
         }
-        // TODO: Documentation comments
+        /// <summary>
+        /// Gets the list of damage values dealt by the player.
+        /// </summary>
         public List<int> DealtDamage
         {
             get { return _dealtDamage; }
         }
+        /// <summary>
+        /// Gets the list of damage values received by the player.
+        /// </summary>
         public List<int> ReceivedDamage
         {
             get { return _receivedDamage; }
         }
+        /// <summary>
+        /// Gets the number of rooms the player has completed.
+        /// </summary>
         public int NumberOfCompletedRooms
         {
             get { return _numberOfCompletedRooms; }
         }
+        /// <summary>
+        /// Gets the player's score.
+        /// </summary>
         public int Score
         {
             get { return CalculateScore(); }
