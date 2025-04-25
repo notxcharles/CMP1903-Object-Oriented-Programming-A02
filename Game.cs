@@ -416,18 +416,7 @@ namespace DungeonExplorer
             else if (decision == 6)
             {
                 // Player wishes to attempt to solve the problem
-                int guess = UserInterface.GetGuessLessThan();
-                if (puzzleRoom.GuessLowerThan(guess))
-                {
-                    Console.WriteLine("Congratulations, you have guessed correctly. The door is unlocked.");
-                    puzzleRoom.PuzzleSolved = true;
-                    puzzleRoom.UnlockDoor();
-                }
-                else
-                {
-                    _player.Health = (int)(_player.Health / 2);
-                    Console.WriteLine($"Incorrect. Your health is now {_player.Health}.\nConsider looking at the hint");
-                }
+                PlayerDecidedToSolveThePuzzle(puzzleRoom)
             }
             else if (decision == 7)
             {
@@ -516,6 +505,22 @@ namespace DungeonExplorer
             else
             {
                 Console.WriteLine("There is no hint in this room.");
+            }
+        }
+        //todo: documentation comments
+        public void PlayerDecidedToSolveThePuzzle(PuzzleRoom puzzleRoom)
+        {
+            int guess = UserInterface.GetGuessLessThan();
+            if (puzzleRoom.GuessLowerThan(guess))
+            {
+                Console.WriteLine("Congratulations, you have guessed correctly. The door is unlocked.");
+                puzzleRoom.PuzzleSolved = true;
+                puzzleRoom.UnlockDoor();
+            }
+            else
+            {
+                _player.Health = (int)(_player.Health / 2);
+                Console.WriteLine($"Incorrect. Your health is now {_player.Health}.\nConsider looking at the hint");
             }
         }
     }
