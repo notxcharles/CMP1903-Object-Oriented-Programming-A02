@@ -20,6 +20,12 @@ namespace DungeonExplorer
         {
             _name = name;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Item"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This constructor is intentionally left blank to allow the functionality of loading the class from a save file.
+        /// </remarks>
         public Item()
         {
 
