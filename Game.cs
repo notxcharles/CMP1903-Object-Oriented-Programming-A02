@@ -338,15 +338,8 @@ namespace DungeonExplorer
             }
             else if (decision == 7)
             {
-                if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
-                {
-                    Console.WriteLine("Your inventory is full, you may not collect any more spells");
-                }
-                else
-                {
-                    _player.PickUpSpell(monsterRoom.Spell);
-                    monsterRoom.SpellPickedUp();
-                }
+                PlayerDecidedToPickupSpell(monsterRoom);
+
             }
             else if (decision == 8)
             {
@@ -416,31 +409,16 @@ namespace DungeonExplorer
             else if (decision == 6)
             {
                 // Player wishes to attempt to solve the problem
-                PlayerDecidedToSolveThePuzzle(puzzleRoom)
+                PlayerDecidedToSolveThePuzzle(puzzleRoom);
             }
             else if (decision == 7)
             {
-                if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
-                {
-                    Console.WriteLine("Your inventory is full, you may not collect any more spells");
-                }
-                else
-                {
-                    _player.PickUpSpell(puzzleRoom.Spell);
-                    puzzleRoom.SpellPickedUp();
-                }
+                PlayerDecidedToPickupSpell(puzzleRoom);
+                
             }
             else if (decision == 8)
             {
-                if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
-                {
-                    Console.WriteLine("Your inventory is full, you may not collect any more weapons");
-                }
-                else
-                {
-                    _player.PickUpWeapon(puzzleRoom.Weapon);
-                    puzzleRoom.WeaponPickedUp();
-                }
+                PlayerDecidedToPickupWeapon(puzzleRoom);
             }
             else if (decision == 9)
             {
@@ -521,6 +499,32 @@ namespace DungeonExplorer
             {
                 _player.Health = (int)(_player.Health / 2);
                 Console.WriteLine($"Incorrect. Your health is now {_player.Health}.\nConsider looking at the hint");
+            }
+        }
+        //todo: documentation comments
+        public void PlayerDecidedToPickupSpell(Room room)
+        {
+            if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
+            {
+                Console.WriteLine("Your inventory is full, you may not collect any more spells");
+            }
+            else
+            {
+                _player.PickUpSpell(room.Spell);
+                room.SpellPickedUp();
+            }
+        }
+        //todo: documentation comments
+        public void PlayerDecidedToPickupWeapon(Room room)
+        {
+            if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
+            {
+                Console.WriteLine("Your inventory is full, you may not collect any more weapons");
+            }
+            else
+            {
+                _player.PickUpWeapon(room.Weapon);
+                room.WeaponPickedUp();
             }
         }
     }
