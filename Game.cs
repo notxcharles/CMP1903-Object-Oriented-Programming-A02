@@ -62,12 +62,21 @@ namespace DungeonExplorer
                 _currentRoom = _rooms[_roomNumber];
                 if ( _currentRoom is MonsterRoom monsterRoom)
                 {
-                    HandleMonsterRoomLogic(decision);
+                    UserInterface.DisplayRoomInformation(monsterRoom, _roomNumber);
+                    UserInterface.DisplayPlayerDetails(_player, _statistics);
+                    UserInterface.ShowTurnDecisions(monsterRoom, _player);
+                    int decision = UserInterface.GetInput(0, 9, true, true);
+                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
+                    HandleMonsterRoomLogic(decision, monsterRoom);
                 }
                 else if (_currentRoom is PuzzleRoom puzzleRoom)
                 {
-                    HandlePuzzleRoomLogic(decision);
-                    
+                    UserInterface.DisplayRoomInformation(puzzleRoom, _roomNumber);
+                    UserInterface.DisplayPlayerDetails(_player, _statistics);
+                    UserInterface.ShowTurnDecisions(puzzleRoom, _player);
+                    int decision = UserInterface.GetInput(0, 9, true, true);
+                    Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
+                    HandlePuzzleRoomLogic(decision, puzzleRoom);
                 }
                 UserInterface.EndTurn();
             }
@@ -262,13 +271,8 @@ namespace DungeonExplorer
             return;
         }
         // todo: documentation comments
-        private void HandleMonsterRoomLogic()
+        private void HandleMonsterRoomLogic(int decision, MonsterRoom monsterRoom)
         {
-            UserInterface.DisplayRoomInformation(monsterRoom, _roomNumber);
-            UserInterface.DisplayPlayerDetails(_player, _statistics);
-            UserInterface.ShowTurnDecisions(monsterRoom, _player);
-            int decision = UserInterface.GetInput(0, 9, true, true);
-            Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
             if (decision == 0)
             {
                 ManageInventory(_player);
@@ -276,20 +280,7 @@ namespace DungeonExplorer
             else if (decision == 1)
             {
                 // Player has chosen to change their equipped item
-                List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
-                if (weapons == null)
-                {
-                    UserInterface.EndTurn();
-                    continue;
-                }
-                UserInterface.DisplayEnumerable(weapons, true, _player);
-                int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
-                if (weaponChosenIndex == -1)
-                {
-                    UserInterface.EndTurn();
-                    continue;
-                }
-                _player.EquipDifferentWeapon(weaponChosenIndex);
+                PlayerDecidedToChangeWeapons();
             }
             else if (decision == 2)
             {
@@ -298,14 +289,14 @@ namespace DungeonExplorer
                 if (spells == null)
                 {
                     UserInterface.EndTurn();
-                    continue;
+                    return;
                 }
                 UserInterface.DisplayEnumerable(spells, true, _player);
                 int spellChosenIndex = UserInterface.GetInput(0, spells.Count - 1, false, false);
                 if (spellChosenIndex == -1)
                 {
                     UserInterface.EndTurn();
-                    continue;
+                    return;
                 }
                 _player.UseSpell(spellChosenIndex);
             }
@@ -387,13 +378,8 @@ namespace DungeonExplorer
             }
         }
         // todo: documentation comments
-        private void HandlePuzzleRoomLogic(int decision)
+        private void HandlePuzzleRoomLogic(int decision, PuzzleRoom puzzleRoom)
         {
-            UserInterface.DisplayRoomInformation(puzzleRoom, _roomNumber);
-            UserInterface.DisplayPlayerDetails(_player, _statistics);
-            UserInterface.ShowTurnDecisions(puzzleRoom, _player);
-            int decision = UserInterface.GetInput(0, 9, true, true);
-            Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
             if (decision == 0)
             {
                 //Player wants to view inventory
@@ -402,20 +388,7 @@ namespace DungeonExplorer
             else if (decision == 1)
             {
                 // Player has chosen to change their equipped weapon
-                List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
-                if (weapons == null)
-                {
-                    UserInterface.EndTurn();
-                    continue;
-                }
-                UserInterface.DisplayEnumerable(weapons, true, _player);
-                int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
-                if (weaponChosenIndex == -1)
-                {
-                    UserInterface.EndTurn();
-                    continue;
-                }
-                _player.EquipDifferentWeapon(weaponChosenIndex);
+                PlayerDecidedToChangeWeapons();
             }
             else if (decision == 2)
             {
@@ -424,14 +397,14 @@ namespace DungeonExplorer
                 if (spells == null)
                 {
                     UserInterface.EndTurn();
-                    continue;
+                    return;
                 }
                 UserInterface.DisplayEnumerable(spells, true, _player);
                 int spellChosenIndex = UserInterface.GetInput(0, spells.Count - 1, false, false);
                 if (spellChosenIndex == -1)
                 {
                     UserInterface.EndTurn();
-                    continue;
+                    return;
                 }
                 _player.UseSpell(spellChosenIndex);
             }
@@ -515,6 +488,24 @@ namespace DungeonExplorer
                 SaveHandler.SaveGameStateToFile(_gameState);
                 UserInterface.GameSaved();
             }
+        }
+
+        public void PlayerDecidedToChangeWeapons()
+        {
+            List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
+            if (weapons == null)
+            {
+                UserInterface.EndTurn();
+                return;
+            }
+            UserInterface.DisplayEnumerable(weapons, true, _player);
+            int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
+            if (weaponChosenIndex == -1)
+            {
+                UserInterface.EndTurn();
+                return;
+            }
+            _player.EquipDifferentWeapon(weaponChosenIndex);
         }
     }
 }
