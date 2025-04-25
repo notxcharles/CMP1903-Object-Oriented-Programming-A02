@@ -279,7 +279,7 @@ namespace DungeonExplorer
             }
             else if (decision == 1)
             {
-                // Player has chosen to change their equipped item
+                // Player has chosen to change their equipped weapon
                 PlayerDecidedToChangeWeapons();
             }
             else if (decision == 2)
@@ -393,20 +393,8 @@ namespace DungeonExplorer
             else if (decision == 2)
             {
                 // Player has chosen to use a spell
-                List<Spell> spells = _player.GetSpellsInInventory();
-                if (spells == null)
-                {
-                    UserInterface.EndTurn();
-                    return;
-                }
-                UserInterface.DisplayEnumerable(spells, true, _player);
-                int spellChosenIndex = UserInterface.GetInput(0, spells.Count - 1, false, false);
-                if (spellChosenIndex == -1)
-                {
-                    UserInterface.EndTurn();
-                    return;
-                }
-                _player.UseSpell(spellChosenIndex);
+                PlayerDecidedToUseSpell();
+                
             }
             else if (decision == 3)
             {
@@ -489,7 +477,7 @@ namespace DungeonExplorer
                 UserInterface.GameSaved();
             }
         }
-
+        // todo: documentation comments
         public void PlayerDecidedToChangeWeapons()
         {
             List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
@@ -506,6 +494,24 @@ namespace DungeonExplorer
                 return;
             }
             _player.EquipDifferentWeapon(weaponChosenIndex);
+        }
+        // todo: documentation comments
+        public void PlayerDecidedToUseSpell()
+        {
+            List<Spell> spells = _player.GetSpellsInInventory();
+            if (spells == null)
+            {
+                UserInterface.EndTurn();
+                return;
+            }
+            UserInterface.DisplayEnumerable(spells, true, _player);
+            int spellChosenIndex = UserInterface.GetInput(0, spells.Count - 1, false, false);
+            if (spellChosenIndex == -1)
+            {
+                UserInterface.EndTurn();
+                return;
+            }
+            _player.UseSpell(spellChosenIndex);
         }
     }
 }
