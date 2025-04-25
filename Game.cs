@@ -310,7 +310,7 @@ namespace DungeonExplorer
                 // Player wants to save their game
                 _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
                 SaveHandler.SaveGameStateToFile(_gameState);
-                UserInterface.GameSaved();
+                UserInterface.DisplaySavedGame();
             }
         }
         // todo: documentation comments
@@ -377,7 +377,7 @@ namespace DungeonExplorer
                 // Player wants to save their game
                 _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
                 SaveHandler.SaveGameStateToFile(_gameState);
-                UserInterface.GameSaved();
+                UserInterface.DisplaySavedGame();
             }
         }
         // todo: documentation comments
