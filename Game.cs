@@ -215,7 +215,7 @@ namespace DungeonExplorer
         /// <returns>
         /// true if <c>currentRoom.DoorIsLocked</c> is false. Otherwise returns false
         /// </returns>
-        public bool NextRoom(PuzzleRoom currentRoom)
+        public bool CanGoToNextRoom(PuzzleRoom currentRoom)
         {
             Debug.Assert(currentRoom != null, "Error: room is null");
             if (currentRoom.DoorIsLocked == false)
@@ -404,7 +404,7 @@ namespace DungeonExplorer
             else if (decision == 4)
             {
                 //Player wants to goes to next room
-                if (NextRoom(puzzleRoom))
+                if (CanGoToNextRoom(puzzleRoom))
                 {
                     _roomNumber += 1;
                 }
