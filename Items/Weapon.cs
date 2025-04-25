@@ -42,8 +42,12 @@ namespace DungeonExplorer
         private static int _stdDevPercentage = 5;
 
         [JsonConstructor]
-        // TODO: Documentation comment
-        // this constructor is blank because it allows me to implement the funcitonality of loading the class from a save file
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Weapon"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This constructor is intentionally left blank to allow the functionality of loading the class from a save file.
+        /// </remarks>
         public Weapon()
         {
         }
@@ -68,6 +72,9 @@ namespace DungeonExplorer
             Name = CreateWeaponName();
             _averageAttackDamage = weaponAverageDamage;
         }
+        /// <summary>
+        /// Gets the average attack damage of the weapon.
+        /// </summary>
         public int AttackDamage
         { 
             get { return _averageAttackDamage; }
