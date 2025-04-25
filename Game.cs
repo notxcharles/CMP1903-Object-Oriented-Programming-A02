@@ -55,7 +55,6 @@ namespace DungeonExplorer
                 //Load the game from a file
                 LoadGameStateFromFile();
             }
-            
             while (_roomNumber < _numberOfRooms)
             {
                 Console.WriteLine($"room number {_roomNumber} < max rooms {_numberOfRooms}");
@@ -84,7 +83,10 @@ namespace DungeonExplorer
             UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
         }
-        // tODO: Documentation
+        /// <summary>
+        /// Creates a new game state with predefined rooms and initializes the game.
+        /// </summary>
+        /// <returns>The newly created <see cref="GameState"/> object.</returns>
         public GameState CreateNewGameState()
         {
             MonsterRoom room1 = new MonsterRoom(
@@ -130,10 +132,12 @@ namespace DungeonExplorer
             SaveHandler.SaveGameStateToFile(_gameState);
             return _gameState;
         }
-        //TODO: DOCUMENTATION
+        /// <summary>
+        /// Loads the game state from a file.
+        /// </summary>
+        /// <returns>The loaded <see cref="GameState"/> object, or a new game state if loading fails.</returns>
         public GameState LoadGameStateFromFile()
         {
-
             GameState loadedGameState = SaveHandler.GetGameStateFromFile();
             if (loadedGameState == null)
             {
@@ -146,6 +150,7 @@ namespace DungeonExplorer
             _player = _gameState.Player;
             List<Room> tempRoomList = _gameState.Rooms;
             _rooms = new List<Room>();
+
             foreach (Room room in _gameState.Rooms)
             {
                 if (room is MonsterRoom monsterRoom)
@@ -157,6 +162,7 @@ namespace DungeonExplorer
                     _rooms.Add(puzzleRoom);
                 }
             }
+
             _statistics = _gameState.Statistics;
             _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
@@ -186,8 +192,6 @@ namespace DungeonExplorer
             }
             UserInterface.ViewItemsInInventory(_player, sortingOption.Value);
         }
-
-        // TODO: Documentation now that currentRoom is MonsterRoom
         /// <summary>
         /// Check if the currentRoom's door is locked
         /// </summary>
@@ -250,7 +254,12 @@ namespace DungeonExplorer
             UserInterface.DisplayAttackInformation(player, monster, wantsToFlee, playerAttackDamage, monsterAttackDamage, _statistics);
             return;
         }
-        // todo: documentation comments
+        /// <summary>
+        /// Handles the logic flow for player decisions in a monster room.
+        /// </summary>
+        /// <param name="decision">The player's decision, represented as an integer.</param>
+        /// <param name="monsterRoom">The monster room the player is currently in.</param>
+        /// <remarks>
         private void HandleMonsterRoomLogic(int decision, MonsterRoom monsterRoom)
         {
             if (decision == 0)
@@ -313,7 +322,12 @@ namespace DungeonExplorer
                 UserInterface.DisplaySavedGame();
             }
         }
-        // todo: documentation comments
+        /// <summary>
+        /// Handles the logic for player decisions in a puzzle room.
+        /// </summary>
+        /// <param name="decision">The player's decision, represented as an integer.</param>
+        /// <param name="puzzleRoom">The puzzle room the player is currently in.</param>
+        /// <remarks>
         private void HandlePuzzleRoomLogic(int decision, PuzzleRoom puzzleRoom)
         {
             if (decision == 0)
@@ -380,7 +394,9 @@ namespace DungeonExplorer
                 UserInterface.DisplaySavedGame();
             }
         }
-        // todo: documentation comments
+        /// <summary>
+        /// Allows the player to change their equipped weapon by selecting from the weapons in their inventory.
+        /// </summary>
         public void PlayerDecidedToChangeWeapons()
         {
             List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
@@ -398,7 +414,9 @@ namespace DungeonExplorer
             }
             _player.EquipDifferentWeapon(weaponChosenIndex);
         }
-        // todo: documentation comments
+        /// <summary>
+        /// Allows the player to use a spell by selecting from the spells in their inventory.
+        /// </summary>
         public void PlayerDecidedToUseSpell()
         {
             List<Spell> spells = _player.GetSpellsInInventory();
@@ -416,7 +434,10 @@ namespace DungeonExplorer
             }
             _player.UseSpell(spellChosenIndex);
         }
-        //todo: documentation
+        /// <summary>
+        /// Allows the player to read a hint in the current room.
+        /// </summary>
+        /// <param name="room">The current room the player is in.</param>
         public void PlayerDecidedToReadHint(Room room)
         {
             if (room.IsHint)
@@ -428,7 +449,10 @@ namespace DungeonExplorer
                 Console.WriteLine("There is no hint in this room.");
             }
         }
-        //todo: documentation comments
+        /// <summary>
+        /// Allows the player to solve a puzzle in the current room.
+        /// </summary>
+        /// <param name="puzzleRoom">The puzzle room the player is in.</param>
         public void PlayerDecidedToSolveThePuzzle(PuzzleRoom puzzleRoom)
         {
             if (puzzleRoom.PuzzleIsSolved)
@@ -449,7 +473,10 @@ namespace DungeonExplorer
                 Console.WriteLine($"Incorrect. Your health is now {_player.Health}.\nConsider looking at the hint");
             }
         }
-        //todo: documentation comments
+        /// <summary>
+        /// Allows the player to pick up a spell from the current room.
+        /// </summary>
+        /// <param name="room">The current room the player is in.</param>
         public void PlayerDecidedToPickupSpell(Room room)
         {
             if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
@@ -462,7 +489,10 @@ namespace DungeonExplorer
                 room.SpellPickedUp();
             }
         }
-        //todo: documentation comments
+        /// <summary>
+        /// Allows the player to pick up a weapon from the current room.
+        /// </summary>
+        /// <param name="room">The current room the player is in.</param>
         public void PlayerDecidedToPickupWeapon(Room room)
         {
             if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
@@ -475,7 +505,10 @@ namespace DungeonExplorer
                 room.WeaponPickedUp();
             }
         }
-        //todo: documentation comments
+        /// <summary>
+        /// Allows the player to fight a monster in the current room.
+        /// </summary>
+        /// <param name="monsterRoom">The monster room the player is in.</param>
         public void PlayerDecidedToFightMonster(MonsterRoom monsterRoom)
         {
             if (!monsterRoom.MonsterIsAlive)
