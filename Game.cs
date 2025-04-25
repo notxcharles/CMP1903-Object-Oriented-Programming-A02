@@ -302,15 +302,7 @@ namespace DungeonExplorer
             }
             else if (decision == 3)
             {
-                // Read hint in the room
-                if (monsterRoom.IsHint)
-                {
-                    Console.WriteLine($"The clue is: {monsterRoom.Hint.Clue}");
-                }
-                else
-                {
-                    Console.WriteLine("There is no hint in this room.");
-                }
+                PlayerDecidedToReadHint(monsterRoom);
             }
             else if (decision == 4)
             {
@@ -466,11 +458,11 @@ namespace DungeonExplorer
             _player.UseSpell(spellChosenIndex);
         }
         //todo: documentation
-        public void PlayerDecidedToReadHint(PuzzleRoom puzzleRoom)
+        public void PlayerDecidedToReadHint(Room room)
         {
-            if (puzzleRoom.IsHint)
+            if (room.IsHint)
             {
-                Console.WriteLine($"The clue is: {puzzleRoom.Hint.Clue}");
+                Console.WriteLine($"The clue is: {room.Hint.Clue}");
             }
             else
             {
