@@ -16,8 +16,12 @@ namespace DungeonExplorer.Rooms
         [JsonProperty]
         private Monster _monsterInTheRoom;
         [JsonConstructor]
-        // TODO: Documentation comment
-        // this constructor is blank because it allows me to implement the funcitonality of loading the class from a save file
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MonsterRoom"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This constructor is intentionally left blank to allow the functionality of loading the class from a save file.
+        /// </remarks>
         public MonsterRoom()
         {
         }

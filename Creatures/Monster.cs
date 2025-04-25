@@ -53,23 +53,6 @@ namespace DungeonExplorer
         /// <param name="breed">The breed of the monster</param>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(string name, int health, Weapon weapon) : base(name, health)  
-        {
-            Debug.Assert(name != null, "Error: name does not exist");
-            Tests.TestForPositiveInteger(health);
-            _weapon = weapon;
-            _difficulty = CalculateRandomDifficulty();
-            Health = (int)(health * _difficulty);
-            MaxHealth = Health;
-        }
-        //TODO: Update documentation
-        /// <summary>
-        /// Class <c>Monster</c>'s constructor
-        /// </summary>
-        /// <param name="name">The name of the monster</param>
-        /// <param name="breed">The breed of the monster</param>
-        /// <param name="health">The maximum health of the monster</param>
-        /// <param name="averageAttack">The average attack value that the monster does</param>
         public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty, int maximumHealthToFlee) : base(name)
         {
             Debug.Assert(name != null, "Error: name does not exist");
@@ -79,29 +62,6 @@ namespace DungeonExplorer
             Health = (int)(health * _difficulty);
             MaxHealth = Health;
             _fleeHealth = maximumHealthToFlee;
-        }
-        //TODO: Update documentation
-        /// <summary>
-        /// Class <c>Monster</c>'s constructor
-        /// </summary>
-        /// <param name="health">The maximum health of the monster</param>
-        /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(int health, float difficulty, Weapon weapon)
-        {
-            Name = CreateMonsterName();
-            Tests.TestForPositiveInteger(health);
-            _difficulty = difficulty;
-            Health = (int)(health * _difficulty);
-            MaxHealth = Health;
-            _weapon = weapon;
-        }
-        //TODO: Documentation
-        public Monster(int health, Weapon weapon)
-        {
-            _weapon = weapon;
-            _difficulty = CalculateRandomDifficulty();
-            Health = (int)(health * _difficulty);
-            MaxHealth = Health;
         }
         // TODO: Documentation
         public Weapon Weapon
@@ -135,27 +95,11 @@ namespace DungeonExplorer
             }
         }
         // TODO: Documentation
-        private float CalculateRandomDifficulty()
-        {
-            float randomValue = _random.Next(60, 140);
-            float randomDifficulty = randomValue/100;
-            return randomDifficulty;
-        }
-        // TODO: Documentation
         private float CalculateRandomDifficulty(int min, int max)
         {
             float randomValue = _random.Next(min, max);
             float randomDifficulty = randomValue / 100;
             return randomDifficulty;
-        }
-        /// <summary>
-        /// From <c>Monster._monsterNames</c>, randomly select a name for the monster
-        /// </summary>
-        /// <returns>The selected string from Monster._monsterNames</returns>
-        private string CreateMonsterName()
-        {
-            int index = _random.Next(0, _monsterNames.Length);
-            return _monsterNames[index];
         }
         /// <summary>
         /// <c>GetCurrentAttackDamage()</c> returns a the damage of the Monster's weapon

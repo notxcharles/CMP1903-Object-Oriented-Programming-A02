@@ -149,7 +149,6 @@
     <Compile Include="Rooms\PuzzleRoom.cs" />
     <Compile Include="Rooms\Room.cs" />
     <Compile Include="Items\Spell.cs" />
-    <Compile Include="Rooms\RoomConverter.cs" />
     <Compile Include="SaveHandler.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="Tests\Tests.cs" />

@@ -25,7 +25,6 @@ namespace DungeonExplorer
             Console.WriteLine("\x1b[3J");
             return;
         }
-
         /// <summary>
         /// Prompts the player to press a key to advance to the next turn
         /// </summary>
@@ -35,7 +34,10 @@ namespace DungeonExplorer
             ConsoleKeyInfo key = Console.ReadKey();
             ClearConsole();
         }
-        // TODO: documentation
+        /// <summary>
+        /// Displays the start screen for the game, including the game name and options to start a new game or load a game from a file.
+        /// </summary>
+        /// <param name="gameName">The name of the game to be displayed.</param>
         public static void DisplayGameStart(string gameName)
         {
             ClearConsole();
@@ -48,12 +50,11 @@ namespace DungeonExplorer
             Console.WriteLine($"(1) Load game from file");
             return;
         }
-        // TODO: Documentation now that room is MonsterRoom
         /// <summary>
         /// Displays information about the current room, including its name, description, 
         /// and any objects or creatures present.
         /// </summary>
-        /// <param name="room">The room to display information for.</param>
+        /// <param name="room">The monster room to display information for.</param>
         /// <param name="roomNumber">The index of the room in the dungeon sequence.</param>
         public static void DisplayRoomInformation(MonsterRoom room, int roomNumber)
         {
@@ -83,12 +84,11 @@ namespace DungeonExplorer
             }
             Console.WriteLine();
         }
-        // TODO: Documentation now that room is PuzzleRoom
         /// <summary>
         /// Displays information about the current room, including its name, description, 
-        /// and any objects or creatures present.
+        /// and any objects or what the room's puzzle is
         /// </summary>
-        /// <param name="room">The room to display information for.</param>
+        /// <param name="room">The puzzle room to display information for.</param>
         /// <param name="roomNumber">The index of the room in the dungeon sequence.</param>
         public static void DisplayRoomInformation(PuzzleRoom room, int roomNumber)
         {
@@ -111,7 +111,7 @@ namespace DungeonExplorer
             Console.WriteLine();
         }
         /// <summary>
-        /// Displays the player's current details, including health and equipped weapon.
+        /// Displays the player's current details, including score, health, and equipped weapon.
         /// </summary>
         /// <param name="player">The player whose details are to be displayed.</param>
         public static void DisplayPlayerDetails(Player player, Statistics statistics)
@@ -122,7 +122,6 @@ namespace DungeonExplorer
             Console.WriteLine($"Equipped Weapon: {player.Weapon.CreateSummary()}\n");
             return;
         }
-        // TODO: Documentation now that room is MonsterRoom
         /// <summary>
         /// Presents the player with a list of possible actions they can take during their turn.
         /// The available options depend on the state of the room and the player's inventory.
@@ -152,7 +151,7 @@ namespace DungeonExplorer
             }
             else if (room is PuzzleRoom pRoom)
             {
-                if (pRoom.PuzzleSolved == false)
+                if (pRoom.PuzzleIsSolved == false)
                 {
                     Console.WriteLine("(6) Attempt to solve the puzzle");
                 }
@@ -174,7 +173,7 @@ namespace DungeonExplorer
         /// <summary>
         /// Displays the end-game message and presents the player's final game statistics.
         /// </summary>
-        /// <param name="endGameStatistics">A string containing various game statistics, such as the number of attacks made and received, and average damage dealt.</param>
+        /// <param name="endGameStatistics">If true, display a string containing various game statistic</param>
         public static void DisplayFinishGame(bool win, string endGameStatistics)
         {
             if (win)
@@ -204,7 +203,7 @@ namespace DungeonExplorer
         /// <summary>
         /// Gets the sorting option selected by the user.
         /// </summary>
-        /// <returns>The selected sorting option, or <c>null</c> if the user cancels.</returns>
+        /// <returns>The selected sorting option, or <c>null</c></returns>
         public static Inventory.SortBy? GetSortingOption()
         {
             int input = GetInput(1, 4, false, false);
@@ -222,14 +221,16 @@ namespace DungeonExplorer
             }
             return null;
         }
+
         /// <summary>
-        /// Gets a numeric input from the user within a specified range. 
-        /// Optionally allows 'm' as a special input.
+        /// Reads a key press from the console and converts it to an integer within a specified range. 
+        /// Optionally, specific keys can be mapped to special values.
         /// </summary>
-        /// <param name="minInput">The minimum valid input value.</param>
-        /// <param name="maxInput">The maximum valid input value.</param>
-        /// <param name="mAsInput">Indicates whether the 'm' key should be treated as a valid input (returns 10).</param>
-        /// <returns>The validated integer input from the user, or 10 if 'm' is pressed and allowed.</returns>
+        /// <param name="minInput">The minimum valid integer input.</param>
+        /// <param name="maxInput">The maximum valid integer input.</param>
+        /// <param name="mAsInput">If true, the 'm' key is mapped to the value 10.</param>
+        /// <param name="sAsInput">If true, the 's' key is mapped to the value 11.</param>
+        /// <returns>The integer value corresponding to the key press.</returns>
         public static int GetInput(int minInput, int maxInput, bool mAsInput, bool sAsInput)
         {
             while (true)
@@ -261,27 +262,42 @@ namespace DungeonExplorer
                 }
             }
         }
-        //TODO: Documentation
+
+        /// <summary>
+        /// Prompts the user to guess a number.
+        /// </summary>
+        /// <returns>The user's guessed number.</returns>
         public static int GetGuessLessThan()
         {
             Console.WriteLine($"You must guess a number. If your guess is less than the mystery number then you may progress. If it is not, your health will be reduced!");
             return GetInput(0, 9, false, false);
         }
-        // TODO: Documentation
+
+        /// <summary>
+        /// Prompts the user to guess a number.
+        /// </summary>
+        /// <returns>The user's guessed number.</returns>
         public static int GetGuessGreaterThan()
         {
             Console.WriteLine($"You must guess a number. If your guess is greater than the mystery number then you may progress. If it is not, your health will be reduced!");
             return GetInput(0, 9, false, false);
         }
+
         /// <summary>
-        /// Displays attack results for both the player and the monster. 
-        /// Determines if the monster or player has died and announces the outcome.
+        /// Displays the outcome of an attack between the player and a monster, including damage dealt and received, and updates the game state accordingly.
         /// </summary>
-        /// <param name="player">The player involved in the battle.</param>
-        /// <param name="monster">The monster being fought.</param>
-        /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
-        /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
-        /// <param name="statistics">The statistics instance to keep track of the current game's stats</param>
+        /// <param name="player">The player involved in the attack.</param>
+        /// <param name="monster">The monster involved in the attack.</param>
+        /// <param name="monsterHasFled">Indicates whether the monster has fled the battle.</param>
+        /// <param name="playerAttackDamage">The amount of damage dealt by the player to the monster.</param>
+        /// <param name="monsterAttackDamage">The amount of damage dealt by the monster to the player.</param>
+        /// <param name="statistics">The game statistics to be updated and displayed if the game ends.</param>
+        /// <remarks>
+        /// If the monster has fled, a message is displayed and the method returns.
+        /// If the monster is killed, a message is displayed and the method returns.
+        /// If the player is killed, a game over message is displayed, end game statistics are shown, and the game exits.
+        /// Otherwise, the method displays the current health of both the player and the monster after the 
+
         public static void DisplayAttackInformation(Player player, Monster monster, bool monsterHasFled, int playerAttackDamage, int monsterAttackDamage, Statistics statistics)
         {
             if (monsterHasFled)
@@ -307,14 +323,17 @@ namespace DungeonExplorer
             string monsterAttackMessage = monster.GetAttackMessage(monsterAttackDamage);
             Console.WriteLine(monsterAttackMessage + $"You now have {player.Health}/{player.MaxHealth} hp.");
         }
+
         /// <summary>
-        /// Displays attack results for both the player and the monster. 
-        /// Determines if the monster or player has died and announces the outcome.
+        /// Displays the items in the player's inventory, including equipped weapons and spells.
         /// </summary>
-        /// <param name="player">The player involved in the battle.</param>
-        /// <param name="monster">The monster being fought.</param>
-        /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
-        /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
+        /// /// <remarks>
+        /// If the player's inventory is empty, an error message is displayed.
+        /// Otherwise, the method lists the currently equipped weapon, weapons in the inventory sorted by the specified order, and spells in the inventory.
+        /// The method also displays the maximum number of items the player can hold and the current number of items in the inventory.
+        /// </remarks>
+        /// <param name="player">The player whose inventory is to be viewed.</param>
+        /// <param name="sortBy">The sorting order for the inventory items. Default is ascending.</param>
         public static void ViewItemsInInventory(Player player, Inventory.SortBy sortBy = Inventory.SortBy.Ascending)
         {
             // If there are no items in the inventory, show an error
@@ -350,35 +369,8 @@ namespace DungeonExplorer
             return;
         }
         /// <summary>
-        /// Displays the contents of an enumerable collection, optionally showing an index for each item.
-        /// </summary>
-        /// <param name="enumerable">The enumerable collection to display.</param>
-        /// <param name="showIndex">If true, each item is prefixed with its index in the list.</param>
-        public static void DisplayEnumerable(IEnumerable<object> enumerable, bool showIndex)
-        {
-            if (enumerable.Count() == 0)
-            {
-                Debug.Assert(enumerable.Count() <= 0, "The enumerable should not be empty");
-                return;
-            }
-            List<object> list = enumerable.ToList();
-            for (int i = 0; i < list.Count(); i++)
-            {
-                if (showIndex)
-                {
-                    Console.WriteLine($"-{i}: {list[i]}");
-                }
-                else
-                {
-                    Console.WriteLine($"- {list[i]}");
-                }
-                    
-            }
-            return;
-        }
-        /// <summary>
         /// Displays the player's weapon inventory, including the equipped weapon and other weapons.
-        /// The player can select a weapon to equip.
+        /// If showIndex is true, the index of the weapon in the inventory is shown
         /// </summary>
         /// <param name="weaponEnumerable">The collection of weapons in the player's inventory.</param>
         /// <param name="showIndex">If true, each weapon is prefixed with its index in the list.</param>
@@ -407,7 +399,7 @@ namespace DungeonExplorer
         }
         /// <summary>
         /// Displays the player's spell inventory, listing all available spells.
-        /// The player can select a spell to equip.
+        /// If showIndex is true, the index of the spell in the inventory is shown
         /// </summary>
         /// <param name="spellEnumerable">The collection of spells in the player's inventory.</param>
         /// <param name="showIndex">If true, each spell is prefixed with its index in the list.</param>
@@ -420,7 +412,7 @@ namespace DungeonExplorer
                 return;
             }
             List<Spell> spellList = spellEnumerable.ToList();
-            Console.WriteLine($"Spells in your inventory, press the corresponding key to equip the weapon:");
+            Console.WriteLine($"{spellEnumerable.Count()} Spells in your inventory, press the corresponding key to equip the spell:");
             for (int i = 0; i < spellList.Count; i++)
             {
                 if (showIndex)
@@ -433,8 +425,10 @@ namespace DungeonExplorer
                 }
             }
         }
-        // TODO: Documentation Comments
-        public static void GameSaved()
+        /// <summary>
+        /// Informs the user that the game has saved
+        /// </summary>
+        public static void DisplaySavedGame()
         {
             Console.WriteLine("\nGame has been saved successfully");
             return;

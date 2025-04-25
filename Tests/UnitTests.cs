@@ -475,8 +475,13 @@ namespace DungeonExplorer
                 throw;
             }
         }
-
-        // I want to test that the saved gamestate is equal to the gamestate when it has been loaded from the file
+        /// <summary>
+        /// Tests whether saving and loading the game state works as intended.
+        /// </summary>
+        /// <remarks>
+        /// This method creates a new game state, saves it to a file, and then loads it back.
+        /// It serializes both the saved and loaded game states to JSON and asserts that they are equal.
+        /// If an exception occurs during the process, the method logs the error, writes the JSON representations 
         [TestMethod]
         public void SavingIsWorkingAsIntended()
         {

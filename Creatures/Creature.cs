@@ -23,12 +23,6 @@ namespace DungeonExplorer
             Console.WriteLine($"the monster {_name} of type {this.GetType().Name}, has health {_health} and max health {_maxHealth}");
         }
         // TODO: Documentation
-        public Creature(int health)
-        {
-            _health = health;
-            _maxHealth = health;
-        }
-        // TODO: Documentation
         public Creature(string name)
         {
             _name = name;

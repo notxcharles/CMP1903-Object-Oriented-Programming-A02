@@ -15,6 +15,9 @@ namespace DungeonExplorer
     {
         private List<Item> _inventoryList;
         private int _maxLength;
+        /// <summary>
+        /// Specifies the sorting order for inventory items.
+        /// </summary>
         public enum SortBy
         {
             Ascending,
@@ -53,12 +56,18 @@ namespace DungeonExplorer
         {
             _inventoryList.Remove(item);
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets the number of items in the inventory.
+        /// </summary>
+        /// <value>The count of items in the inventory list.</value>
         public int Count
         {
             get { return _inventoryList.Count; }
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Retrieves a list of weapons in the inventory sorted by ascending attack damage.
+        /// </summary>
+        /// <returns>A list of weapons sorted by ascending attack damage, or null if there are no weapons in the inventory.</returns>
         private List<Weapon> GetWeaponsInInventoryAscending()
         {
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");

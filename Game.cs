@@ -55,138 +55,18 @@ namespace DungeonExplorer
                 //Load the game from a file
                 LoadGameStateFromFile();
             }
-            
             while (_roomNumber < _numberOfRooms)
             {
                 Console.WriteLine($"room number {_roomNumber} < max rooms {_numberOfRooms}");
                 _currentRoom = _rooms[_roomNumber];
-                if ( _currentRoom is MonsterRoom monsterRoom)
+                if (_currentRoom is MonsterRoom monsterRoom)
                 {
                     UserInterface.DisplayRoomInformation(monsterRoom, _roomNumber);
                     UserInterface.DisplayPlayerDetails(_player, _statistics);
                     UserInterface.ShowTurnDecisions(monsterRoom, _player);
                     int decision = UserInterface.GetInput(0, 9, true, true);
                     Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
-                    if (decision == 0)
-                    {
-                        //Player wants to view inventory
-                        //TODO: Changing this to manage inventory, in manage inventory the user will be able to see their
-                        //inventory, and choose how they wish for it to be sorted. The user wil also be able to discard/remove items
-                        ManageInventory(_player);
-                        //UserInterface.ViewItemsInInventory(_player);
-                    }
-                    else if (decision == 1)
-                    {
-                        //player has chosen to change their equipped item
-                        List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
-                        if (weapons == null)
-                        {
-                            UserInterface.EndTurn();
-                            continue;
-                        }
-                        UserInterface.DisplayEnumerable(weapons, true, _player);
-                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
-                        if (weaponChosenIndex == -1)
-                        {
-                            UserInterface.EndTurn();
-                            continue;
-                        }
-                        _player.EquipDifferentWeapon(weaponChosenIndex);
-                    }
-                    else if (decision == 2)
-                    {
-                        //player has chosen to use a spell
-                        List<Spell> spells = _player.GetSpellsInInventory();
-                        if (spells == null)
-                        {
-                            UserInterface.EndTurn();
-                            continue;
-                        }
-                        UserInterface.DisplayEnumerable(spells, true, _player);
-                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false, false);
-                        if (spellChosenIndex == -1)
-                        {
-                            UserInterface.EndTurn();
-                            continue;
-                        }
-                        _player.UseSpell(spellChosenIndex);
-                    }
-                    else if (decision == 3)
-                    {
-                        // Read hint in the room
-                        if (monsterRoom.IsHint)
-                        {
-                            Console.WriteLine($"The clue is: {monsterRoom.Hint.Clue}");
-                        }
-                        else
-                        {
-                            Console.WriteLine("There is no hint in this room.");
-                        }
-                    }
-                    else if (decision == 4)
-                    {
-                        //Player wants to goes to next room
-                        if (NextRoom(monsterRoom))
-                        {
-                            _roomNumber += 1;
-                        }
-                    }
-                    else if (decision == 5)
-                    {
-                        Console.WriteLine($"You are in {monsterRoom.RoomName}. {monsterRoom.RoomDescription}");
-                    }
-                    else if (decision == 6)
-                    {
-                        if (monsterRoom.MonsterIsAlive)
-                        {
-                            PlayerFightsMonster(_player, monsterRoom.Monster, monsterRoom);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid input! You cannot fight a monster as there is no monster in the room!");
-                        }
-
-                    }
-                    else if (decision == 7)
-                    {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
-                        {
-                            Console.WriteLine("Your inventory is full, you may not collect any more spells");
-                        }
-                        else
-                        {
-                            _player.PickUpSpell(monsterRoom.Spell);
-                            monsterRoom.SpellPickedUp();
-                        }
-                    }
-                    else if (decision == 8)
-                    {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
-                        {
-                            Console.WriteLine("Your inventory is full, you may not collect any more weapons");
-                        }
-                        else
-                        {
-                            _player.PickUpWeapon(monsterRoom.Weapon);
-                            monsterRoom.WeaponPickedUp();
-                        }
-                    }
-                    else if (decision == 9)
-                    {
-                        Environment.Exit(0);
-                    }
-                    else if (decision == 10)
-                    {
-                        //Show map
-                        _map.CreateMap(_roomNumber);
-                    }
-                    else if (decision == 11)
-                    {
-                        // Player wants to save their game
-                        _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
-                        SaveHandler.SaveGameStateToFile(_gameState);
-                        UserInterface.GameSaved();
-                    }
+                    HandleMonsterRoomLogic(decision, monsterRoom);
                 }
                 else if (_currentRoom is PuzzleRoom puzzleRoom)
                 {
@@ -195,127 +75,7 @@ namespace DungeonExplorer
                     UserInterface.ShowTurnDecisions(puzzleRoom, _player);
                     int decision = UserInterface.GetInput(0, 9, true, true);
                     Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
-                    if (decision == 0)
-                    {
-                        //Player wants to view inventory
-                        ManageInventory(_player);
-                    }
-                    else if (decision == 1)
-                    {
-                        //player has chosen to change their equipped items
-                        List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
-                        if (weapons == null)
-                        {
-                            UserInterface.EndTurn();
-                            continue;
-                        }
-                        UserInterface.DisplayEnumerable(weapons, true, _player);
-                        int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
-                        if (weaponChosenIndex == -1)
-                        {
-                            UserInterface.EndTurn();
-                            continue;
-                        }
-                        _player.EquipDifferentWeapon(weaponChosenIndex);
-                    }
-                    else if (decision == 2)
-                    {
-                        //player has chosen to use a spell
-                        List<Spell> spells = _player.GetSpellsInInventory();
-                        if (spells == null)
-                        {
-                            UserInterface.EndTurn();
-                            continue;
-                        }
-                        UserInterface.DisplayEnumerable(spells, true, _player);
-                        int spellChosenIndex = UserInterface.GetInput(0, spells.Count-1, false, false);
-                        if (spellChosenIndex == -1)
-                        {
-                            UserInterface.EndTurn();
-                            continue;
-                        }
-                        _player.UseSpell(spellChosenIndex);
-                    }
-                    else if (decision == 3)
-                    {
-                        // Read hint in the room
-                        if (puzzleRoom.IsHint)
-                        {
-                            Console.WriteLine($"The clue is: {puzzleRoom.Hint.Clue}");
-                        }
-                        else
-                        {
-                            Console.WriteLine("There is no hint in this room.");
-                        }
-                    }
-                    else if (decision == 4)
-                    {
-                        //Player wants to goes to next room
-                        if (NextRoom(puzzleRoom))
-                        {
-                            _roomNumber += 1;
-                        }
-                    }
-                    else if (decision == 5)
-                    {
-                        Console.WriteLine($"You are in {puzzleRoom.RoomName}. {puzzleRoom.RoomDescription}");
-                    }
-                    else if (decision == 6)
-                    {
-                        // Player wishes to attempt to solve the problem
-                        int guess = UserInterface.GetGuessLessThan();
-                        if (puzzleRoom.GuessLowerThan(guess))
-                        {
-                            Console.WriteLine("Congratulations, you have guessed correctly. The door is unlocked.");
-                            puzzleRoom.PuzzleSolved = true;
-                            puzzleRoom.UnlockDoor();
-                        }
-                        else
-                        {
-                            _player.Health = (int)(_player.Health / 2);
-                            Console.WriteLine($"Incorrect. Your health is now {_player.Health}.\nConsider looking at the hint");
-                        }
-                    }
-                    else if (decision == 7)
-                    {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
-                        {
-                            Console.WriteLine("Your inventory is full, you may not collect any more spells");
-                        }
-                        else
-                        {
-                            _player.PickUpSpell(puzzleRoom.Spell);
-                            puzzleRoom.SpellPickedUp();
-                        }
-                    }
-                    else if (decision == 8)
-                    {
-                        if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
-                        {
-                            Console.WriteLine("Your inventory is full, you may not collect any more weapons");
-                        }
-                        else
-                        {
-                            _player.PickUpWeapon(puzzleRoom.Weapon);
-                            puzzleRoom.WeaponPickedUp();
-                        }
-                    }
-                    else if (decision == 9)
-                    {
-                        Environment.Exit(0);
-                    }
-                    else if (decision == 10)
-                    {
-                        //Show map
-                        _map.CreateMap(_roomNumber);
-                    }
-                    else if (decision == 11)
-                    {
-                        // Player wants to save their game
-                        _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
-                        SaveHandler.SaveGameStateToFile(_gameState);
-                        UserInterface.GameSaved();
-                    }
+                    HandlePuzzleRoomLogic(decision, puzzleRoom);
                 }
                 UserInterface.EndTurn();
             }
@@ -323,7 +83,10 @@ namespace DungeonExplorer
             UserInterface.DisplayFinishGame(true, endGameStatistics);
             return;
         }
-        // tODO: Documentation
+        /// <summary>
+        /// Creates a new game state with predefined rooms and initializes the game.
+        /// </summary>
+        /// <returns>The newly created <see cref="GameState"/> object.</returns>
         public GameState CreateNewGameState()
         {
             MonsterRoom room1 = new MonsterRoom(
@@ -369,10 +132,12 @@ namespace DungeonExplorer
             SaveHandler.SaveGameStateToFile(_gameState);
             return _gameState;
         }
-        //TODO: DOCUMENTATION
+        /// <summary>
+        /// Loads the game state from a file.
+        /// </summary>
+        /// <returns>The loaded <see cref="GameState"/> object, or a new game state if loading fails.</returns>
         public GameState LoadGameStateFromFile()
         {
-
             GameState loadedGameState = SaveHandler.GetGameStateFromFile();
             if (loadedGameState == null)
             {
@@ -385,6 +150,7 @@ namespace DungeonExplorer
             _player = _gameState.Player;
             List<Room> tempRoomList = _gameState.Rooms;
             _rooms = new List<Room>();
+
             foreach (Room room in _gameState.Rooms)
             {
                 if (room is MonsterRoom monsterRoom)
@@ -396,6 +162,7 @@ namespace DungeonExplorer
                     _rooms.Add(puzzleRoom);
                 }
             }
+
             _statistics = _gameState.Statistics;
             _map = new GameMap(_rooms);
             _numberOfRooms = _rooms.Count;
@@ -425,8 +192,6 @@ namespace DungeonExplorer
             }
             UserInterface.ViewItemsInInventory(_player, sortingOption.Value);
         }
-
-        // TODO: Documentation now that currentRoom is MonsterRoom
         /// <summary>
         /// Check if the currentRoom's door is locked
         /// </summary>
@@ -434,7 +199,7 @@ namespace DungeonExplorer
         /// <returns>
         /// true if <c>currentRoom.DoorIsLocked</c> is false. Otherwise returns false
         /// </returns>
-        public bool NextRoom(MonsterRoom currentRoom)
+        public bool CanGoToNextRoom(Room currentRoom)
         {
             Debug.Assert(currentRoom != null, "Error: room is null");
             if (currentRoom.DoorIsLocked == false)
@@ -444,26 +209,6 @@ namespace DungeonExplorer
                 return true;
             }
             Console.WriteLine("The door is locked! Have you defeated the monster?");
-            return false;
-        }
-        // TODO: Documentation now that currentRoom is PuzzleRoom
-        /// <summary>
-        /// Check if the currentRoom's door is locked
-        /// </summary>
-        /// <param name="currentRoom">Reference to the current Room object</param>
-        /// <returns>
-        /// true if <c>currentRoom.DoorIsLocked</c> is false. Otherwise returns false
-        /// </returns>
-        public bool NextRoom(PuzzleRoom currentRoom)
-        {
-            Debug.Assert(currentRoom != null, "Error: room is null");
-            if (currentRoom.DoorIsLocked == false)
-            {
-                Console.WriteLine("The door is unlocked. You proceed to the next room. . .");
-                _statistics.PlayerCompletedARoom();
-                return true;
-            }
-            Console.WriteLine("The door is locked! Have you solved the puzzle?");
             return false;
         }
         /// <summary>
@@ -509,6 +254,270 @@ namespace DungeonExplorer
             UserInterface.DisplayAttackInformation(player, monster, wantsToFlee, playerAttackDamage, monsterAttackDamage, _statistics);
             return;
         }
-        
+        /// <summary>
+        /// Handles the logic flow for player decisions in a monster room.
+        /// </summary>
+        /// <param name="decision">The player's decision, represented as an integer.</param>
+        /// <param name="monsterRoom">The monster room the player is currently in.</param>
+        /// <remarks>
+        private void HandleMonsterRoomLogic(int decision, MonsterRoom monsterRoom)
+        {
+            if (decision == 0)
+            {
+                ManageInventory(_player);
+            }
+            else if (decision == 1)
+            {
+                // Player has chosen to change their equipped weapon
+                PlayerDecidedToChangeWeapons();
+            }
+            else if (decision == 2)
+            {
+                // Player has chosen to change their equipped weapon
+                PlayerDecidedToUseSpell();
+            }
+            else if (decision == 3)
+            {
+                PlayerDecidedToReadHint(monsterRoom);
+            }
+            else if (decision == 4)
+            {
+                //Player wants to goes to next room
+                if (CanGoToNextRoom(monsterRoom))
+                {
+                    _roomNumber += 1;
+                }
+            }
+            else if (decision == 5)
+            {
+                Console.WriteLine($"You are in {monsterRoom.RoomName}. {monsterRoom.RoomDescription}");
+            }
+            else if (decision == 6)
+            {
+                PlayerDecidedToFightMonster(monsterRoom);
+            }
+            else if (decision == 7)
+            {
+                PlayerDecidedToPickupSpell(monsterRoom);
+
+            }
+            else if (decision == 8)
+            {
+                PlayerDecidedToPickupWeapon(monsterRoom);
+            }
+            else if (decision == 9)
+            {
+                Environment.Exit(0);
+            }
+            else if (decision == 10)
+            {
+                //Show map
+                _map.CreateAndDisplayMap(_roomNumber);
+            }
+            else if (decision == 11)
+            {
+                // Player wants to save their game
+                _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
+                SaveHandler.SaveGameStateToFile(_gameState);
+                UserInterface.DisplaySavedGame();
+            }
+        }
+        /// <summary>
+        /// Handles the logic for player decisions in a puzzle room.
+        /// </summary>
+        /// <param name="decision">The player's decision, represented as an integer.</param>
+        /// <param name="puzzleRoom">The puzzle room the player is currently in.</param>
+        /// <remarks>
+        private void HandlePuzzleRoomLogic(int decision, PuzzleRoom puzzleRoom)
+        {
+            if (decision == 0)
+            {
+                //Player wants to view inventory
+                ManageInventory(_player);
+            }
+            else if (decision == 1)
+            {
+                // Player has chosen to change their equipped weapon
+                PlayerDecidedToChangeWeapons();
+            }
+            else if (decision == 2)
+            {
+                // Player has chosen to use a spell
+                PlayerDecidedToUseSpell();
+            }
+            else if (decision == 3)
+            {
+                // Read hint in the room
+                PlayerDecidedToReadHint(puzzleRoom);
+                
+            }
+            else if (decision == 4)
+            {
+                //Player wants to goes to next room
+                if (CanGoToNextRoom(puzzleRoom))
+                {
+                    _roomNumber += 1;
+                }
+            }
+            else if (decision == 5)
+            {
+                Console.WriteLine($"You are in {puzzleRoom.RoomName}. {puzzleRoom.RoomDescription}");
+            }
+            else if (decision == 6)
+            {
+                // Player wishes to attempt to solve the problem
+                PlayerDecidedToSolveThePuzzle(puzzleRoom);
+            }
+            else if (decision == 7)
+            {
+                PlayerDecidedToPickupSpell(puzzleRoom);
+                
+            }
+            else if (decision == 8)
+            {
+                PlayerDecidedToPickupWeapon(puzzleRoom);
+            }
+            else if (decision == 9)
+            {
+                Environment.Exit(0);
+            }
+            else if (decision == 10)
+            {
+                //Show map
+                _map.CreateAndDisplayMap(_roomNumber);
+            }
+            else if (decision == 11)
+            {
+                // Player wants to save their game
+                _gameState = new GameState(_roomNumber, _player, _rooms, _statistics);
+                SaveHandler.SaveGameStateToFile(_gameState);
+                UserInterface.DisplaySavedGame();
+            }
+        }
+        /// <summary>
+        /// Allows the player to change their equipped weapon by selecting from the weapons in their inventory.
+        /// </summary>
+        public void PlayerDecidedToChangeWeapons()
+        {
+            List<Weapon> weapons = _player.GetWeaponsInInventory(Inventory.SortBy.Ascending);
+            if (weapons == null)
+            {
+                UserInterface.EndTurn();
+                return;
+            }
+            UserInterface.DisplayEnumerable(weapons, true, _player);
+            int weaponChosenIndex = UserInterface.GetInput(0, weapons.Count, false, false);
+            if (weaponChosenIndex == -1)
+            {
+                UserInterface.EndTurn();
+                return;
+            }
+            _player.EquipDifferentWeapon(weaponChosenIndex);
+        }
+        /// <summary>
+        /// Allows the player to use a spell by selecting from the spells in their inventory.
+        /// </summary>
+        public void PlayerDecidedToUseSpell()
+        {
+            List<Spell> spells = _player.GetSpellsInInventory();
+            if (spells == null)
+            {
+                UserInterface.EndTurn();
+                return;
+            }
+            UserInterface.DisplayEnumerable(spells, true, _player);
+            int spellChosenIndex = UserInterface.GetInput(0, spells.Count - 1, false, false);
+            if (spellChosenIndex == -1)
+            {
+                UserInterface.EndTurn();
+                return;
+            }
+            _player.UseSpell(spellChosenIndex);
+        }
+        /// <summary>
+        /// Allows the player to read a hint in the current room.
+        /// </summary>
+        /// <param name="room">The current room the player is in.</param>
+        public void PlayerDecidedToReadHint(Room room)
+        {
+            if (room.IsHint)
+            {
+                Console.WriteLine($"The clue is: {room.Hint.Clue}");
+            }
+            else
+            {
+                Console.WriteLine("There is no hint in this room.");
+            }
+        }
+        /// <summary>
+        /// Allows the player to solve a puzzle in the current room.
+        /// </summary>
+        /// <param name="puzzleRoom">The puzzle room the player is in.</param>
+        public void PlayerDecidedToSolveThePuzzle(PuzzleRoom puzzleRoom)
+        {
+            if (puzzleRoom.PuzzleIsSolved)
+            {
+                Console.WriteLine("Invalid input! You cannot solve a puzzle twice!");
+                return;
+            }
+            int guess = UserInterface.GetGuessLessThan();
+            if (puzzleRoom.GuessLowerThan(guess))
+            {
+                Console.WriteLine("Congratulations, you have guessed correctly. The door is unlocked.");
+                puzzleRoom.PuzzleIsSolved = true;
+                puzzleRoom.UnlockDoor();
+            }
+            else
+            {
+                _player.Health = (int)(_player.Health / 2);
+                Console.WriteLine($"Incorrect. Your health is now {_player.Health}.\nConsider looking at the hint");
+            }
+        }
+        /// <summary>
+        /// Allows the player to pick up a spell from the current room.
+        /// </summary>
+        /// <param name="room">The current room the player is in.</param>
+        public void PlayerDecidedToPickupSpell(Room room)
+        {
+            if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
+            {
+                Console.WriteLine("Your inventory is full, you may not collect any more spells");
+            }
+            else
+            {
+                _player.PickUpSpell(room.Spell);
+                room.SpellPickedUp();
+            }
+        }
+        /// <summary>
+        /// Allows the player to pick up a weapon from the current room.
+        /// </summary>
+        /// <param name="room">The current room the player is in.</param>
+        public void PlayerDecidedToPickupWeapon(Room room)
+        {
+            if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
+            {
+                Console.WriteLine("Your inventory is full, you may not collect any more weapons");
+            }
+            else
+            {
+                _player.PickUpWeapon(room.Weapon);
+                room.WeaponPickedUp();
+            }
+        }
+        /// <summary>
+        /// Allows the player to fight a monster in the current room.
+        /// </summary>
+        /// <param name="monsterRoom">The monster room the player is in.</param>
+        public void PlayerDecidedToFightMonster(MonsterRoom monsterRoom)
+        {
+            if (!monsterRoom.MonsterIsAlive)
+            {
+                Console.WriteLine("Invalid input! You cannot fight a monster as there is no monster in the room!");
+                return;
+                
+            }
+            PlayerFightsMonster(_player, monsterRoom.Monster, monsterRoom);
+        }
     }
 }
