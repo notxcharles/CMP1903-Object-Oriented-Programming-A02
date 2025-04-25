@@ -451,11 +451,16 @@ namespace DungeonExplorer
         //todo: documentation comments
         public void PlayerDecidedToSolveThePuzzle(PuzzleRoom puzzleRoom)
         {
+            if (puzzleRoom.PuzzleIsSolved)
+            {
+                Console.WriteLine("Invalid input! You cannot solve a puzzle twice!");
+                return;
+            }
             int guess = UserInterface.GetGuessLessThan();
             if (puzzleRoom.GuessLowerThan(guess))
             {
                 Console.WriteLine("Congratulations, you have guessed correctly. The door is unlocked.");
-                puzzleRoom.PuzzleSolved = true;
+                puzzleRoom.PuzzleIsSolved = true;
                 puzzleRoom.UnlockDoor();
             }
             else
@@ -493,14 +498,13 @@ namespace DungeonExplorer
         //todo: documentation comments
         public void PlayerDecidedToFightMonster(MonsterRoom monsterRoom)
         {
-            if (monsterRoom.MonsterIsAlive)
-            {
-                PlayerFightsMonster(_player, monsterRoom.Monster, monsterRoom);
-            }
-            else
+            if (!monsterRoom.MonsterIsAlive)
             {
                 Console.WriteLine("Invalid input! You cannot fight a monster as there is no monster in the room!");
+                return;
+                
             }
+            PlayerFightsMonster(_player, monsterRoom.Monster, monsterRoom);
         }
     }
 }

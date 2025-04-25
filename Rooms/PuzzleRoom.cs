@@ -54,7 +54,7 @@ namespace DungeonExplorer.Rooms
         /// <summary>
         /// Gets or sets a boolean value indicating whether the puzzle has been solved.
         /// </summary>
-        public bool PuzzleSolved
+        public bool PuzzleIsSolved
         {
             get { return _puzzleSolved; }
             set { _puzzleSolved = value; }

@@ -152,7 +152,7 @@ namespace DungeonExplorer
             }
             else if (room is PuzzleRoom pRoom)
             {
-                if (pRoom.PuzzleSolved == false)
+                if (pRoom.PuzzleIsSolved == false)
                 {
                     Console.WriteLine("(6) Attempt to solve the puzzle");
                 }
