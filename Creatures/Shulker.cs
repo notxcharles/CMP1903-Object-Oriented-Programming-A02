@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace DungeonExplorer.Creatures
 {
-    // TODO: Documentation
+    /// <summary>
+    /// Represents a Shulker, a type of monster
+    /// </summary>
     public class Shulker : Monster
     {
         /// <summary>
