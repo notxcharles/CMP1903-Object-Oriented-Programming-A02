@@ -117,7 +117,7 @@ namespace DungeonExplorer
         public static void DisplayPlayerDetails(Player player, Statistics statistics)
         {
             Console.WriteLine($"\nCharacter Details:");
-            Console.WriteLine($"Score: {statistics.GetTotalDamageDealt}"); 
+            Console.WriteLine($"Score: {statistics.Score}"); 
             Console.WriteLine($"Health: {player.Health}/{player.MaxHealth}");
             Console.WriteLine($"Equipped Weapon: {player.Weapon.CreateSummary()}\n");
             return;

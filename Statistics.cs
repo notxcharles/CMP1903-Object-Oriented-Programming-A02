@@ -16,6 +16,7 @@ namespace DungeonExplorer
         private List<int> _dealtDamage = new List<int>();
         private List<int> _receivedDamage = new List<int>();
         private int _numberOfCompletedRooms;
+        private int _score;
         /// <summary>
         /// Initializes a new instance of the <see cref="Statistics"/> class.
         /// This constructor initializes the number of completed rooms to 0.
@@ -40,6 +41,19 @@ namespace DungeonExplorer
         public int NumberOfCompletedRooms
         {
             get { return _numberOfCompletedRooms; }
+        }
+        public int Score
+        {
+            get { return CalculateScore(); }
+        }
+
+        public int CalculateScore()
+        {
+            double score = 0;
+            score += GetListTotal(_dealtDamage) * 1.5;
+            score -= GetListTotal(_receivedDamage) * 0.9;
+            score += 10 * _numberOfCompletedRooms;
+            return (int)score;
         }
         /// <summary>
         /// Adds the given damage value to the list of damage dealt by the player.
@@ -97,14 +111,17 @@ namespace DungeonExplorer
             return sum / count;
         }
         /// <summary>
-        /// Generates a formatted string containing the player's end-game statistics, including the damage dealt, damage received, and number of completed rooms.
+        /// Generates a formatted string containing the player's end-game statistics, including the damage dealt, 
+        /// damage received, and number of completed rooms.
         /// </summary>
         /// <returns>A string summarizing the player's end-game statistics.</returns>
         public string GetEndGameStatisticsString()
         {
-            string stats = $"You dealt {GetListTotal(_dealtDamage)} damage in {GetListCount(_dealtDamage)} attacks, at an average of {GetAverage(_dealtDamage)} per attack.\n" +
-                $"You received {GetListTotal(_receivedDamage)} damage in {GetListCount(_receivedDamage)} attacks, at an average of {GetAverage(_receivedDamage)} per attack.\n" +
-                $"You completed {_numberOfCompletedRooms} rooms.\n";
+            string stats = $"Final Score: {Score}.\nYou dealt {GetListTotal(_dealtDamage)} damage in " +
+                $"{GetListCount(_dealtDamage)} attacks, at an average of {GetAverage(_dealtDamage)} per attack." +
+                $"\nYou received {GetListTotal(_receivedDamage)} damage in {GetListCount(_receivedDamage)} " +
+                $"attacks, at an average of {GetAverage(_receivedDamage)} per attack.\nYou successfully completed " +
+                $"{_numberOfCompletedRooms} rooms.\n";
             return stats;
         }
     }
