@@ -15,6 +15,12 @@ namespace DungeonExplorer
     {
         private List<Item> _inventoryList;
         private int _maxLength;
+        public enum SortBy
+        {
+            Ascending,
+            Descending,
+            Alphabetically
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Inventory"/> class with a specified maximum length.
         /// </summary>
@@ -127,7 +133,7 @@ namespace DungeonExplorer
         {
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             var spells = _inventoryList.OfType<Spell>().Select(spell => spell).ToList();
-            var sortedSpells = from Spell spell in spells orderby spell.HealAmount ascending select spell;
+            var sortedSpells = from Spell spell in spells orderby spell.HealAmount descending select spell;
             List<Spell> spellsList = sortedSpells.ToList();
             if (spellsList.Count == 0)
             {
@@ -154,6 +160,24 @@ namespace DungeonExplorer
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             int spellCount = _inventoryList.OfType<Spell>().Count();
             return spellCount;
+        }
+        /// <summary>
+        /// Determines whether the inventory list contains an item with the specified name.
+        /// </summary>
+        /// <param name="itemName">The name of the item to search for in the inventory list.</param>
+        /// <returns>
+        /// <c>true</c> if an item with the specified name is found in the inventory list; otherwise, <c>false</c>.
+        /// </returns>
+        public bool HasItem(string itemName)
+        {
+            foreach (Item item in _inventoryList)
+            {
+                if (item.Name == itemName)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

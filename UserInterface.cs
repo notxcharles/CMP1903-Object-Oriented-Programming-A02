@@ -35,20 +35,17 @@ namespace DungeonExplorer
             ConsoleKeyInfo key = Console.ReadKey();
             ClearConsole();
         }
-        /// <summary>
-        /// Prints the display for the start of the game
-        /// </summary>
-        /// <remarks>
-        /// This prints multiple messages to the console, welcoming the user to the game. <c>gameName</c> is
-        /// used as the title of the game
-        /// </remarks>
+        // TODO: documentation
         public static void DisplayGameStart(string gameName)
         {
             ClearConsole();
             Console.WriteLine($"Welcome to {gameName}");
             Console.WriteLine($"You must battle your way through each room. In each room you will have to defeat a " +
                 $"monster who will have the the key to unlock the door!");
-            EndTurn();
+            Console.WriteLine();
+            Console.WriteLine($"Would you like to:");
+            Console.WriteLine($"(0) Start a new game");
+            Console.WriteLine($"(1) Load game from file");
             return;
         }
         // TODO: Documentation now that room is MonsterRoom
@@ -60,7 +57,7 @@ namespace DungeonExplorer
         /// <param name="roomNumber">The index of the room in the dungeon sequence.</param>
         public static void DisplayRoomInformation(MonsterRoom room, int roomNumber)
         {
-            Testing.TestForZeroOrAbove(roomNumber);
+            Tests.TestForZeroOrAbove(roomNumber);
             Console.WriteLine($"Welcome to Room {room.RoomName} (Room {roomNumber + 1})");
             Console.WriteLine($"{room.RoomDescription}\n");
             if (room.Monster != null)
@@ -95,7 +92,7 @@ namespace DungeonExplorer
         /// <param name="roomNumber">The index of the room in the dungeon sequence.</param>
         public static void DisplayRoomInformation(PuzzleRoom room, int roomNumber)
         {
-            Testing.TestForZeroOrAbove(roomNumber);
+            Tests.TestForZeroOrAbove(roomNumber);
             Console.WriteLine($"Welcome to Room {room.RoomName} (Room {roomNumber + 1})");
             Console.WriteLine($"{room.RoomDescription}\n");
             Console.WriteLine($"There is no monster in this room, instead there is a puzzle to solve.");
@@ -117,9 +114,10 @@ namespace DungeonExplorer
         /// Displays the player's current details, including health and equipped weapon.
         /// </summary>
         /// <param name="player">The player whose details are to be displayed.</param>
-        public static void DisplayPlayerDetails(Player player)
+        public static void DisplayPlayerDetails(Player player, Statistics statistics)
         {
             Console.WriteLine($"\nCharacter Details:");
+            Console.WriteLine($"Score: {statistics.Score}"); 
             Console.WriteLine($"Health: {player.Health}/{player.MaxHealth}");
             Console.WriteLine($"Equipped Weapon: {player.Weapon.CreateSummary()}\n");
             return;
@@ -131,9 +129,10 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="room">The room in which the player is currently located.</param>
         /// <param name="player">The player making the decision.</param>
-        public static void ShowTurnDecisions(MonsterRoom room, Player player)
+        public static void ShowTurnDecisions(Room room, Player player)
         {
-            Debug.Assert(!(room.MonsterIsAlive == true && room.MonsterIsAlive == false), "Error: monsterAlive was both true and false");
+            Debug.Assert(room != null, "Error: room is null");
+            Debug.Assert(player != null, "Error: player is null");
             Console.WriteLine("What do you want to do?");
             Console.WriteLine("(0) View Inventory");
             Console.WriteLine("(1) Change Equipped Weapon");
@@ -144,9 +143,19 @@ namespace DungeonExplorer
             }
             Console.WriteLine("(4) Open the door");
             Console.WriteLine("(5) View room name and description again");
-            if (room.MonsterIsAlive)
+            if (room is MonsterRoom mRoom)
             {
-                Console.WriteLine($"(6) Attack Monster with {player.Weapon.Name}");
+                if (mRoom.MonsterIsAlive)
+                {
+                    Console.WriteLine($"(6) Attack Monster with {player.Weapon.Name}");
+                }
+            }
+            else if (room is PuzzleRoom pRoom)
+            {
+                if (pRoom.PuzzleSolved == false)
+                {
+                    Console.WriteLine("(6) Attempt to solve the puzzle");
+                }
             }
             if (room.Spell != null)
             {
@@ -159,42 +168,7 @@ namespace DungeonExplorer
 
             Console.WriteLine("(9) Exit game");
             Console.WriteLine("(m) Display map");
-            return;
-        }
-        // TODO: Documentation now that room is PuzzleRoom
-        /// <summary>
-        /// Presents the player with a list of possible actions they can take during their turn.
-        /// The available options depend on the state of the room and the player's inventory.
-        /// </summary>
-        /// <param name="room">The room in which the player is currently located.</param>
-        /// <param name="player">The player making the decision.</param>
-        public static void ShowTurnDecisions(PuzzleRoom room, Player player)
-        {
-            Console.WriteLine("What do you want to do?");
-            Console.WriteLine("(0) View Inventory");
-            Console.WriteLine("(1) Change Equipped Weapon");
-            Console.WriteLine("(2) Use a spell");
-            if (room.Hint != null)
-            {
-                Console.WriteLine("(3) Read the clue");
-            }
-            Console.WriteLine("(4) Open the door");
-            Console.WriteLine("(5) View room name and description again");
-            if (room.PuzzleSolved == false)
-            {
-                Console.WriteLine("(6) Attempt to solve the puzzle");
-            }
-            if (room.Spell != null)
-            {
-                Console.WriteLine($"(7) Pick up spell");
-            }
-            if (room.Weapon != null)
-            {
-                Console.WriteLine($"(8) Pick up weapon");
-            }
-
-            Console.WriteLine("(9) Exit game");
-            Console.WriteLine("(m) Display map");
+            Console.WriteLine("(s) Save game");
             return;
         }
         /// <summary>
@@ -231,20 +205,20 @@ namespace DungeonExplorer
         /// Gets the sorting option selected by the user.
         /// </summary>
         /// <returns>The selected sorting option, or <c>null</c> if the user cancels.</returns>
-        public static Player.SortBy? GetSortingOption()
+        public static Inventory.SortBy? GetSortingOption()
         {
-            int input = GetInput(1, 4, false);
+            int input = GetInput(1, 4, false, false);
             if (input == 1)
             {
-                return Player.SortBy.Ascending;
+                return Inventory.SortBy.Ascending;
             }
             else if (input == 2)
             {
-                return Player.SortBy.Descending;
+                return Inventory.SortBy.Descending;
             }
             else if (input == 3)
             {
-                return Player.SortBy.Alphabetically;
+                return Inventory.SortBy.Alphabetically;
             }
             return null;
         }
@@ -256,7 +230,7 @@ namespace DungeonExplorer
         /// <param name="maxInput">The maximum valid input value.</param>
         /// <param name="mAsInput">Indicates whether the 'm' key should be treated as a valid input (returns 10).</param>
         /// <returns>The validated integer input from the user, or 10 if 'm' is pressed and allowed.</returns>
-        public static int GetInput(int minInput, int maxInput, bool mAsInput)
+        public static int GetInput(int minInput, int maxInput, bool mAsInput, bool sAsInput)
         {
             while (true)
             {
@@ -279,6 +253,10 @@ namespace DungeonExplorer
                     {
                         return 10;
                     }
+                    if (mAsInput && key.KeyChar.ToString() == "s")
+                    {
+                        return 11;
+                    }
                     Console.WriteLine($"{key} was pressed. You may only press a key from {minInput} to {maxInput}");
                 }
             }
@@ -287,13 +265,13 @@ namespace DungeonExplorer
         public static int GetGuessLessThan()
         {
             Console.WriteLine($"You must guess a number. If your guess is less than the mystery number then you may progress. If it is not, your health will be reduced!");
-            return GetInput(0, 9, false);
+            return GetInput(0, 9, false, false);
         }
         // TODO: Documentation
         public static int GetGuessGreaterThan()
         {
             Console.WriteLine($"You must guess a number. If your guess is greater than the mystery number then you may progress. If it is not, your health will be reduced!");
-            return GetInput(0, 9, false);
+            return GetInput(0, 9, false, false);
         }
         /// <summary>
         /// Displays attack results for both the player and the monster. 
@@ -303,17 +281,23 @@ namespace DungeonExplorer
         /// <param name="monster">The monster being fought.</param>
         /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
         /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
-        public static void DisplayAttackInformation(Player player, Monster monster, int playerAttackDamage, int monsterAttackDamage)
+        /// <param name="statistics">The statistics instance to keep track of the current game's stats</param>
+        public static void DisplayAttackInformation(Player player, Monster monster, bool monsterHasFled, int playerAttackDamage, int monsterAttackDamage, Statistics statistics)
         {
+            if (monsterHasFled)
+            {
+                Console.WriteLine($"The monster has fled after you dealt {playerAttackDamage} damage. Congratulations!");
+                return;
+            }
             if (monster.Health <= 0)
             {
-                Console.WriteLine($"You have killed the monster! You did {playerAttackDamage} damage. Congratulations!");
+                Console.WriteLine($"You have killed the monster! You dealt {playerAttackDamage} damage. Congratulations!");
                 return;
             }
             else if (player.Health <= 0)
             {
-                Console.WriteLine($"The monster has killed you! You took {monsterAttackDamage} damage. Game Over");
-                string endGameStatistics = Statistics.GetEndGameStatisticsString();
+                Console.WriteLine($"The monster has killed you! You took {monsterAttackDamage} damage. Game Over.");
+                string endGameStatistics = statistics.GetEndGameStatisticsString();
                 DisplayFinishGame(false, endGameStatistics);
                 Environment.Exit(1);
                 return;
@@ -331,7 +315,7 @@ namespace DungeonExplorer
         /// <param name="monster">The monster being fought.</param>
         /// <param name="playerAttackDamage">The amount of damage dealt by the player.</param>
         /// <param name="monsterAttackDamage">The amount of damage dealt by the monster.</param>
-        public static void ViewItemsInInventory(Player player, Player.SortBy sortBy = Player.SortBy.Ascending)
+        public static void ViewItemsInInventory(Player player, Inventory.SortBy sortBy = Inventory.SortBy.Ascending)
         {
             // If there are no items in the inventory, show an error
             if (player.GetTotalItemsInInventory() == 0)
@@ -448,6 +432,12 @@ namespace DungeonExplorer
                     Console.WriteLine($"- {spellList[i].CreateSummary()}");
                 }
             }
+        }
+        // TODO: Documentation Comments
+        public static void GameSaved()
+        {
+            Console.WriteLine("\nGame has been saved successfully");
+            return;
         }
     }
 }

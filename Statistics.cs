@@ -10,11 +10,13 @@ namespace DungeonExplorer
     /// Represents the player's game statistics, including damage dealt, damage received, and number of completed rooms.
     /// Provides methods for updating and retrieving these statistics throughout the game.
     /// </summary>
-    class Statistics
+
+    public class Statistics
     {
-        private static List<int> _dealtDamage = new List<int>();
-        private static List<int> _receivedDamage = new List<int>();
-        private static int _numberOfCompletedRooms;
+        private List<int> _dealtDamage = new List<int>();
+        private List<int> _receivedDamage = new List<int>();
+        private int _numberOfCompletedRooms;
+        private int _score;
         /// <summary>
         /// Initializes a new instance of the <see cref="Statistics"/> class.
         /// This constructor initializes the number of completed rooms to 0.
@@ -23,11 +25,41 @@ namespace DungeonExplorer
         {
             _numberOfCompletedRooms = 0;
         }
+        public int GetTotalDamageDealt
+        {
+            get { return GetListTotal(_dealtDamage); }
+        }
+        // TODO: Documentation comments
+        public List<int> DealtDamage
+        {
+            get { return _dealtDamage; }
+        }
+        public List<int> ReceivedDamage
+        {
+            get { return _receivedDamage; }
+        }
+        public int NumberOfCompletedRooms
+        {
+            get { return _numberOfCompletedRooms; }
+        }
+        public int Score
+        {
+            get { return CalculateScore(); }
+        }
+
+        public int CalculateScore()
+        {
+            double score = 0;
+            score += GetListTotal(_dealtDamage) * 1.5;
+            score -= GetListTotal(_receivedDamage) * 0.9;
+            score += 10 * _numberOfCompletedRooms;
+            return (int)score;
+        }
         /// <summary>
         /// Adds the given damage value to the list of damage dealt by the player.
         /// </summary>
         /// <param name="damage">The amount of damage dealt by the player.</param>
-        public static void PlayerDealtDamage(int damage)
+        public void PlayerDealtDamage(int damage)
         {
             _dealtDamage.Add(damage);
             return;
@@ -36,7 +68,7 @@ namespace DungeonExplorer
         /// Adds the given damage value to the list of damage received by the player.
         /// </summary>
         /// <param name="damage">The amount of damage received by the player.</param>
-        public static void PlayerReceivedDamage(int damage)
+        public void PlayerReceivedDamage(int damage)
         {
             _receivedDamage.Add(damage);
             return;
@@ -44,7 +76,7 @@ namespace DungeonExplorer
         /// <summary>
         /// Increments the number of rooms completed by the player.
         /// </summary>
-        public static void PlayerCompletedARoom()
+        public void PlayerCompletedARoom()
         {
             _numberOfCompletedRooms += 1;
             return;
@@ -54,7 +86,7 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="list">The list of integers to sum.</param>
         /// <returns>The total sum of the integers in the list.</returns>
-        private static int GetListTotal(List<int> list)
+        private int GetListTotal(List<int> list)
         {
             return list.Sum();
         }
@@ -63,7 +95,7 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="list">The list whose count is to be returned.</param>
         /// <returns>The number of elements in the list.</returns>
-        private static int GetListCount(List<int> list)
+        private int GetListCount(List<int> list)
         {
             return list.Count;
         }
@@ -72,21 +104,24 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="list">The list of integers for which to calculate the average.</param>
         /// <returns>The average value of the integers in the list.</returns>
-        private static float GetAverage(List<int> list)
+        private float GetAverage(List<int> list)
         {
             int sum = GetListTotal(list);
             int count = GetListCount(list);
             return sum / count;
         }
         /// <summary>
-        /// Generates a formatted string containing the player's end-game statistics, including the damage dealt, damage received, and number of completed rooms.
+        /// Generates a formatted string containing the player's end-game statistics, including the damage dealt, 
+        /// damage received, and number of completed rooms.
         /// </summary>
         /// <returns>A string summarizing the player's end-game statistics.</returns>
-        public static string GetEndGameStatisticsString()
+        public string GetEndGameStatisticsString()
         {
-            string stats = $"You dealt {GetListTotal(_dealtDamage)} damage in {GetListCount(_dealtDamage)} attacks, at an average of {GetAverage(_dealtDamage)} per attack.\n" +
-                $"You received {GetListTotal(_receivedDamage)} damage in {GetListCount(_receivedDamage)} attacks, at an average of {GetAverage(_receivedDamage)} per attack.\n" +
-                $"You completed {_numberOfCompletedRooms} rooms.\n";
+            string stats = $"Final Score: {Score}.\nYou dealt {GetListTotal(_dealtDamage)} damage in " +
+                $"{GetListCount(_dealtDamage)} attacks, at an average of {GetAverage(_dealtDamage)} per attack." +
+                $"\nYou received {GetListTotal(_receivedDamage)} damage in {GetListCount(_receivedDamage)} " +
+                $"attacks, at an average of {GetAverage(_receivedDamage)} per attack.\nYou successfully completed " +
+                $"{_numberOfCompletedRooms} rooms.\n";
             return stats;
         }
     }

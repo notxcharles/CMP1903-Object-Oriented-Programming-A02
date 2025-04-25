@@ -16,12 +16,6 @@ namespace DungeonExplorer
         private Inventory _inventory;
         private int _maxInventoryLength;
         private Weapon _currentEquippedWeapon;
-        public enum SortBy
-        {
-            Ascending,
-            Descending,
-            Alphabetically
-        }
         /// <summary>
         /// Class <c>Player</c>'s constructor
         /// </summary>
@@ -31,7 +25,7 @@ namespace DungeonExplorer
         public Player(string name, int health, int maxInventoryLength) : base(name, health)
         {
             Debug.Assert(name != null && name.Length > 0, "Error: Player name is null or string is empty");
-            Testing.TestForPositiveInteger(health);
+            Tests.TestForPositiveInteger(health);
             _maxInventoryLength = maxInventoryLength;
             _inventory = new Inventory(_maxInventoryLength);
             //The player's default starting weapon are their fists
@@ -108,7 +102,7 @@ namespace DungeonExplorer
         public void EquipDifferentWeapon(int weaponIndex)
         {
             // Swap the selected weapon with the currently equipped weapon
-            List<Weapon> sortedWeaponList = _inventory.GetWeaponsInInventory(Player.SortBy.Ascending);
+            List<Weapon> sortedWeaponList = _inventory.GetWeaponsInInventory(Inventory.SortBy.Ascending);
             Weapon weaponToEquip = sortedWeaponList[weaponIndex];
             Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
             _inventory.Remove(weaponToEquip);
@@ -171,7 +165,7 @@ namespace DungeonExplorer
         /// </summary>
         /// <param name="sortBy">The sorting criteria.</param>
         /// <returns>A list of weapons sorted by the specified criteria.</returns>
-        public List<Weapon> GetWeaponsInInventory(Player.SortBy sortBy)
+        public List<Weapon> GetWeaponsInInventory(Inventory.SortBy sortBy)
         {
             Debug.Assert(_inventory != null, "Error: Inventory doesn't exist");
             return _inventory.GetWeaponsInInventory(sortBy);
@@ -193,7 +187,7 @@ namespace DungeonExplorer
         {
             Debug.Assert(_currentEquippedWeapon != null, "Error: _currentEquippedWeapon doesn't exist");
             int attackDamage = _currentEquippedWeapon.GetAttackDamage();
-            Testing.TestForPositiveInteger(attackDamage);
+            Tests.TestForPositiveInteger(attackDamage);
             return attackDamage;
         }
         /// <summary>
@@ -204,6 +198,17 @@ namespace DungeonExplorer
         public string GetAttackMessage(int damage)
         {
             return $"The player attacked with their weapon {_currentEquippedWeapon.Name} and did {damage} damage";
+        }
+        /// <summary>
+        /// Checks if the inventory contains an item with the specified name.
+        /// </summary>
+        /// <param name="itemName">The name of the item to check for.</param>
+        /// <returns>
+        /// <c>true</c> if the item is found in the inventory; otherwise, <c>false</c>.
+        /// </returns>
+        public bool HasItem(string itemName)
+        {
+            return _inventory.HasItem(itemName);
         }
     }
 }

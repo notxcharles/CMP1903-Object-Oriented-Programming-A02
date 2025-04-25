@@ -1,4 +1,5 @@
 ﻿using DungeonExplorer.Creatures;
+using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 
@@ -12,7 +13,6 @@ namespace DungeonExplorer
     /// </remarks>
     public class Monster : Creature, ICanDamage
     {
-        public int AverageAttackDamage { get; private set; }
         private static Random _random = new Random();
         private static string[] _monsterNames = new string[] {
             "Walter White",
@@ -41,7 +41,10 @@ namespace DungeonExplorer
             "Jabba the Hutt",
         };
         private Weapon _weapon;
+        [JsonProperty]
         private float _difficulty;
+        [JsonProperty]
+        private int _fleeHealth;
         //TODO: Update documentation
         /// <summary>
         /// Class <c>Monster</c>'s constructor
@@ -53,10 +56,11 @@ namespace DungeonExplorer
         public Monster(string name, int health, Weapon weapon) : base(name, health)  
         {
             Debug.Assert(name != null, "Error: name does not exist");
-            Testing.TestForPositiveInteger(health);
+            Tests.TestForPositiveInteger(health);
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty();
             Health = (int)(health * _difficulty);
+            MaxHealth = Health;
         }
         //TODO: Update documentation
         /// <summary>
@@ -66,13 +70,15 @@ namespace DungeonExplorer
         /// <param name="breed">The breed of the monster</param>
         /// <param name="health">The maximum health of the monster</param>
         /// <param name="averageAttack">The average attack value that the monster does</param>
-        public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty) : base(name)
+        public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty, int maximumHealthToFlee) : base(name)
         {
             Debug.Assert(name != null, "Error: name does not exist");
-            Testing.TestForPositiveInteger(health);
+            Tests.TestForPositiveInteger(health);
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty(minDifficulty, maxDifficulty);
             Health = (int)(health * _difficulty);
+            MaxHealth = Health;
+            _fleeHealth = maximumHealthToFlee;
         }
         //TODO: Update documentation
         /// <summary>
@@ -83,9 +89,10 @@ namespace DungeonExplorer
         public Monster(int health, float difficulty, Weapon weapon)
         {
             Name = CreateMonsterName();
-            Testing.TestForPositiveInteger(health);
+            Tests.TestForPositiveInteger(health);
             _difficulty = difficulty;
             Health = (int)(health * _difficulty);
+            MaxHealth = Health;
             _weapon = weapon;
         }
         //TODO: Documentation
@@ -94,6 +101,7 @@ namespace DungeonExplorer
             _weapon = weapon;
             _difficulty = CalculateRandomDifficulty();
             Health = (int)(health * _difficulty);
+            MaxHealth = Health;
         }
         // TODO: Documentation
         public Weapon Weapon
@@ -162,6 +170,27 @@ namespace DungeonExplorer
         {
             Console.WriteLine($"DEBUG: {this.GetType().Name} has {_difficulty} difficulty");
             return $"The {this.GetType().Name}, {Name} dealt {damage} damage";
+        }
+
+        /// <summary>
+        /// WantsToFlee determines if the monster has fled from the player
+        /// </summary>
+        /// <param name="maximumHealthToFlee">If the monster's health is greater than maximumHealthToFlee then return false</param>
+        /// <param name="fleeChance">The percentage chance that the monster will flee</param>
+        /// <returns>true if monster has fled</returns>
+        public virtual bool WantsToFlee(int fleeChance)
+        {
+            fleeChance = (int)(fleeChance * (2*_difficulty));
+            if (_fleeHealth < Health)
+            {
+                return false;
+            }
+            int randomValue = _random.Next(0, 100);
+            if (fleeChance < randomValue)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

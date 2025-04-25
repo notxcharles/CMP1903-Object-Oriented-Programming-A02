@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 
 namespace DungeonExplorer
@@ -12,6 +13,7 @@ namespace DungeonExplorer
     /// </remarks>
     public class Weapon : Item, IHasSummary
     {
+        [JsonProperty]
         public int _averageAttackDamage;
         private static Random _random = new Random();
         private static string[] _weaponNames = {
@@ -37,7 +39,14 @@ namespace DungeonExplorer
             "Fireworks",
             "Tennis Ball Machine"
         };
-        private const int _stdDevPercentage = 5;
+        private static int _stdDevPercentage = 5;
+
+        [JsonConstructor]
+        // TODO: Documentation comment
+        // this constructor is blank because it allows me to implement the funcitonality of loading the class from a save file
+        public Weapon()
+        {
+        }
         /// <summary>
         /// Class <c>Weapon</c>'s constructor
         /// </summary>
@@ -46,7 +55,7 @@ namespace DungeonExplorer
         public Weapon(string name, int weaponAverageDamage) : base(name)
         {
             Debug.Assert(name != null, "Error: type is null");
-            Testing.TestForPositiveInteger(weaponAverageDamage);
+            Tests.TestForPositiveInteger(weaponAverageDamage);
             _averageAttackDamage = weaponAverageDamage;
         }
         /// <summary>
@@ -55,7 +64,7 @@ namespace DungeonExplorer
         /// <param name="weaponAverageDamage">The weapon's average attack damage</param>
         public Weapon(int weaponAverageDamage) : base()
         {
-            Testing.TestForPositiveInteger(weaponAverageDamage);
+            Tests.TestForPositiveInteger(weaponAverageDamage);
             Name = CreateWeaponName();
             _averageAttackDamage = weaponAverageDamage;
         }
@@ -80,8 +89,8 @@ namespace DungeonExplorer
         /// <returns>The random value from the distribution</returns>
         private double CreateRandomGaussianNumber(int mean, int standardDeviation)
         {
-            Testing.TestForPositiveInteger(mean);
-            Testing.TestForZeroOrAbove(standardDeviation);
+            Tests.TestForPositiveInteger(mean);
+            Tests.TestForZeroOrAbove(standardDeviation);
             // Returns a random integer, based on a Gaussian distribution
             double u1 = 1.0 - _random.NextDouble(); 
             double u2 = 1.0 - _random.NextDouble();
@@ -100,7 +109,11 @@ namespace DungeonExplorer
         {
             double attackDamageGaussian = CreateRandomGaussianNumber(_averageAttackDamage, _averageAttackDamage / _stdDevPercentage);
             int attackDamage = Convert.ToInt32(attackDamageGaussian);
-            Testing.TestForPositiveInteger(attackDamage);
+            Tests.TestForPositiveInteger(attackDamage);
+            if (attackDamage < 0)
+            {
+                return 0;
+            }
             return attackDamage;
         }
         /// <summary>
