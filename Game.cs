@@ -343,15 +343,7 @@ namespace DungeonExplorer
             }
             else if (decision == 8)
             {
-                if (_player.GetTotalItemsInInventory() == _player.MaxInventoryLength)
-                {
-                    Console.WriteLine("Your inventory is full, you may not collect any more weapons");
-                }
-                else
-                {
-                    _player.PickUpWeapon(monsterRoom.Weapon);
-                    monsterRoom.WeaponPickedUp();
-                }
+                PlayerDecidedToPickupWeapon(monsterRoom);
             }
             else if (decision == 9)
             {
@@ -360,7 +352,7 @@ namespace DungeonExplorer
             else if (decision == 10)
             {
                 //Show map
-                _map.CreateMap(_roomNumber);
+                _map.CreateAndDisplayMap(_roomNumber);
             }
             else if (decision == 11)
             {
@@ -427,7 +419,7 @@ namespace DungeonExplorer
             else if (decision == 10)
             {
                 //Show map
-                _map.CreateMap(_roomNumber);
+                _map.CreateAndDisplayMap(_roomNumber);
             }
             else if (decision == 11)
             {

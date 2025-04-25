@@ -27,7 +27,7 @@ namespace DungeonExplorer
         /// Displays the upcoming rooms starting from the specified current room index.
         /// </summary>
         /// <param name="currentRoomIndex">The index of the current room.</param>
-        public void CreateMap(int currentRoomIndex)
+        public void CreateAndDisplayMap(int currentRoomIndex)
         {
             Console.WriteLine("Upcoming Rooms:");
             for (int i = currentRoomIndex; i < _rooms.Count; i++)
