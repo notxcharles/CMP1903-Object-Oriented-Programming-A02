@@ -16,7 +16,6 @@ namespace DungeonExplorer
         private List<int> _dealtDamage = new List<int>();
         private List<int> _receivedDamage = new List<int>();
         private int _numberOfCompletedRooms;
-        private int _score;
         /// <summary>
         /// Initializes a new instance of the <see cref="Statistics"/> class.
         /// This constructor initializes the number of completed rooms to 0.

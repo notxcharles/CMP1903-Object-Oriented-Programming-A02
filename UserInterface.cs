@@ -350,33 +350,6 @@ namespace DungeonExplorer
             return;
         }
         /// <summary>
-        /// Displays the contents of an enumerable collection, optionally showing an index for each item.
-        /// </summary>
-        /// <param name="enumerable">The enumerable collection to display.</param>
-        /// <param name="showIndex">If true, each item is prefixed with its index in the list.</param>
-        public static void DisplayEnumerable(IEnumerable<object> enumerable, bool showIndex)
-        {
-            if (enumerable.Count() == 0)
-            {
-                Debug.Assert(enumerable.Count() <= 0, "The enumerable should not be empty");
-                return;
-            }
-            List<object> list = enumerable.ToList();
-            for (int i = 0; i < list.Count(); i++)
-            {
-                if (showIndex)
-                {
-                    Console.WriteLine($"-{i}: {list[i]}");
-                }
-                else
-                {
-                    Console.WriteLine($"- {list[i]}");
-                }
-                    
-            }
-            return;
-        }
-        /// <summary>
         /// Displays the player's weapon inventory, including the equipped weapon and other weapons.
         /// The player can select a weapon to equip.
         /// </summary>
