@@ -45,14 +45,15 @@ namespace DungeonExplorer
         private float _difficulty;
         [JsonProperty]
         private int _fleeHealth;
-        //TODO: Update documentation
         /// <summary>
-        /// Class <c>Monster</c>'s constructor
+        /// Initializes a new instance of the <see cref="Monster"/> class with specified parameters.
         /// </summary>
-        /// <param name="name">The name of the monster</param>
-        /// <param name="breed">The breed of the monster</param>
-        /// <param name="health">The maximum health of the monster</param>
-        /// <param name="averageAttack">The average attack value that the monster does</param>
+        /// <param name="name">The name of the monster.</param>
+        /// <param name="health">The base health of the monster.</param>
+        /// <param name="weapon">The weapon that the monster uses.</param>
+        /// <param name="minDifficulty">The minimum difficulty value that can be assigned to the monster.</param>
+        /// <param name="maxDifficulty">The maximum difficulty value that can be assigned to the monster.</param>
+        /// <param name="maximumHealthToFlee">The health threshold at which the monster will flee.</param>
         public Monster(string name, int health, Weapon weapon, int minDifficulty, int maxDifficulty, int maximumHealthToFlee) : base(name)
         {
             Debug.Assert(name != null, "Error: name does not exist");
@@ -63,19 +64,37 @@ namespace DungeonExplorer
             MaxHealth = Health;
             _fleeHealth = maximumHealthToFlee;
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Gets or sets the weapon of the character.
+        /// </summary>
+        /// <value>
+        /// The weapon used by the character.
+        /// </value>
         public Weapon Weapon
         {
             get { return _weapon; }
             protected set { _weapon = value; }
         }
-        // TODO: documentation
+        /// <summary>
+        /// Gets or sets the difficulty level of the character's challenge.
+        /// </summary>
+        /// <value>
+        /// A float representing the difficulty. A higher value indicates a more difficult challenge.
+        /// </value>
         public float Difficulty
         {
             get { return _difficulty; }
             protected set { _difficulty = value; }
         }
-        //TODO: Documentation
+        /// <summary>
+        /// Gets the difficulty level as a string based on the <see cref="Difficulty"/> value.
+        /// </summary>
+        /// <value>
+        /// Returns a string representing the difficulty level:
+        /// "Easy" if the difficulty is less than 0.8,
+        /// "Medium" if the difficulty is between 0.8 and 1.2,
+        /// and "Hard" if the difficulty is greater than 1.2.
+        /// </value>
         public string DifficultyLevel
         {
             get
@@ -94,7 +113,12 @@ namespace DungeonExplorer
                 }
             }
         }
-        // TODO: Documentation
+        /// <summary>
+        /// Calculates a random float between <c>min/100</c> and <c>max/100</c>
+        /// </summary>
+        /// <param name="min">min/100 represents the lowest random value</param>
+        /// <param name="max">max/100 represents the lowest random value</param>
+        /// <returns>the random value</returns>
         private float CalculateRandomDifficulty(int min, int max)
         {
             float randomValue = _random.Next(min, max);

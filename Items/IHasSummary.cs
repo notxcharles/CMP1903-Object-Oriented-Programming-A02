@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DungeonExplorer
 {
     /// <summary>
-    /// Interface for classes that must implement a summary of their functionality
+    /// Defines the contract for an entity that can generate a summary.
     /// </summary>
     public interface IHasSummary
     {
