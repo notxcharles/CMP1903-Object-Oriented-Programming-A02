@@ -285,20 +285,7 @@ namespace DungeonExplorer
             else if (decision == 2)
             {
                 // Player has chosen to change their equipped weapon
-                List<Spell> spells = _player.GetSpellsInInventory();
-                if (spells == null)
-                {
-                    UserInterface.EndTurn();
-                    return;
-                }
-                UserInterface.DisplayEnumerable(spells, true, _player);
-                int spellChosenIndex = UserInterface.GetInput(0, spells.Count - 1, false, false);
-                if (spellChosenIndex == -1)
-                {
-                    UserInterface.EndTurn();
-                    return;
-                }
-                _player.UseSpell(spellChosenIndex);
+                PlayerDecidedToUseSpell();
             }
             else if (decision == 3)
             {
@@ -318,15 +305,7 @@ namespace DungeonExplorer
             }
             else if (decision == 6)
             {
-                if (monsterRoom.MonsterIsAlive)
-                {
-                    PlayerFightsMonster(_player, monsterRoom.Monster, monsterRoom);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input! You cannot fight a monster as there is no monster in the room!");
-                }
-
+                PlayerDecidedToFightMonster(monsterRoom);
             }
             else if (decision == 7)
             {
@@ -509,6 +488,18 @@ namespace DungeonExplorer
             {
                 _player.PickUpWeapon(room.Weapon);
                 room.WeaponPickedUp();
+            }
+        }
+        //todo: documentation comments
+        public void PlayerDecidedToFightMonster(MonsterRoom monsterRoom)
+        {
+            if (monsterRoom.MonsterIsAlive)
+            {
+                PlayerFightsMonster(_player, monsterRoom.Monster, monsterRoom);
+            }
+            else
+            {
+                Console.WriteLine("Invalid input! You cannot fight a monster as there is no monster in the room!");
             }
         }
     }
