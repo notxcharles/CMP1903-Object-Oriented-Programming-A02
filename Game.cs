@@ -60,7 +60,7 @@ namespace DungeonExplorer
             {
                 Console.WriteLine($"room number {_roomNumber} < max rooms {_numberOfRooms}");
                 _currentRoom = _rooms[_roomNumber];
-                if ( _currentRoom is MonsterRoom monsterRoom)
+                if (_currentRoom is MonsterRoom monsterRoom)
                 {
                     UserInterface.DisplayRoomInformation(monsterRoom, _roomNumber);
                     UserInterface.DisplayPlayerDetails(_player, _statistics);
@@ -394,19 +394,12 @@ namespace DungeonExplorer
             {
                 // Player has chosen to use a spell
                 PlayerDecidedToUseSpell();
-                
             }
             else if (decision == 3)
             {
                 // Read hint in the room
-                if (puzzleRoom.IsHint)
-                {
-                    Console.WriteLine($"The clue is: {puzzleRoom.Hint.Clue}");
-                }
-                else
-                {
-                    Console.WriteLine("There is no hint in this room.");
-                }
+                PlayerDecidedToReadHint(puzzleRoom);
+                
             }
             else if (decision == 4)
             {
@@ -512,6 +505,18 @@ namespace DungeonExplorer
                 return;
             }
             _player.UseSpell(spellChosenIndex);
+        }
+        //todo: documentation
+        public void PlayerDecidedToReadHint(PuzzleRoom puzzleRoom)
+        {
+            if (puzzleRoom.IsHint)
+            {
+                Console.WriteLine($"The clue is: {puzzleRoom.Hint.Clue}");
+            }
+            else
+            {
+                Console.WriteLine("There is no hint in this room.");
+            }
         }
     }
 }
