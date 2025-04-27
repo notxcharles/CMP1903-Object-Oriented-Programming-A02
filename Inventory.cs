@@ -101,7 +101,7 @@ namespace DungeonExplorer
         /// Gets a list of weapons in the inventory sorted by attack damage in ascending order.
         /// </summary>
         /// <returns>A list of weapons sorted by attack damage in ascending order, or <c>null</c> if there are no weapons.</returns>
-        private List<Weapon> GetWeaponsInInventorAlphabetically()
+        private List<Weapon> GetWeaponsInInventoryAlphabetically()
         {
             Debug.Assert(_inventoryList != null, "Error: _inventoryList doesn't exist");
             var weaponsWithIndex = _inventoryList.OfType<Weapon>().Select(weapon => weapon).ToList();
