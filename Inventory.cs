@@ -130,7 +130,7 @@ namespace DungeonExplorer
             }
             else if (sortBy == SortBy.Alphabetically)
             {
-                return GetWeaponsInInventorAlphabetically();
+                return GetWeaponsInInventoryAlphabetically();
             }
             return null;
         }
