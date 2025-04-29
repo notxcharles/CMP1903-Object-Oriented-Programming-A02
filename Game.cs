@@ -90,32 +90,32 @@ namespace DungeonExplorer
         public GameState CreateNewGameState()
         {
             MonsterRoom room1 = new MonsterRoom(
-                new Witch("Witch", 100, new Weapon("Spell", 30), 70, 130, 40),
-                new Weapon(100),
+                new Witch("Witch", 110, new Weapon("Spell", 30), 70, 130, 40),
+                new Weapon(90),
                 new Spell("Potion of healing", 25),
                 new Hint("Hint 1", "You must defeat the monster before you can advance to the next room!"));
             PuzzleRoom room2 = new PuzzleRoom(7,
-                new Weapon(100),
-                new Spell("Healing potion", 50),
+                new Weapon(75),
+                new Spell("Healing potion", 100),
                 new Hint("Hint 2", $"The mystery number is 7"));
             MonsterRoom room3 = new MonsterRoom(
-                new Dragon("Dragon", 100, new Weapon("Fire Breathing", 30), 60, 150, 35),
-                new Weapon(100),
+                new Dragon("Dragon", 120, new Weapon("Fire Breathing", 30), 60, 150, 35),
+                new Weapon(82),
                 new Spell("Potion of healing", 50));
             MonsterRoom room4 = new MonsterRoom(
-                new Shulker("Shulker", 100, new Weapon("Homing Bullet", 30), 70, 140, 30),
-                new Weapon(100));
+                new Shulker("Shulker", 150, new Weapon("Homing Bullet", 30), 70, 140, 30),
+                new Weapon(50));
             PuzzleRoom room5 = new PuzzleRoom(3,
-                new Weapon(100),
-                new Spell("Healing potion", 50),
+                new Weapon(63),
+                new Spell("Healing potion", 60),
                 new Hint("Hint 2", $"The mystery number is 3"));
             MonsterRoom room6 = new MonsterRoom(
-                new Skeleton("Skeleton", 100, new Weapon("Bow and Arrow", 30), 80, 150, 20),
-                new Weapon(100),
-                new Spell("Potion of healing", 150));
+                new Skeleton("Skeleton", 130, new Weapon("Bow and Arrow", 30), 80, 150, 20),
+                new Weapon(22),
+                new Spell("Potion of healing", 178));
             MonsterRoom room7 = new MonsterRoom(
-                new Warden("Warden", 100, new Weapon("Sonic Boom", 30), 90, 140, 10),
-                new Weapon(100));
+                new Warden("Warden", 200, new Weapon("Sonic Boom", 30), 90, 140, 10),
+                new Weapon(125));
             _rooms.Add(room1);
             _rooms.Add(room2);
             _rooms.Add(room3);
