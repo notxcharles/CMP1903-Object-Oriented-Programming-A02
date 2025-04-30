@@ -66,6 +66,7 @@ namespace DungeonExplorer
                     UserInterface.DisplayPlayerDetails(_player, _statistics);
                     UserInterface.ShowTurnDecisions(monsterRoom, _player);
                     int decision = UserInterface.GetInput(0, 9, true, true);
+                    // 'm' and 's' input are returned as decision = 10 or = 11
                     Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
                     HandleMonsterRoomLogic(decision, monsterRoom);
                 }
@@ -75,6 +76,7 @@ namespace DungeonExplorer
                     UserInterface.DisplayPlayerDetails(_player, _statistics);
                     UserInterface.ShowTurnDecisions(puzzleRoom, _player);
                     int decision = UserInterface.GetInput(0, 9, true, true);
+                    // 'm' and 's' input are returned as decision = 10 or = 11
                     Debug.Assert(decision >= 0 && decision <= 11, "Error: Decision must be an integer value from 0 to 9 or 'm' or 's'");
                     HandlePuzzleRoomLogic(decision, puzzleRoom);
                 }
