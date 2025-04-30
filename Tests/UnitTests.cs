@@ -32,10 +32,12 @@ namespace DungeonExplorer
         /// <summary>
         /// Initialises the test environment before each test method
         /// </summary>
+        /// <remarks>
+        /// [TestInitialize] attribute instructs VS to run setup before each test method,
+        /// ensuring that all objects are properly initialised
+        /// </remarks>
         public void SetUp() 
         {
-            // [TestInitialize] attribute instructs VS to run setup before each test method,
-            // ensuring that all objects are properly initialised
             _player = new Player("TestingPlayer", 500, 8);
             _game = new Game("TestingGame", _player);
             _spell = new Spell("Healing Spell of Testing", 1000);
