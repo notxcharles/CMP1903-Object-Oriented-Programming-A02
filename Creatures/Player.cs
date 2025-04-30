@@ -98,13 +98,14 @@ namespace DungeonExplorer
         /// <summary>
         /// Handles the logic for the player to equip a different weapon
         /// </summary>
-        /// <param name="weaponIndex">The index of the weapon within the player's inventory (when inventory is sorted by damage descending)</param>
+        /// <param name="weaponIndex">The index of the weapon within the player's inventory (when inventory is sorted by damage descending)
+        /// </param>
         public void EquipDifferentWeapon(int weaponIndex)
         {
             // Swap the selected weapon with the currently equipped weapon
             List<Weapon> sortedWeaponList = _inventory.GetWeaponsInInventory(Inventory.SortBy.Ascending);
+            Debug.Assert(sortedWeaponList[weaponIndex] != null, "Error: weaponToEquip is null");
             Weapon weaponToEquip = sortedWeaponList[weaponIndex];
-            Debug.Assert(weaponToEquip != null, "Error: weaponToEquip is null");
             _inventory.Remove(weaponToEquip);
             _inventory.Add(_currentEquippedWeapon);
             Weapon previousEquippedWeapon = _currentEquippedWeapon;
