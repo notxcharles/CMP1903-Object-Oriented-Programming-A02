@@ -35,7 +35,7 @@ namespace DungeonExplorer
         /// The summary contains the name of the spell and how much health it heals
         /// </remarks>
         /// <returns>The summary</returns>
-        public override string CreateSummary()
+        public string CreateSummary()
         {
             string summary = $"A {Name}! This heals the player for {_healAmount} health!";
             return summary;

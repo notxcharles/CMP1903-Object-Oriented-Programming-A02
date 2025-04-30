@@ -39,16 +39,5 @@ namespace DungeonExplorer
             get { return _name; }
             protected set { _name = value; }
         }
-        /// <summary>
-        /// Create the summary of the item
-        /// </summary>
-        /// <remarks>
-        /// The summary contains the name of the item and how much health it heals
-        /// </remarks>
-        /// <returns>The summary</returns>
-        public virtual string CreateSummary()
-        {
-            return $"This item is called {Name}";
-        }
     }
 }
