@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DungeonExplorer.Rooms;
+using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 
 namespace DungeonExplorer
@@ -8,11 +10,19 @@ namespace DungeonExplorer
     /// </summary>
     public class Room
     {
-        public string RoomName { get; private set; }
-        public string RoomDescription { get; private set; }
-        public Monster MonsterInTheRoom { get; set; }
-        public bool DoorIsLocked { get; set; }
-        public Weapon WeaponInTheRoom { get; private set; }
+        [JsonProperty]
+        private string _roomName;
+        [JsonProperty]
+        private string _roomDescription;
+        [JsonProperty]
+        private bool _doorIsLocked;
+        [JsonProperty]
+        private Weapon _weaponInTheRoom;
+        [JsonProperty]
+        private Spell _spellInTheRoom;
+        [JsonProperty]
+        private Hint _hintInTheRoom;
+
         private static string[] _roomNames = new string[] {
             "The Forgotten Hall",
             "Chamber of Chains",
@@ -58,58 +68,60 @@ namespace DungeonExplorer
             "A vast underground lake, the water impossibly still. Jagged rocks rise from the surface like teeth, and something beneath the water disturbs the reflection."
         };
         private static Random _random = new Random();
+        [JsonConstructor]
         /// <summary>
-        /// Class <c>Room</c>'s constructor
-        /// </summary>
-        /// <param name="roomName">The name of the room</param>
-        /// <param name="description">The description of the room</param>
-        /// <param name="monster">The instance of the monster</param>
-        public Room(string roomName, string description, Monster monster)
-        {
-            this.RoomName = roomName;
-            this.RoomDescription = description;
-            Debug.Assert(monster != null, "Error: the monster is null");
-            this.MonsterInTheRoom = monster;
-            DoorIsLocked = true;
-        }
-        /// <summary>
-        /// Class <c>Room</c>'s constructor
+        /// Initializes a new instance of the <see cref="Room"/> class.
         /// </summary>
         /// <remarks>
-        /// The name and the description of the room are picked at random from a list of premade names and descriptions.
-        /// </remarks>
-        /// <param name="monster">The instance of the monster</param>
-        /// <param name="weapon"></param>
-        public Room(Monster monster, Weapon weapon)
-        {
-            RoomName = CreateRoomName();
-            RoomDescription = CreateRoomDescription();
-            Debug.Assert(monster != null, "Error: the monster is null");
-            this.MonsterInTheRoom = monster;
-            Debug.Assert(weapon != null, "Error: the weapon is null");
-            this.WeaponInTheRoom = weapon;
-            DoorIsLocked = true;
-        }
-        /// <summary>
-        /// Class <c>Room</c>'s constructor
-        /// </summary>
-        /// <param name="roomName">The name of the room</param>
-        /// <param name="description">The description of the room</param>
-        public Room(string roomName, string description)
-        {
-            roomName = CreateRoomName();
-            description = CreateRoomDescription();
-        }
-        /// <summary>
-        /// Class <c>Room</c>'s constructor
-        /// </summary>
-        /// <remarks>
-        /// The name and the description of the room are picked at random from a list of premade names and descriptions.
+        /// This constructor is intentionally left blank to allow the functionality of loading the class from a save file.
         /// </remarks>
         public Room()
         {
-            RoomName = CreateRoomName();
-            RoomDescription = CreateRoomDescription();
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Room"/> class with a weapon, spell, and hint.
+        /// </summary>
+        /// <param name="weaponInTheRoom">The weapon associated with the room.</param>
+        /// <param name="spellInTheRoom">The spell associated with the room.</param>
+        /// <param name="hint">The hint associated with the room.</param>
+        public Room(Weapon weaponInTheRoom, Spell spellInTheRoom, Hint hint)
+        {
+            _roomName = CreateRoomName();
+            _roomDescription = CreateRoomDescription();
+            Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
+            Debug.Assert(spellInTheRoom != null, "Error: the spell is null");
+            Debug.Assert(hint != null, "Error: the hint is null");
+            _weaponInTheRoom = weaponInTheRoom;
+            _spellInTheRoom = spellInTheRoom;
+            _hintInTheRoom = hint;
+            _doorIsLocked = true;
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Room"/> class with a weapon and spell.
+        /// </summary>
+        /// <param name="weaponInTheRoom">The weapon associated with the room.</param>
+        /// <param name="spellInTheRoom">The spell associated with the room.</param>
+        public Room(Weapon weaponInTheRoom, Spell spellInTheRoom)
+        {
+            _roomName = CreateRoomName();
+            _roomDescription = CreateRoomDescription();
+            Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
+            Debug.Assert(spellInTheRoom != null, "Error: the spell is null");
+            _weaponInTheRoom = weaponInTheRoom;
+            _spellInTheRoom = spellInTheRoom;
+            _doorIsLocked = true;
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Room"/> class with a weapon.
+        /// </summary>
+        /// <param name="weaponInTheRoom">The weapon associated with the room.</param>
+        public Room(Weapon weaponInTheRoom)
+        {
+            _roomName = CreateRoomName();
+            _roomDescription = CreateRoomDescription();
+            Debug.Assert(weaponInTheRoom != null, "Error: the weapon is null");
+            _weaponInTheRoom = weaponInTheRoom;
+            _doorIsLocked = true;
         }
         /// <summary>
         /// Create a random room name based on a list of premade room names
@@ -130,65 +142,83 @@ namespace DungeonExplorer
             return _roomDescriptions[index];
         }
         /// <summary>
-        /// Returns the name of the room
+        /// Gets the name of the room.
         /// </summary>
-        /// <returns>Returns the name of the room</returns>
-        public string GetRoomName()
+        public string RoomName
         {
-            Debug.Assert(RoomName != null || RoomName.Length != 0, "Error: The room's name does not exist");
-            return RoomName;
+            get { return _roomName; }
+            protected set { _roomName = value; }
         }
         /// <summary>
-        /// Returns the description of the room
+        /// Gets the description of the room.
         /// </summary>
-        /// <returns>Returns the description of the room</returns>
-        public string GetDescription()
+        public string RoomDescription
         {
-            Debug.Assert(RoomDescription != null || RoomDescription.Length != 0, "Error: The room's description does not exist");
-            return RoomDescription;
+            get { return _roomDescription; }
+            protected set { _roomDescription = value; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the door is locked.
+        /// </summary>
+        public bool DoorIsLocked
+        {
+            get { return _doorIsLocked; }
+            protected set { _doorIsLocked = value; }
         }
         /// <summary>
-        /// Returns true if the monster is alive (and is not null)
+        /// Gets the weapon associated with the room.
         /// </summary>
-        /// <returns>true if the monster is alive and not null</returns>
-        public bool IsMonsterAlive()
+        public Weapon Weapon
         {
-            return MonsterInTheRoom != null && MonsterInTheRoom.Health > 0;
+            get { return _weaponInTheRoom; }
+            protected set {_weaponInTheRoom = value; }
         }
         /// <summary>
-        /// Welcomes the player to the room through multiple messages to the console
+        /// Gets the spell associated with the room.
         /// </summary>
-        /// <remarks>
-        /// The method prints out the room name, the room description, the monster's name, breed, health and the average attack damage
-        /// that the monster does. If there is a weapon in the room, the method also prints out the weapon's type and average attack damage.
-        /// </remarks>
-        /// <param name="roomNumber">The room number of the room, first, second etc</param>
-        public void WelcomePlayer(int roomNumber)
+        public Spell Spell
         {
-            Testing.TestForZeroOrAbove(roomNumber);
-            Console.WriteLine($"Welcome to Room {this.RoomName} (Room {roomNumber+1})");
-            Console.WriteLine($"{this.RoomDescription}\n");
-            if (MonsterInTheRoom != null)
-            {
-                Console.WriteLine($"A {MonsterInTheRoom.Breed} called {MonsterInTheRoom.Name} is present! It has {MonsterInTheRoom.Health} " +
-                    $"health and does an average of {MonsterInTheRoom.AverageAttackDamage} attack damage!");
-            }
-            else
-            {
-                Console.WriteLine($"There is no monster in this room!");
-            }
-            if (WeaponInTheRoom != null)
-            {
-                Console.WriteLine($"There is a weapon inside this room- A {WeaponInTheRoom.CreateSummary()}");
-            }
-            return;
+            get { return _spellInTheRoom; }
+            protected set { _spellInTheRoom = value; }
         }
         /// <summary>
-        /// Set Room.WeaponInTheRoom to null
+        /// Gets a value indicating whether there is a hint in the room.
+        /// </summary>
+        public bool IsHint
+        {
+            get { return _hintInTheRoom != null; }
+        }
+        /// <summary>
+        /// Gets the hint associated with the room.
+        /// </summary>
+        public Hint Hint
+        {
+            get { return _hintInTheRoom; }
+            protected set { _hintInTheRoom = value; }
+        }
+        /// <summary>
+        /// Marks the weapon in the room as picked up and removes it.
         /// </summary>
         public void WeaponPickedUp()
         {
-            WeaponInTheRoom = null;
+            _weaponInTheRoom = null;
+            return;
+        }
+        /// <summary>
+        /// Marks the spell in the room as picked up and removes it.
+        /// </summary>
+        public void SpellPickedUp()
+        {
+            _spellInTheRoom = null; 
+            return;
+        }
+        /// <summary>
+        /// Unlocks the door of the room.
+        /// </summary>
+        public void UnlockDoor()
+        {
+            _doorIsLocked = false;
             return;
         }
     }
