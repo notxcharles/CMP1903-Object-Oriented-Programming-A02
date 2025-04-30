@@ -49,7 +49,7 @@ namespace DungeonExplorer
             {
                 //Create a new game
                 CreateNewGameState();
-                Console.Clear();
+                UserInterface.ClearConsole();
             }
             else
             {

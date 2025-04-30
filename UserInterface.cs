@@ -241,6 +241,7 @@ namespace DungeonExplorer
                     int keyAsInt = Convert.ToInt32(key.KeyChar.ToString());
                     if (keyAsInt >= minInput && keyAsInt <= maxInput)
                     {
+                        Console.WriteLine();
                         return keyAsInt;
                     }
                     else
@@ -252,10 +253,12 @@ namespace DungeonExplorer
                 {
                     if (mAsInput && key.KeyChar.ToString() == "m")
                     {
+                        Console.WriteLine();
                         return 10;
                     }
                     if (mAsInput && key.KeyChar.ToString() == "s")
                     {
+                        Console.WriteLine();
                         return 11;
                     }
                     Console.WriteLine($"{key} was pressed. You may only press a key from {minInput} to {maxInput}");
