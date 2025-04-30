@@ -133,7 +133,6 @@ namespace DungeonExplorer
         public string CreateSummary()
         {
             string summary = ($"{Name}, dealing an average of {_averageAttackDamage} per attack");
-            Debug.Assert(summary != null || summary.Length > 0, "Error: Summary is null or empty");
             return summary;
         }
     }
