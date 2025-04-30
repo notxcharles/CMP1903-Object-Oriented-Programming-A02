@@ -49,15 +49,16 @@ namespace DungeonExplorer
             {
                 //Create a new game
                 CreateNewGameState();
+                Console.Clear();
             }
             else
             {
                 //Load the game from a file
                 LoadGameStateFromFile();
+                Console.Clear();
             }
             while (_roomNumber < _numberOfRooms)
             {
-                Console.WriteLine($"room number {_roomNumber} < max rooms {_numberOfRooms}");
                 _currentRoom = _rooms[_roomNumber];
                 if (_currentRoom is MonsterRoom monsterRoom)
                 {
