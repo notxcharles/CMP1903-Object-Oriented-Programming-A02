@@ -82,7 +82,7 @@ namespace DungeonExplorer
             return sortedWeaponList;
         }
         /// <summary>
-        /// Gets the number of items currently in the inventory.
+        /// Returns a list of the weapons in the inventory, sorted by descending attack damage
         /// </summary>
         private List<Weapon> GetWeaponsInInventoryDescending()
         {
@@ -98,7 +98,7 @@ namespace DungeonExplorer
             return sortedWeaponList;
         }
         /// <summary>
-        /// Gets a list of weapons in the inventory sorted by attack damage in ascending order.
+        /// Gets a list of weapons in the inventory sorted by attack damage in alphabetical order
         /// </summary>
         /// <returns>A list of weapons sorted by attack damage in ascending order, or <c>null</c> if there are no weapons.</returns>
         private List<Weapon> GetWeaponsInInventoryAlphabetically()
